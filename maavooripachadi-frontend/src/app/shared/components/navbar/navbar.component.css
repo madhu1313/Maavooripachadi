@@ -333,9 +333,7 @@
   justify-content: center;
   box-shadow: 0 4px 10px rgba(249, 115, 22, 0.35);
 }
-.icon-btn .material-symbol {
-  font-size: 20px;
-}
+
 
 /* Search overlay */
 .search-overlay {
