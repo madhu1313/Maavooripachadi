@@ -1,0 +1,53 @@
+﻿<section class="blog">
+  <header class="blog__hero" *ngIf="featuredPost$ | async as featured">
+    <div class="blog__hero-content">
+      <span class="eyebrow">Maavoori Stories</span>
+      <h1>{{ featured.title }}</h1>
+      <p>{{ featured.excerpt }}</p>
+      <div class="hero-actions">
+        <a class="btn" [href]="featured.readMoreUrl" target="_blank" rel="noopener">Read full story</a>
+        <a class="btn secondary" routerLink="/shop">Shop the collection</a>
+      </div>
+    </div>
+    <div class="blog__hero-media" [style.backgroundImage]="'url(' + featured.image + ')'" role="presentation" aria-hidden="true"></div>
+  </header>
+
+  <section class="blog__grid" *ngIf="otherPosts$ | async as posts">
+    <article class="blog-card" *ngFor="let post of posts">
+      <div class="blog-card__media" [style.backgroundImage]="'url(' + post.image + ')'" role="presentation" aria-hidden="true"></div>
+      <div class="blog-card__body">
+        <span class="blog-card__date">{{ post.publishedOn }}</span>
+        <h2>{{ post.title }}</h2>
+        <p>{{ post.excerpt }}</p>
+        <a [href]="post.readMoreUrl" target="_blank" rel="noopener">Continue reading ?</a>
+      </div>
+    </article>
+  </section>
+
+  <section class="blog__newsletter">
+    <div class="newsletter__content">
+      <h2>Join the Maavoori mailing list</h2>
+      <p>Be the first to hear about seasonal launches, limited batches and kitchen secrets.</p>
+    </div>
+    <form class="newsletter__form" [formGroup]="newsletterForm" (ngSubmit)="subscribe()">
+      <input type="email" formControlName="email" placeholder="you@example.com" required>
+      <button class="btn" type="submit" [disabled]="submitting || newsletterForm.invalid">
+        {{ submitting ? 'Subscribing�' : 'Subscribe' }}
+      </button>
+    </form>
+    <p class="status" *ngIf="statusMessage">{{ statusMessage }}</p>
+  </section>
+
+  <section class="blog__social" *ngIf="socialPosts$ | async as social">
+    <div class="social__header">
+      <h2>Fresh from our kitchen</h2>
+      <p class="muted">Follow &#64;maavooripachadi for behind the scenes and community favourites.</p>
+    </div>
+    <div class="social__grid">
+      <a class="social__item" *ngFor="let item of social" [href]="item.link" target="_blank" rel="noopener">
+        <img [src]="item.image" alt="Maavoori Pachadi on {{ item.platform }}">
+      </a>
+    </div>
+  </section>
+</section>
+

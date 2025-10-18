@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <id>https://maavooripachadi.com/blog.atom</id>
+  <title>Maavoori Pachadi | Kitchen Journal</title>
+  <updated>2025-10-12T08:30:00+05:30</updated>
+  <link rel="self" href="https://maavooripachadi.com/blog.atom"/>
+  <link rel="alternate" type="text/html" href="https://maavooripachadi.com/blog"/>
+  <author>
+    <name>Maavoori Pachadi</name>
+    <email>stories@maavooripachadi.com</email>
+  </author>
+  <category term="Pickles"/>
+  <category term="Recipes"/>
+  <category term="Pantry Staples"/>
+  <generator uri="https://maavooripachadi.com" version="1.0">Maavoori CMS</generator>
+  <rights>© 2025 Maavoori Pachadi. All rights reserved.</rights>
+
+  <entry>
+    <id>https://maavooripachadi.com/blog/maavoori-gongura-season</id>
+    <title>An Ode to Gongura Season in Hyderabad</title>
+    <link rel="alternate" type="text/html" href="https://maavooripachadi.com/blog/maavoori-gongura-season"/>
+    <published>2025-10-06T09:00:00+05:30</published>
+    <updated>2025-10-06T09:00:00+05:30</updated>
+    <summary type="html">
+      <![CDATA[
+        <p>Gongura leaves are abundant this month! Take a peek into our terrace where jars rest under warm October sunshine, and learn how our team balances tang, spice, and garlic for the perfect pickle.</p>
+      ]]>
+    </summary>
+    <category term="Gongura"/>
+    <category term="Seasonal"/>
+    <content type="html">
+      <![CDATA[
+        <p>Harvest season is a celebration at the Maavoori kitchen. We source sorrel leaves from trusted farms near Guntur and bring them straight to our washing bay. After a careful pat-dry, the leaves are stone-ground with sun-cured chillies and cold pressed gingelly oil.</p>
+        <p>Curious how to store your jar? Scroll down for tips, and don’t forget to try our family recipe for <strong>gongura pachi pulusu</strong>.</p>
+      ]]>
+    </content>
+    <media:thumbnail xmlns:media="http://search.yahoo.com/mrss/"
+                     url="https://maavooripachadi.com/assets/images/blog/gongura-season.jpg"
+                     width="1200"
+                     height="675"/>
+  </entry>
+
+  <entry>
+    <id>https://maavooripachadi.com/blog/prawns-pickle-brunch</id>
+    <title>Weekend Brunch Idea: Prawns Pickle Uttapam</title>
+    <link rel="alternate" type="text/html" href="https://maavooripachadi.com/blog/prawns-pickle-brunch"/>
+    <published>2025-09-28T08:30:00+05:30</published>
+    <updated>2025-09-28T08:30:00+05:30</updated>
+    <summary type="html">
+      <![CDATA[
+        <p>Swap classic toppings for our Maavoori prawns pickle and treat your weekend guests to mini uttapams with a coastal twist.</p>
+      ]]>
+    </summary>
+    <category term="Recipes"/>
+    <category term="Brunch"/>
+    <content type="html">
+      <![CDATA[
+        <p>Fry bite-sized uttapams, crisp them on a cast iron pan, and finish with a spoon of prawns pickle. The gingelly oil and curry leaves turn this into a brunch hero. We’ve added a video tutorial and a printable recipe card.</p>
+      ]]>
+    </content>
+    <media:thumbnail xmlns:media="http://search.yahoo.com/mrss/"
+                     url="https://maavooripachadi.com/assets/images/blog/prawns-uttapam.jpg"
+                     width="1200"
+                     height="675"/>
+  </entry>
+
+  <entry>
+    <id>https://maavooripachadi.com/blog/micro-batch-process</id>
+    <title>Inside Our Micro-Batch Process</title>
+    <link rel="alternate" type="text/html" href="https://maavooripachadi.com/blog/micro-batch-process"/>
+    <published>2025-09-15T10:15:00+05:30</published>
+    <updated>2025-09-15T10:15:00+05:30</updated>
+    <summary type="html">
+      <![CDATA[
+        <p>Follow the four steps we take for every jar of Maavoori pickle—sourcing, stone grinding, sun curing, and sealing—to keep the legacy alive.</p>
+      ]]>
+    </summary>
+    <category term="Behind the Scenes"/>
+    <category term="Maavoori Stories"/>
+    <content type="html">
+      <![CDATA[
+        <ul>
+          <li><strong>Sourcing:</strong> Farmers send us produce at dawn.</li>
+          <li><strong>Stone Grinding:</strong> Old-school rubbu rolu ensures heat doesn’t damage flavours.</li>
+          <li><strong>Sun Curing:</strong> Jars rest on our terrace under morning sun.</li>
+          <li><strong>Sealing:</strong> Cold pressed gingelly oil locks in the taste.</li>
+        </ul>
+        <p>Trust, transparency, and traditional knowledge go into each batch.</p>
+      ]]>
+    </content>
+    <media:thumbnail xmlns:media="http://search.yahoo.com/mrss/"
+                     url="https://maavooripachadi.com/assets/images/blog/micro-batch-process.jpg"
+                     width="1200"
+                     height="675"/>
+  </entry>
+
+</feed>

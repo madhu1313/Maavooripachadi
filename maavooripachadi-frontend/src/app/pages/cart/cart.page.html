@@ -1,0 +1,97 @@
+<section class="cart" *ngIf="vm$ | async as vm">
+  <header class="cart__header">
+    <h1>Your cart</h1>
+    <p>Handcrafted Andhra style pickles, packed fresh for every order. Review your selection before checkout.</p>
+    <div class="cart__meta" *ngIf="vm.hasItems">
+      <span>{{ vm.itemsCount }} {{ vm.itemsCount === 1 ? 'item' : 'items' }}</span>
+      <span class="cart__meta-divider" aria-hidden="true">•</span>
+      <span>Free Hyderabad delivery on orders above INR 999</span>
+    </div>
+  </header>
+
+  <div class="cart__alerts">
+    <div class="cart__alert cart__alert--info" *ngIf="info$ | async as info">
+      <span>{{ info }}</span>
+      <button type="button" (click)="dismissFlash('info')" aria-label="Dismiss info">×</button>
+    </div>
+    <div class="cart__alert cart__alert--error" *ngIf="error$ | async as error">
+      <span>{{ error }}</span>
+      <button type="button" (click)="dismissFlash('error')" aria-label="Dismiss error">×</button>
+    </div>
+  </div>
+
+  <div *ngIf="vm.hasItems; else emptyState" class="cart__layout">
+    <div class="cart__items">
+      <article class="cart-item" *ngFor="let item of vm.items; trackBy: trackItemById">
+        <div class="cart-item__media" aria-hidden="true">
+          <ng-container *ngIf="item.imageUrl; else cartFallback">
+            <img [src]="item.imageUrl" [alt]="item.title" loading="lazy">
+          </ng-container>
+          <ng-template #cartFallback>
+            <span class="cart-item__badge">{{ item.title.charAt(0) || 'M' }}</span>
+          </ng-template>
+        </div>
+        <div class="cart-item__content">
+          <div class="cart-item__header">
+            <h3>{{ item.title }}</h3>
+            <button
+              type="button"
+              class="cart-item__remove"
+              [disabled]="item.isProcessing"
+              (click)="remove(item.variantId)"
+            >
+              Remove
+            </button>
+          </div>
+          <p class="cart-item__note">Small-batch, sun-kissed pickles. Ships in 24 hours across India.</p>
+          <div class="cart-item__controls">
+            <app-qty [value]="item.quantity" (valueChange)="updateQuantity(item.variantId, $event)"></app-qty>
+            <div class="cart-item__pricing">
+              <span class="cart-item__price">Unit: {{ item.unitPrice | price }}</span>
+              <span class="cart-item__line">Total: {{ item.lineTotal | price }}</span>
+            </div>
+          </div>
+        </div>
+      </article>
+    </div>
+
+    <aside class="cart__summary">
+      <h2>Order summary</h2>
+      <div class="summary__row">
+        <span>Subtotal</span>
+        <span>{{ vm.subtotal | price }}</span>
+      </div>
+      <div class="summary__row">
+        <span>Shipping</span>
+        <span>Calculated at checkout</span>
+      </div>
+      <p class="cart__perk">Enjoy complimentary Hyderabad delivery on orders above INR 999.</p>
+      <button class="btn btn--primary cart__checkout-btn" type="button" routerLink="/checkout">
+        Proceed to checkout
+      </button>
+      <p class="cart__summary-note">
+        Next step: add your delivery address and pay securely via credit/debit cards or UPI.
+      </p>
+      <button class="btn btn--ghost" type="button" (click)="clearCart()" [disabled]="vm.isClearing">Clear cart</button>
+      <a class="cart__continue" routerLink="/shop">Continue shopping</a>
+    </aside>
+  </div>
+
+  <section class="cart__recommendations" *ngIf="recommended$ | async as recommended">
+    <h2>You may also like</h2>
+    <div class="cart__recommendation-grid" *ngIf="recommended.length; else noRecommendations">
+      <app-product-card *ngFor="let product of recommended" [product]="product"></app-product-card>
+    </div>
+    <ng-template #noRecommendations>
+      <p class="cart__recommendations-empty">Discover our pickles crafted with traditional recipes.</p>
+    </ng-template>
+  </section>
+</section>
+
+<ng-template #emptyState>
+  <div class="cart__empty">
+    <h2>Your basket feels empty</h2>
+    <p>Add authentic Maavoori Pachadi flavours to your meals.</p>
+    <a class="btn btn--primary" routerLink="/shop">Start shopping</a>
+  </div>
+</ng-template>

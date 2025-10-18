@@ -1,0 +1,105 @@
+{
+  "name": "Maavoori Pachadi",
+  "short_name": "Pachadi",
+  "description": "Heritage Andhra pickles, podis and snacks crafted in micro batches, sun-cured and delivered fresh across India.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#fffdf9",
+  "theme_color": "#0f172a",
+  "orientation": "portrait-primary",
+  "lang": "en",
+  "icons": [
+    {
+      "src": "/assets/icons/icon-72.png",
+      "sizes": "72x72",
+      "type": "image/png"
+    },
+    {
+      "src": "/assets/icons/icon-96.png",
+      "sizes": "96x96",
+      "type": "image/png"
+    },
+    {
+      "src": "/assets/icons/icon-128.png",
+      "sizes": "128x128",
+      "type": "image/png"
+    },
+    {
+      "src": "/assets/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/assets/icons/icon-256.png",
+      "sizes": "256x256",
+      "type": "image/png"
+    },
+    {
+      "src": "/assets/icons/icon-384.png",
+      "sizes": "384x384",
+      "type": "image/png"
+    },
+    {
+      "src": "/assets/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Shop Best Sellers",
+      "short_name": "Best Sellers",
+      "description": "Browse Maavoori favourites that sell out every harvest season.",
+      "url": "/shop",
+      "icons": [
+        {
+          "src": "/assets/icons/shortcut-bestsellers.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Track Order",
+      "short_name": "Track",
+      "description": "Follow your order from our kitchen to your doorstep.",
+      "url": "/track",
+      "icons": [
+        {
+          "src": "/assets/icons/shortcut-track.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "WhatsApp Concierge",
+      "short_name": "Concierge",
+      "description": "Chat with our Maavoori team for gifting and pairing ideas.",
+      "url": "https://wa.me/919390012345",
+      "icons": [
+        {
+          "src": "/assets/icons/shortcut-whatsapp.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    }
+  ],
+  "categories": ["food", "shopping", "lifestyle"],
+  "screenshots": [
+    {
+      "src": "/assets/images/pwa/home-mobile.png",
+      "sizes": "1080x1920",
+      "type": "image/png",
+      "form_factor": "narrow"
+    },
+    {
+      "src": "/assets/images/pwa/shop-mobile.png",
+      "sizes": "1080x1920",
+      "type": "image/png",
+      "form_factor": "narrow"
+    }
+  ]
+}

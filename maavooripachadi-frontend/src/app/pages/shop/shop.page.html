@@ -1,0 +1,151 @@
+<section class="shop" *ngIf="vm$ | async as vm">
+  <header class="shop-hero">
+    <div class="shop-hero__copy">
+      <span class="shop-hero__eyebrow">Maavoori pantry</span>
+      <h1>{{ vm.activeCollection?.title || 'All handcrafted pickles, podis & snacks' }}</h1>
+      <p>
+        {{ vm.activeCollection?.description || 'Discover every Maavoori jar lovingly made in Hyderabad. Inspired by Kings Premium Pickles, we bring small-batch nostalgia to modern kitchens with curated collections and flavour-first bundles.' }}
+      </p>
+      <div class="shop-hero__cta">
+        <button class="btn btn--light" type="button" (click)="setCategory('all')">Browse all collections</button>
+        <button class="btn btn--ghost" type="button" (click)="clearSearch()" [disabled]="!vm.query">Clear search</button>
+      </div>
+    </div>
+    <aside class="shop-hero__stats">
+      <article *ngFor="let stat of heroStats">
+        <span>{{ stat.value }}</span>
+        <p>{{ stat.label }}</p>
+      </article>
+    </aside>
+  </header>
+
+  <section class="shop-merch">
+    <article class="shop-merch__item" *ngFor="let highlight of merchHighlights">
+      <h3>{{ highlight.title }}</h3>
+      <p>{{ highlight.description }}</p>
+    </article>
+  </section>
+
+  <div class="shop-alert" *ngIf="vm.error">
+    <span class="shop-alert__icon material-symbol">error</span>
+    <p class="shop-alert__message">{{ vm.error }}</p>
+  </div>
+
+  <section class="shop-filters">
+    <div class="shop-filters__search">
+      <label for="shop-search">Search the Maavoori pantry</label>
+      <div class="shop-filters__search-input">
+        <input
+          id="shop-search"
+          type="search"
+          placeholder="Search pickles, podis, snacks or bundles..."
+          [formControl]="filterForm.controls.query"
+        >
+        <button type="button" (click)="clearSearch()" *ngIf="vm.query">Clear</button>
+      </div>
+    </div>
+
+    <div class="shop-filters__group">
+      <span class="shop-filters__label">Categories</span>
+      <div class="shop-filters__pills" *ngIf="collections$ | async as collections">
+        <button
+          type="button"
+          (click)="setCategory('all')"
+          [class.active]="vm.category === 'all'"
+        >
+          All products
+        </button>
+        <button
+          type="button"
+          *ngFor="let collection of collections"
+          (click)="setCategory(collection.id)"
+          [class.active]="vm.category === collection.id"
+        >
+          {{ collection.title }}
+        </button>
+      </div>
+    </div>
+
+    <div class="shop-filters__options">
+      <div class="shop-filters__group shop-filters__group--inline">
+        <span class="shop-filters__label">Price</span>
+        <div class="shop-filters__pills shop-filters__pills--dense">
+          <button
+            type="button"
+            *ngFor="let price of priceFilters"
+            (click)="onPriceSelect(price.id)"
+            [class.active]="vm.price === price.id"
+          >
+            {{ price.label }}
+          </button>
+        </div>
+      </div>
+
+      <div class="shop-filters__group shop-filters__group--inline">
+        <label for="shop-sort">Sort</label>
+        <select id="shop-sort" [formControl]="filterForm.controls.sort">
+          <option *ngFor="let sort of sortOptions" [value]="sort.id">{{ sort.label }}</option>
+        </select>
+      </div>
+
+      <div class="shop-filters__summary">
+        <span>{{ vm.total }} item{{ vm.total === 1 ? '' : 's' }} available</span>
+        <span *ngIf="vm.query">Filtered by “{{ vm.query }}”</span>
+      </div>
+    </div>
+  </section>
+
+  <ng-container *ngIf="bestSellers$ | async as bestSellers">
+    <section class="shop-capsules" *ngIf="bestSellers.length">
+      <div class="shop-capsules__header">
+        <h2>Best sellers bubbling hot</h2>
+        <p>These jars sell out every harvest season. Stock up while the batch lasts.</p>
+      </div>
+      <div class="shop-capsules__grid">
+        <app-product-card *ngFor="let product of bestSellers" [product]="product"></app-product-card>
+      </div>
+    </section>
+  </ng-container>
+
+  <section class="shop-grid" [class.shop-grid--empty]="!vm.hasResults">
+    <div class="shop-grid__header">
+      <h2>Shop all Maavoori favourites</h2>
+      <p>Pick your staples or discover something new every month.</p>
+    </div>
+    <ng-container *ngIf="vm.hasResults; else emptyState">
+      <div class="shop-grid__list">
+        <app-product-card
+          *ngFor="let product of vm.products; trackBy: trackProductBy"
+          [product]="product"
+        ></app-product-card>
+      </div>
+    </ng-container>
+    <ng-template #emptyState>
+      <div class="shop-grid__empty">
+        <h3>No products match these filters yet</h3>
+        <p>Try clearing search or choose a different category. Fresh batches roll out every fortnight.</p>
+        <button class="btn btn--light" type="button" (click)="setCategory('all'); clearSearch();">Reset filters</button>
+      </div>
+    </ng-template>
+  </section>
+
+  <ng-container *ngIf="newArrivals$ | async as newArrivals">
+    <section class="shop-capsules shop-capsules--alt" *ngIf="newArrivals.length">
+      <div class="shop-capsules__header">
+        <h2>Fresh from this week’s curing</h2>
+        <p>New additions and seasonal specials straight from our Hyderabad kitchen.</p>
+      </div>
+      <div class="shop-capsules__grid">
+        <app-product-card *ngFor="let product of newArrivals" [product]="product"></app-product-card>
+      </div>
+    </section>
+  </ng-container>
+
+  <footer class="shop-cta">
+    <div class="shop-cta__content">
+      <h2>Need help curating your Maavoori pantry?</h2>
+      <p>WhatsApp our pickle concierge for gifting ideas, subscription plans and flavour pairings tailored to your family.</p>
+      <a class="btn btn--dark" href="https://wa.me/919390012345" target="_blank" rel="noopener">Chat with us</a>
+    </div>
+  </footer>
+</section>

@@ -1,0 +1,122 @@
+﻿<section class="account">
+  <div class="account__grid">
+    <div class="account__pane">
+      <h1>Your Maavoori account</h1>
+      <p class="muted">Sign in to track orders, manage subscriptions and chat with our kitchen team.</p>
+
+      <ng-container *ngIf="!profileLoaded">
+        <div class="account__tabs">
+          <button type="button" class="account__tab" [class.account__tab--active]="!registerMode" (click)="toggleMode('login')">
+            Sign in
+          </button>
+          <button type="button" class="account__tab" [class.account__tab--active]="registerMode" (click)="toggleMode('register')">
+            Create account
+          </button>
+        </div>
+
+        <form class="account__form" [formGroup]="loginForm" (ngSubmit)="login()" *ngIf="!registerMode">
+          <label>
+            Email or mobile number
+            <input type="text" formControlName="identifier" placeholder="you@example.com or 919390012345" required>
+          </label>
+          <label>
+            Password
+            <input type="password" formControlName="password" placeholder="Your password" required>
+          </label>
+          <label class="checkbox">
+            <input type="checkbox" formControlName="remember">
+            <span>Keep me signed in on this device</span>
+          </label>
+          <button class="btn" type="submit" [disabled]="submittingLogin || loginForm.invalid">
+            {{ submittingLogin ? 'Signing in.' : 'Sign in to Maavoori' }}
+          </button>
+          <a class="link" routerLink="/account/reset-password">Forgot password?</a>
+        </form>
+
+        <form class="account__form" [formGroup]="registerForm" (ngSubmit)="register()" *ngIf="registerMode">
+          <label>
+            Full name
+            <input type="text" formControlName="fullName" placeholder="Your name">
+          </label>
+          <label>
+            Email or mobile number
+            <input type="text" formControlName="identifier" placeholder="you@example.com or 919390012345" required>
+          </label>
+          <label>
+            Password
+            <input type="password" formControlName="password" placeholder="At least 6 characters" required>
+          </label>
+          <button class="btn" type="submit" [disabled]="submittingRegister || registerForm.invalid">
+            {{ submittingRegister ? 'Creating account.' : 'Create Maavoori account' }}
+          </button>
+        </form>
+      </ng-container>
+
+      <div class="account__summary" *ngIf="profileLoaded">
+        <h2>Welcome back, {{ currentProfile?.name || currentProfile?.email || currentProfile?.identifier }}</h2>
+        <p class="muted">Cart session ID: {{ cart.getSessionId() }}</p>
+        <a class="btn secondary" routerLink="/account/logout">Sign out</a>
+      </div>
+    </div>
+
+    <div class="account__support" *ngIf="profileLoaded">
+      <h2>Need help?</h2>
+      <p class="muted">Open a support ticket and our team will respond within 24 hours.</p>
+      <form class="account__form" [formGroup]="supportForm" (ngSubmit)="openTicket()">
+        <label>
+          Subject
+          <input type="text" formControlName="subject" placeholder="Issue with my order" required>
+        </label>
+        <label>
+          Describe your request
+          <textarea formControlName="description" rows="4" placeholder="Share details to help us resolve faster" required></textarea>
+        </label>
+        <div class="form-grid">
+          <label>
+            Priority
+            <select formControlName="priority">
+              <option value="LOW">Low</option>
+              <option value="MEDIUM">Medium</option>
+              <option value="HIGH">High</option>
+              <option value="URGENT">Urgent</option>
+            </select>
+          </label>
+          <label>
+            Channel
+            <select formControlName="channel">
+              <option value="WEB">Web</option>
+              <option value="EMAIL">Email</option>
+              <option value="PHONE">Phone</option>
+              <option value="WHATSAPP">WhatsApp</option>
+            </select>
+          </label>
+        </div>
+        <button class="btn secondary" type="submit" [disabled]="submittingTicket || supportForm.invalid">
+          {{ submittingTicket ? 'Submitting.' : 'Submit support ticket' }}
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <p class="status" *ngIf="statusMessage">{{ statusMessage }}</p>
+
+  <section class="account__info">
+    <div>
+      <h2>Quick links</h2>
+      <ul>
+        <li><a routerLink="/account/orders">View past orders</a></li>
+        <li><a routerLink="/account/addresses">Manage delivery addresses</a></li>
+        <li><a routerLink="/account/subscriptions">Subscription preferences</a></li>
+        <li><a routerLink="/support/faq">FAQs &amp; help articles</a></li>
+      </ul>
+    </div>
+    <div>
+      <h2>Need immediate assistance?</h2>
+      <p class="muted">Chat with us on WhatsApp or call our kitchen studio between 10 AM and 7 PM.</p>
+      <div class="contact-actions">
+        <a class="btn" href="https://wa.me/919390012345" target="_blank" rel="noopener">WhatsApp us</a>
+        <a class="btn secondary" href="tel:+919390012345">Call +91 93900 12345</a>
+      </div>
+    </div>
+  </section>
+</section>

@@ -1,0 +1,12 @@
+<div class="stars">
+  <span
+    class="stars__icon"
+    *ngFor="let star of stars"
+    [ngClass]="{
+      'stars__icon--full': star.state === 'full',
+      'stars__icon--half': star.state === 'half',
+      'stars__icon--empty': star.state === 'empty'
+    }"
+  ></span>
+  <small class="stars__reviews" *ngIf="reviews">{{ reviews }} {{ reviews === 1 ? 'review' : 'reviews' }}</small>
+</div>

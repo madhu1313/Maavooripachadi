@@ -1,0 +1,313 @@
+<section class="checkout" *ngIf="state$ | async as state">
+  <header class="checkout__header">
+    <h1>Checkout</h1>
+    <p>Authentic Maavoori pickles, packed fresh and shipped with care across India.</p>
+    <div class="checkout__meta">
+      <span>Secure payment · Doorstep delivery</span>
+      <span class="checkout__meta-divider" aria-hidden="true">•</span>
+      <span>{{ state.deliveryMessage }}</span>
+    </div>
+  </header>
+
+  <div
+    class="checkout__alert"
+    [class.checkout__alert--error]="state.status.kind === 'error'"
+    [class.checkout__alert--info]="state.status.kind === 'info'"
+    *ngIf="state.status.kind !== 'idle' && state.status.message"
+  >
+    <span>{{ state.status.message }}</span>
+    <button type="button" (click)="dismissStatus()" aria-label="Dismiss message">×</button>
+  </div>
+
+  <article class="checkout__confirmation" *ngIf="state.lastOrderNo">
+    <h2>Order {{ state.lastOrderNo }} confirmed</h2>
+    <p>We have emailed your order summary. Team Maavoori will reach out once your pickles are on the way.</p>
+  </article>
+
+  <ng-container *ngIf="state.hasItems; else emptyState">
+    <div class="checkout__layout">
+      <form class="checkout__form" [formGroup]="checkoutForm" (ngSubmit)="placeOrder()">
+        <section class="checkout-panel">
+          <div class="checkout-panel__heading">
+            <h2>Contact information</h2>
+            <span>Order updates will be sent to your phone and email.</span>
+          </div>
+          <div class="field-grid">
+            <div class="field" [class.field--invalid]="controls.contactName.touched && controls.contactName.invalid">
+              <label for="contactName">Full name</label>
+              <input
+                id="contactName"
+                type="text"
+                formControlName="contactName"
+                placeholder="Enter your name"
+                autocomplete="name"
+              >
+              <p class="field__error" *ngIf="controls.contactName.touched && controls.contactName.hasError('required')">
+                Name is required.
+              </p>
+            </div>
+            <div class="field" [class.field--invalid]="controls.contactEmail.touched && controls.contactEmail.invalid">
+              <label for="contactEmail">Email address</label>
+              <input
+                id="contactEmail"
+                type="email"
+                formControlName="contactEmail"
+                placeholder="you@example.com"
+                autocomplete="email"
+              >
+              <p class="field__error" *ngIf="controls.contactEmail.touched && controls.contactEmail.hasError('required')">
+                Email is required.
+              </p>
+              <p class="field__error" *ngIf="controls.contactEmail.touched && controls.contactEmail.hasError('email')">
+                Enter a valid email address.
+              </p>
+            </div>
+            <div class="field" [class.field--invalid]="controls.contactPhone.touched && controls.contactPhone.invalid">
+              <label for="contactPhone">Phone number</label>
+              <input
+                id="contactPhone"
+                type="tel"
+                formControlName="contactPhone"
+                placeholder="10-digit mobile number"
+                autocomplete="tel"
+              >
+              <p class="field__error" *ngIf="controls.contactPhone.touched && controls.contactPhone.hasError('required')">
+                Phone number is required.
+              </p>
+              <p class="field__error" *ngIf="controls.contactPhone.touched && controls.contactPhone.hasError('pattern')">
+                Enter a valid 10-digit mobile number.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section class="checkout-panel">
+          <div class="checkout-panel__heading checkout-panel__heading--with-action">
+            <div>
+              <h2>Delivery address</h2>
+              <span>We ship fresh batches daily from Hyderabad.</span>
+            </div>
+            <button class="text-button" type="button" (click)="useContactForShipping()">Use contact details</button>
+          </div>
+          <div class="field-grid field-grid--two">
+            <div class="field">
+              <label for="shipName">Recipient name</label>
+              <input
+                id="shipName"
+                type="text"
+                formControlName="shipName"
+                placeholder="Who will receive the order?"
+                autocomplete="shipping name"
+              >
+            </div>
+            <div class="field">
+              <label for="shipPhone">Recipient phone</label>
+              <input
+                id="shipPhone"
+                type="tel"
+                formControlName="shipPhone"
+                placeholder="Optional alternate number"
+                autocomplete="shipping tel"
+              >
+            </div>
+          </div>
+          <div class="field-grid">
+            <div class="field" [class.field--invalid]="controls.shipLine1.touched && controls.shipLine1.invalid">
+              <label for="shipLine1">Address line</label>
+              <input
+                id="shipLine1"
+                type="text"
+                formControlName="shipLine1"
+                placeholder="House number, street"
+                autocomplete="shipping address-line1"
+              >
+              <p class="field__error" *ngIf="controls.shipLine1.touched && controls.shipLine1.hasError('required')">
+                Address is required.
+              </p>
+            </div>
+            <div class="field">
+              <label for="shipLine2">Landmark or area (optional)</label>
+              <input
+                id="shipLine2"
+                type="text"
+                formControlName="shipLine2"
+                placeholder="Apartment, colony, landmark"
+                autocomplete="shipping address-line2"
+              >
+            </div>
+          </div>
+          <div class="field-grid field-grid--three">
+            <div class="field" [class.field--invalid]="controls.shipCity.touched && controls.shipCity.invalid">
+              <label for="shipCity">City</label>
+              <input
+                id="shipCity"
+                type="text"
+                formControlName="shipCity"
+                placeholder="City"
+                autocomplete="shipping address-level2"
+              >
+              <p class="field__error" *ngIf="controls.shipCity.touched && controls.shipCity.hasError('required')">
+                City is required.
+              </p>
+            </div>
+            <div class="field" [class.field--invalid]="controls.shipState.touched && controls.shipState.invalid">
+              <label for="shipState">State</label>
+              <select id="shipState" formControlName="shipState" autocomplete="shipping address-level1">
+                <option value="" disabled>Select state</option>
+                <option *ngFor="let stateName of states" [value]="stateName">{{ stateName }}</option>
+              </select>
+              <p class="field__error" *ngIf="controls.shipState.touched && controls.shipState.hasError('required')">
+                State is required.
+              </p>
+            </div>
+            <div class="field" [class.field--invalid]="controls.shipPincode.touched && controls.shipPincode.invalid">
+              <label for="shipPincode">Pincode</label>
+              <input
+                id="shipPincode"
+                type="text"
+                formControlName="shipPincode"
+                placeholder="6-digit pincode"
+                maxlength="6"
+                autocomplete="shipping postal-code"
+              >
+              <p class="field__error" *ngIf="controls.shipPincode.touched && controls.shipPincode.hasError('required')">
+                Pincode is required.
+              </p>
+              <p class="field__error" *ngIf="controls.shipPincode.touched && controls.shipPincode.hasError('pattern')">
+                Enter a valid 6-digit pincode.
+              </p>
+              <p class="field__hint" *ngIf="!controls.shipPincode.invalid && state.summary.quoteStatus === 'idle' && !state.hasValidPincode">
+                Enter a pincode to calculate shipping and delivery timelines.
+              </p>
+              <p class="field__hint" *ngIf="state.summary.quoteStatus === 'loading'">
+                Refreshing shipping and taxes…
+              </p>
+              <p class="field__hint field__hint--error" *ngIf="state.summary.quoteStatus === 'error'">
+                {{ state.summary.quoteError }}
+              </p>
+              <p class="field__hint field__hint--success" *ngIf="state.summary.quoteStatus === 'success'">
+                Shipping & taxes updated for {{ state.shipPincode }}.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section class="checkout-panel">
+          <div class="checkout-panel__heading">
+            <h2>Payment</h2>
+            <span>Choose how you would like to pay.</span>
+          </div>
+          <div class="payment-options">
+            <label
+              class="payment-option"
+              *ngFor="let method of paymentMethods"
+              [class.payment-option--disabled]="method.value === 'COD' && !state.codAvailable"
+            >
+              <input
+                type="radio"
+                formControlName="paymentMethod"
+                [value]="method.value"
+                [disabled]="method.value === 'COD' && !state.codAvailable"
+              >
+              <div class="payment-option__content">
+                <span>{{ method.label }}</span>
+                <small>{{ method.description }}</small>
+              </div>
+            </label>
+          </div>
+          <p class="payment-note" *ngIf="!state.codAvailable">
+            Cash on delivery is available for orders up to {{ codLimitRupees | price }}. Please choose online payment.
+          </p>
+        </section>
+
+        <section class="checkout-panel">
+          <div class="checkout-panel__heading">
+            <h2>Order notes</h2>
+            <span>Add delivery instructions or a message for our team.</span>
+          </div>
+          <div class="field-grid">
+            <div class="field">
+              <label for="couponCode">Coupon code</label>
+              <input
+                id="couponCode"
+                type="text"
+                formControlName="couponCode"
+                placeholder="Have an offer code?"
+                maxlength="20"
+              >
+            </div>
+            <div class="field">
+              <label for="notes">Notes (optional)</label>
+              <textarea
+                id="notes"
+                rows="3"
+                formControlName="notes"
+                placeholder="Tell us how we can make your order special."
+              ></textarea>
+            </div>
+          </div>
+        </section>
+
+        <button class="btn btn--primary checkout__submit" type="submit" [disabled]="state.placingOrder">
+          {{ state.placingOrder ? 'Placing order…' : 'Place order' }}
+        </button>
+      </form>
+
+            <aside class="checkout__summary">
+        <h2>Order summary</h2>
+        <div class="summary-items">
+          <div class="summary-item" *ngFor="let item of state.items">
+            <div class="summary-item__media" aria-hidden="true">
+              <ng-container *ngIf="item.imageUrl; else summaryFallback">
+                <img [src]="item.imageUrl" [alt]="item.title" loading="lazy">
+              </ng-container>
+              <ng-template #summaryFallback>
+                <span class="summary-item__badge">{{ item.title.charAt(0) || 'M' }}</span>
+              </ng-template>
+            </div>
+            <div class="summary-item__details">
+              <h3>{{ item.title }}</h3>
+              <span>Qty {{ item.qty }} � {{ item.unitPrice | price }}</span>
+            </div>
+            <span class="summary-item__total">{{ item.lineTotal | price }}</span>
+          </div>
+        </div>
+        <div class="summary-totals">
+          <div class="summary-row">
+            <span>Subtotal</span>
+            <span>{{ state.summary.subtotal | price }}</span>
+          </div>
+          <div class="summary-row" *ngIf="state.summary.discountPaise > 0">
+            <span>Discounts</span>
+            <span>-{{ state.summary.discount | price }}</span>
+          </div>
+          <div class="summary-row">
+            <span>Shipping</span>
+            <span>{{ state.summary.shipping | price }}</span>
+          </div>
+          <div class="summary-row" *ngIf="state.summary.taxPaise > 0">
+            <span>Taxes</span>
+            <span>{{ state.summary.tax | price }}</span>
+          </div>
+        </div>
+        <div class="summary-row summary-row--total">
+          <span>Total</span>
+          <span>{{ state.summary.total | price }}</span>
+        </div>
+        <p class="summary-note">
+          You will receive real-time tracking once the order ships. Hyderabad orders above INR 999 ship free.
+        </p>
+      </aside>
+    </div>
+  </ng-container>
+</section>
+
+<ng-template #emptyState>
+  <div class="checkout__empty">
+    <h2>Your cart is empty</h2>
+    <p>Add your favourite Maavoori Pachadi flavours and return here to complete the order.</p>
+    <a class="btn btn--primary" routerLink="/shop">Explore products</a>
+  </div>
+</ng-template>
+
+

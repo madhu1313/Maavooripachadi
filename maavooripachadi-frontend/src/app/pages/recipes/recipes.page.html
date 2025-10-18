@@ -1,0 +1,208 @@
+﻿<section class="recipes" *ngIf="vm$ | async as vm">
+  <header class="recipes-hero">
+    <div class="recipes-hero__copy">
+      <span class="recipes-hero__eyebrow">Maavoori kitchen</span>
+      <h1>Recipes that celebrate pickle-forward flavours</h1>
+      <p>
+        Inspired by the storytelling on Kings Premium Pickles, our recipe journal brings Andhra nostalgia to weekday
+        meals, lazy brunches and festive spreads. Each dish uses Maavoori condiments to shortcut prep without losing
+        handcrafted authenticity.
+      </p>
+      <div class="recipes-hero__cta">
+        <a class="btn btn--light" routerLink="/shop">Shop pickles & podis</a>
+        <button class="btn btn--ghost" type="button" (click)="resetFilters()">Reset filters</button>
+      </div>
+    </div>
+    <aside class="recipes-hero__highlight">
+      <h3>Quick flavour boosters</h3>
+      <ul>
+        <li>Mix pickle oil into tadkas for rasam, sambar or dals.</li>
+        <li>Whisk Maavoori podis with ghee to coat roast veggies.</li>
+        <li>Dollop non-veg pickles atop millet bowls for instant protein.</li>
+      </ul>
+    </aside>
+  </header>
+
+  <section class="recipes-filter">
+    <div class="recipes-filter__search">
+      <label for="recipe-search">Search recipes</label>
+      <input
+        id="recipe-search"
+        type="search"
+        placeholder="Search by recipe, ingredient or season..."
+        [formControl]="filterForm.controls.query"
+      >
+    </div>
+
+    <div class="recipes-filter__categories">
+      <span>Categories:</span>
+      <div class="recipes-filter__tags">
+        <button
+          type="button"
+          *ngFor="let category of categories"
+          (click)="selectCategory(category)"
+          [ngClass]="{ active: vm.filters.category === category }"
+        >
+          {{ category }}
+        </button>
+      </div>
+    </div>
+
+    <div class="recipes-filter__difficulty">
+      <label for="difficulty">Difficulty</label>
+      <select id="difficulty" [formControl]="filterForm.controls.difficulty">
+        <option *ngFor="let level of difficultyLevels" [value]="level">{{ level }}</option>
+      </select>
+    </div>
+  </section>
+
+  <section class="recipes-featured" *ngIf="vm.featured.length">
+    <h2>Featured from the Maavoori kitchen</h2>
+    <div class="recipes-featured__grid">
+      <article class="recipe-card recipe-card--featured" *ngFor="let recipe of vm.featured">
+        <figure class="recipe-card__media">
+          <img [src]="recipe.heroImage" [alt]="recipe.title">
+          <span class="recipe-card__tag">Featured</span>
+        </figure>
+        <div class="recipe-card__content">
+          <h3>{{ recipe.title }}</h3>
+          <p>{{ recipe.summary }}</p>
+          <ul class="recipe-card__meta">
+            <li><span class="material-symbol">schedule</span>{{ durationLabel(recipe.durationMinutes) }}</li>
+            <li><span class="material-symbol">restaurant</span>{{ recipe.servings }} servings</li>
+            <li><span class="material-symbol">local_fire_department</span>{{ recipe.difficulty }}</li>
+          </ul>
+          <div class="recipe-card__tags">
+            <span *ngFor="let tag of recipe.tags">{{ tag }}</span>
+          </div>
+          <a class="link" href="#recipes-list">Scroll to full method</a>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="recipes-quick" *ngIf="vm.quickIdeas.length">
+    <div class="recipes-quick__header">
+      <h2>Under 20 minute ideas</h2>
+      <p>Last-minute meals supercharged with Maavoori pickles.</p>
+    </div>
+    <div class="recipes-quick__list">
+      <article *ngFor="let recipe of vm.quickIdeas">
+        <h3>{{ recipe.title }}</h3>
+        <p>{{ recipe.summary }}</p>
+        <div class="recipes-quick__meta">
+          <span>{{ durationLabel(recipe.durationMinutes) }}</span>
+          <span>{{ recipe.difficulty }}</span>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="recipes-pantry">
+    <h2>Pantry wisdom</h2>
+    <div class="recipes-pantry__grid">
+      <article *ngFor="let tip of pantryTips">
+        <h3>{{ tip.title }}</h3>
+        <p>{{ tip.description }}</p>
+      </article>
+    </div>
+  </section>
+
+  <section id="recipes-list" class="recipes-list">
+    <header class="recipes-list__heading">
+      <h2>Explore recipes</h2>
+      <p *ngIf="vm.hasResults; else emptyState">
+        Showing {{ vm.recipes.length }} Maavoori approved recipe{{ vm.recipes.length === 1 ? '' : 's' }}.
+      </p>
+      <ng-template #emptyState>
+        <p>No recipes found. Try adjusting filters or clear search.</p>
+      </ng-template>
+    </header>
+
+    <div class="recipes-list__grid" *ngIf="vm.hasResults">
+      <article class="recipe-detail" *ngFor="let recipe of vm.recipes">
+        <figure class="recipe-detail__media">
+          <img [src]="recipe.heroImage" [alt]="recipe.title">
+          <div class="recipe-detail__badges">
+            <span>{{ recipe.category }}</span>
+            <span *ngIf="recipe.isSeasonal">Seasonal</span>
+          </div>
+        </figure>
+
+        <div class="recipe-detail__body">
+          <header>
+            <h3>{{ recipe.title }}</h3>
+            <p>{{ recipe.summary }}</p>
+          </header>
+
+          <ul class="recipe-detail__meta">
+            <li><span class="material-symbol">timer</span>{{ durationLabel(recipe.durationMinutes) }}</li>
+            <li><span class="material-symbol">restaurant_menu</span>{{ recipe.servings }} servings</li>
+            <li><span class="material-symbol">military_tech</span>{{ recipe.difficulty }}</li>
+          </ul>
+
+          <div class="recipe-detail__content">
+            <div>
+              <h4>Ingredients</h4>
+              <ul>
+                <li *ngFor="let ingredient of recipe.ingredients">{{ ingredient }}</li>
+              </ul>
+            </div>
+            <div>
+              <h4>Method</h4>
+              <ol>
+                <li *ngFor="let step of recipe.steps">{{ step }}</li>
+              </ol>
+            </div>
+            <div>
+              <h4>Chef note</h4>
+              <p>{{ recipe.chefTip }}</p>
+              <h4>Pairs with</h4>
+              <ul>
+                <li *ngFor="let pairing of recipe.pairings">{{ pairing }}</li>
+              </ul>
+            </div>
+          </div>
+
+          <aside class="recipe-detail__products" *ngIf="recipe.recommendedProducts.length">
+            <h4>Powered by Maavoori</h4>
+            <ul>
+              <li *ngFor="let product of recipe.recommendedProducts">
+                <a [routerLink]="product.link">{{ product.label }}</a>
+              </li>
+            </ul>
+          </aside>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="recipes-seasonal" *ngIf="vm.seasonal.length">
+    <div class="recipes-seasonal__header">
+      <h2>Seasonal specials</h2>
+      <p>Handpicked ideas for the current harvest.</p>
+    </div>
+    <div class="recipes-seasonal__list">
+      <article *ngFor="let recipe of vm.seasonal">
+        <h3>{{ recipe.title }}</h3>
+        <p>{{ recipe.summary }}</p>
+        <div class="recipes-seasonal__meta">
+          <span>{{ recipe.category }}</span>
+          <span>{{ durationLabel(recipe.durationMinutes) }}</span>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <footer class="recipes-cta">
+    <div class="recipes-cta__content">
+      <h2>Share your Maavoori creations</h2>
+      <p>
+        Tag <strong>&#64;maavooripachadi</strong> on Instagram or write to <strong>hello&#64;maavooripachadi.com</strong> to be
+        featured in our next recipe roundup.
+      </p>
+      <a class="btn btn--dark" href="https://wa.me/919390012345" target="_blank" rel="noopener">Send recipe feedback</a>
+    </div>
+  </footer>
+</section>
+

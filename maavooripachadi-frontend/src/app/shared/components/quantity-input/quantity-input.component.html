@@ -1,0 +1,9 @@
+<div class="qty" [ngClass]="{ 'qty--compact': compact }">
+  <button type="button" class="qty__btn" (click)="dec()" [disabled]="value <= min" aria-label="Decrease quantity">
+    <span class="material-symbol">remove</span>
+  </button>
+  <span class="qty__value">{{ value }}</span>
+  <button type="button" class="qty__btn" (click)="inc()" [disabled]="value >= max" aria-label="Increase quantity">
+    <span class="material-symbol">add</span>
+  </button>
+</div>

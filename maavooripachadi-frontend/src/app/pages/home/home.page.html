@@ -1,0 +1,188 @@
+﻿<section class="hero" *ngIf="heroSlides$ | async as slides">
+  <ngx-slick-carousel class="hero__carousel" [config]="heroCarouselConfig">
+    <div
+      ngxSlickItem
+      class="hero__slide"
+      *ngFor="let slide of slides"
+      [style.--hero-image]="'url(' + slide.image + ')'"
+    >
+      <div class="hero__image" aria-hidden="true"></div>
+      <div class="hero__overlay"></div>
+      <div class="hero__content" [ngClass]="'align-' + (slide.alignment || 'left')">
+        <span class="hero__badge">{{ slide.subheading }}</span>
+        <h1>{{ slide.heading }}</h1>
+        <p>{{ slide.description }}</p>
+        <a class="btn btn--light" [routerLink]="slide.ctaLink">{{ slide.ctaLabel }}</a>
+        <ul class="hero__selling-points">
+          <li *ngFor="let point of heroSellingPoints">{{ point }}</li>
+        </ul>
+      </div>
+    </div>
+  </ngx-slick-carousel>
+</section>
+
+<section class="trust">
+  <article class="trust__item" *ngFor="let badge of trustBadges">
+    <div class="trust__accent" [style.background]="badge.accent"></div>
+    <div class="trust__content">
+      <h3>{{ badge.label }}</h3>
+      <p>{{ badge.description }}</p>
+    </div>
+  </article>
+</section>
+
+<section class="story">
+  <div class="story__intro">
+    <h2>Handcrafted in Hyderabad, rooted in Andhra nostalgia</h2>
+    <p>
+      Maavoori Pachadi is a passion project from our family kitchen. Inspired by grandmothers who never measured spices
+      and believed in sun curing everything, we craft micro batches every fortnight so your pantry always tastes like home.
+    </p>
+    <ul class="story__list">
+      <li>Heritage recipes perfected over four decades.</li>
+      <li>Stone-ground masalas and cold pressed oils, never industrial shortcuts.</li>
+      <li>Fresh stock dispatched within hours of sealing each jar.</li>
+    </ul>
+    <a class="btn btn--dark" routerLink="/about">Read our story</a>
+  </div>
+  <aside class="story__stats">
+    <article class="story__stat" *ngFor="let stat of experienceStats">
+      <span>{{ stat.value }}</span>
+      <h3>{{ stat.label }}</h3>
+      <p>{{ stat.helper }}</p>
+    </article>
+  </aside>
+</section>
+
+<section class="collections" *ngIf="collections$ | async as collections">
+  <div class="section-heading">
+    <h2>Shop by craving</h2>
+    <p>Explore veg staples, non-veg delicacies, podis and tea-time snacks curated for every celebration.</p>
+  </div>
+  <div class="collections__grid">
+    <a
+      class="collection-card"
+      *ngFor="let collection of collections"
+      [routerLink]="collection.handle"
+    >
+      <div class="collection-card__media">
+        <img [src]="collection.image" [alt]="collection.title">
+      </div>
+      <div class="collection-card__content">
+        <h3>{{ collection.title }}</h3>
+        <p>{{ collection.description }}</p>
+        <span class="collection-card__cta">View collection</span>
+      </div>
+    </a>
+  </div>
+</section>
+
+<ng-container *ngFor="let shelf of productShelves">
+  <section class="shelf">
+    <div class="section-heading">
+      <h2>{{ shelf.title }}</h2>
+      <p>{{ shelf.subtitle }}</p>
+    </div>
+    <p class="shelf__description">{{ shelf.description }}</p>
+    <ng-container *ngIf="shelf.products$ | async as products">
+      <div class="product-grid" *ngIf="products.length; else shelfEmpty">
+        <div class="product-grid__item" *ngFor="let product of products">
+          <app-product-card [product]="product"></app-product-card>
+        </div>
+      </div>
+      <ng-template #shelfEmpty>
+        <div class="product-grid__placeholder">
+          Fresh batches are curing! Check back in a bit.
+        </div>
+      </ng-template>
+    </ng-container>
+    <div class="shelf__cta">
+      <a class="link" [routerLink]="shelf.ctaLink">{{ shelf.ctaLabel }}</a>
+    </div>
+  </section>
+</ng-container>
+
+<section class="service" *ngIf="highlights$ | async as highlights">
+  <div class="service__grid">
+    <article class="service__item" *ngFor="let highlight of highlights">
+      <span class="service__icon material-symbol">{{ highlight.icon }}</span>
+      <h3>{{ highlight.title }}</h3>
+      <p>{{ highlight.description }}</p>
+    </article>
+  </div>
+</section>
+
+<section class="process">
+  <div class="section-heading">
+    <h2>The Maavoori craft process</h2>
+    <p>Meticulous steps that keep our pickles vibrant, wholesome and ready for your dining table.</p>
+  </div>
+  <div class="process__grid">
+    <article class="process__step" *ngFor="let step of processSteps">
+      <div class="process__marker"></div>
+      <div class="process__body">
+        <h3>{{ step.title }}</h3>
+        <p>{{ step.description }}</p>
+        <span>{{ step.highlight }}</span>
+      </div>
+    </article>
+  </div>
+</section>
+
+<section class="testimonials" *ngIf="testimonials$ | async as testimonials">
+  <div class="section-heading">
+    <h2>Love from the Maavoori community</h2>
+    <p>Hear what fellow pickle lovers have to say.</p>
+  </div>
+  <ngx-slick-carousel class="testimonial-carousel" [config]="testimonialCarouselConfig">
+    <div ngxSlickItem class="testimonial" *ngFor="let testimonial of testimonials">
+      <div class="testimonial__rating">
+        <span *ngFor="let star of [1,2,3,4,5]" [class.active]="star <= testimonial.rating">★</span>
+      </div>
+      <p class="testimonial__quote">“{{ testimonial.quote }}”</p>
+      <h4>{{ testimonial.name }}</h4>
+      <span class="testimonial__location">{{ testimonial.location }}</span>
+    </div>
+  </ngx-slick-carousel>
+</section>
+
+<section class="blog" *ngIf="blogPosts$ | async as posts">
+  <div class="section-heading">
+    <h2>Maavoori journal</h2>
+    <p>Recipes, kitchen notes and stories from our community.</p>
+  </div>
+  <div class="blog__grid">
+    <article class="blog__card" *ngFor="let post of posts">
+      <img [src]="post.image" [alt]="post.title">
+      <div class="blog__content">
+        <span class="blog__date">{{ post.publishedOn }}</span>
+        <h3>{{ post.title }}</h3>
+        <p>{{ post.excerpt }}</p>
+        <a class="link" [routerLink]="post.readMoreUrl">Read story</a>
+      </div>
+    </article>
+  </div>
+</section>
+
+<section class="social" *ngIf="socialPosts$ | async as social">
+  <div class="section-heading">
+    <h2>Fresh from our kitchen</h2>
+    <p>Tag <strong>&#64;maavooripachadi</strong> to get featured.</p>
+  </div>
+  <ngx-slick-carousel class="social__carousel" [config]="socialCarouselConfig">
+    <div ngxSlickItem class="social__item" *ngFor="let item of social">
+      <a [href]="item.link" target="_blank" rel="noopener">
+        <img [src]="item.image" alt="Maavoori Pachadi on Instagram">
+      </a>
+    </div>
+  </ngx-slick-carousel>
+</section>
+
+<section class="cta">
+  <div class="cta__content">
+    <h2>Need help picking the perfect combo?</h2>
+    <p>WhatsApp our pickle concierge for flavour pairings, gifting ideas and subscription plans tailored to your family.</p>
+    <a class="btn btn--light" href="https://wa.me/919390012345" target="_blank" rel="noopener">Chat with us</a>
+  </div>
+</section>
+

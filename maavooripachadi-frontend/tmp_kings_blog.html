@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Maavoori Kitchen Journal | Stories &amp; Recipes</title>
+    <meta
+      name="description"
+      content="Discover Maavoori heritage stories, kitchen rituals, and modern recipes inspired by our handcrafted Andhra pickles, podis, and snacks."
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta property="og:title" content="Maavoori Kitchen Journal" />
+    <meta
+      property="og:description"
+      content="Micro-batch pickling notes, seasonal recipes, and heritage tales from the Maavoori kitchen."
+    />
+    <meta property="og:image" content="https://maavooripachadi.com/assets/images/blog/og-blog.jpg" />
+    <meta property="og:url" content="https://maavooripachadi.com/blog" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" href="/assets/icons/icon-32.png" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --color-bg: #fffdf9;
+        --color-muted: #64748b;
+        --color-text: #0f172a;
+        --color-accent: #f97316;
+        --color-surface: #ffffff;
+        --radius-large: 28px;
+        --radius-pill: 999px;
+        --shadow: 0 24px 60px -44px rgba(15, 23, 42, 0.45);
+        --font-serif: 'Playfair Display', serif;
+        --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        font-family: var(--font-sans);
+        color: var(--color-text);
+        background: var(--color-bg);
+        line-height: 1.6;
+      }
+      a {
+        color: inherit;
+        text-decoration: none;
+        transition: color 0.2s ease;
+      }
+      a:hover {
+        color: var(--color-accent);
+      }
+      header.hero {
+        background: radial-gradient(circle at top left, rgba(249, 115, 22, 0.12), transparent 55%),
+          linear-gradient(135deg, rgba(249, 115, 22, 0.08), rgba(37, 99, 235, 0.1));
+        padding: 72px 20px 80px;
+        text-align: center;
+      }
+      header.hero h1 {
+        margin: 0;
+        font-size: clamp(36px, 6vw, 54px);
+        font-family: var(--font-serif);
+      }
+      header.hero p {
+        margin: 16px auto 0;
+        max-width: 640px;
+        color: var(--color-muted);
+        font-size: 17px;
+      }
+      .container {
+        max-width: 1080px;
+        margin: 0 auto;
+        padding: 0 20px 80px;
+        display: grid;
+        gap: 48px;
+      }
+      .featured {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 24px;
+        align-items: center;
+      }
+      .featured img {
+        width: 100%;
+        border-radius: var(--radius-large);
+        box-shadow: var(--shadow);
+        object-fit: cover;
+        max-height: 420px;
+      }
+      .featured article {
+        background: var(--color-surface);
+        border-radius: var(--radius-large);
+        padding: 28px 32px;
+        box-shadow: var(--shadow);
+      }
+      .featured h2 {
+        margin: 0 0 12px;
+        font-size: clamp(28px, 4vw, 36px);
+        font-family: var(--font-serif);
+      }
+      .featured .meta {
+        font-size: 13px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: rgba(15, 23, 42, 0.6);
+        margin-bottom: 12px;
+      }
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 22px;
+        border-radius: var(--radius-pill);
+        border: none;
+        background: var(--color-accent);
+        color: #fff;
+        font-weight: 600;
+        cursor: pointer;
+        box-shadow: 0 14px 28px -18px rgba(249, 115, 22, 0.45);
+      }
+      .posts-grid {
+        display: grid;
+        gap: 22px;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      }
+      .post-card {
+        background: var(--color-surface);
+        border-radius: var(--radius-large);
+        overflow: hidden;
+        box-shadow: var(--shadow);
+        display: flex;
+        flex-direction: column;
+      }
+      .post-card img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+      }
+      .post-card .body {
+        padding: 22px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        flex: 1;
+      }
+      .post-card h3 {
+        margin: 0;
+        font-size: 20px;
+        font-family: var(--font-serif);
+      }
+      .post-card p {
+        margin: 0;
+        color: var(--color-muted);
+        font-size: 15px;
+      }
+      .post-card .meta {
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: rgba(15, 23, 42, 0.5);
+      }
+      .newsletter {
+        background: linear-gradient(135deg, rgba(249, 115, 22, 0.2), rgba(37, 99, 235, 0.16));
+        border-radius: var(--radius-large);
+        padding: 32px;
+        display: grid;
+        gap: 16px;
+        text-align: center;
+      }
+      .newsletter h2 {
+        margin: 0;
+        font-family: var(--font-serif);
+        font-size: clamp(26px, 4vw, 32px);
+      }
+      .newsletter p {
+        margin: 0 auto;
+        max-width: 520px;
+        color: #1f2937;
+      }
+      .newsletter form {
+        display: flex;
+        gap: 12px;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+      .newsletter input[type='email'] {
+        padding: 12px 16px;
+        border-radius: var(--radius-pill);
+        border: 1px solid rgba(15, 23, 42, 0.14);
+        min-width: 280px;
+        font-size: 15px;
+      }
+      footer {
+        text-align: center;
+        padding: 40px 20px;
+        color: rgba(15, 23, 42, 0.6);
+      }
+      footer a {
+        color: var(--color-accent);
+      }
+      @media (max-width: 768px) {
+        header.hero {
+          padding: 56px 16px 64px;
+        }
+        .featured article {
+          padding: 24px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="hero">
+      <h1>Maavoori Kitchen Journal</h1>
+      <p>
+        Stories from our Hyderabad kitchen, seasonal harvest notes, and recipes to celebrate Maavoori pickles in every
+        meal.
+      </p>
+    </header>
+
+    <main class="container">
+      <section class="featured">
+        <img src="/assets/images/blog/featured-maavoori.jpg" alt="Maavoori featured story" />
+        <article>
+          <span class="meta">Gongura · October 2025</span>
+          <h2>How we sun-cure our October Gongura batch</h2>
+          <p>
+            Meet the family behind our sorrel leaves, see how we bring them from farms to stone grinders, and learn the
+            final checks we do before sealing jars.
+          </p>
+          <p style="color: var(--color-muted); font-size: 15px;">
+            Includes storage tips for your jars and a quick recipe for gongura pachi pulusu.
+          </p>
+          <a class="btn" href="/blog/maavoori-gongura-season">Read the story</a>
+        </article>
+      </section>
+
+      <section>
+        <h2 style="font-family: var(--font-serif); font-size: clamp(28px, 4vw, 36px); margin: 0 0 16px;">
+          Latest posts
+        </h2>
+        <div class="posts-grid">
+          <article class="post-card">
+            <img src="/assets/images/blog/prawns-uttapam.jpg" alt="Prawns pickle uttapam" />
+            <div class="body">
+              <span class="meta">Recipes · Brunch</span>
+              <h3>Prawns Pickle Uttapam</h3>
+              <p>Turn your weekend brunch into a coastal special with Maavoori prawns pickle.</p>
+              <a href="/blog/prawns-pickle-brunch">Cook this recipe →</a>
+            </div>
+          </article>
+
+          <article class="post-card">
+            <img src="/assets/images/blog/micro-batch-process.jpg" alt="Micro batch process" />
+            <div class="body">
+              <span class="meta">Behind the scenes</span>
+              <h3>Inside our micro-batch process</h3>
+              <p>Follow the four steps every Maavoori jar takes before it reaches your table.</p>
+              <a href="/blog/micro-batch-process">See the process →</a>
+            </div>
+          </article>
+
+          <article class="post-card">
+            <img src="/assets/images/blog/millet-murukulu.jpg" alt="Millet murukulu" />
+            <div class="body">
+              <span class="meta">Snacks · Festival</span>
+              <h3>Millet Murukulu ideas</h3>
+              <p>Pair crunchy murukulu with infused podis and discover zero-waste snack hacks.</p>
+              <a href="/blog/millet-murukulu-snacking">Read more →</a>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="newsletter">
+        <h2>Join the Maavoori mailing list</h2>
+        <p>
+          Early access to seasonal batches, exclusive recipes, and behind-the-scenes notes from our Hyderabad kitchen.
+        </p>
+        <form>
+          <input type="email" name="email" placeholder="you@example.com" required />
+          <button class="btn" type="submit">Subscribe</button>
+        </form>
+        <p style="font-size: 13px; color: rgba(15, 23, 42, 0.6); margin: 0;">
+          No spam. Expect 2–3 stories a month and priority alerts on special jars.
+        </p>
+      </section>
+    </main>
+
+    <footer>
+      Made in Hyderabad · <a href="https://maavooripachadi.com">maavooripachadi.com</a>
+    </footer>
+  </body>
+</html>

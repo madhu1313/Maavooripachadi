@@ -1,0 +1,5 @@
+
+CREATE TABLE retention_policy(
+  id BIGINT PRIMARY KEY AUTO_INCREMENT, table_name VARCHAR(64), field VARCHAR(64), days INT, strategy VARCHAR(16),
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

@@ -1,0 +1,101 @@
+﻿<section class="success" *ngIf="vm$ | async as vm">
+  <header class="success-hero">
+    <div class="success-hero__badge">Order confirmed</div>
+    <h1>Thank you for bringing Maavoori to your table</h1>
+    <p>
+      Inspired by the warm post-purchase tone on Kings Premium Pickles, we ensure your jars are crafted fresh and
+      dispatched with care. Expect a tracking link once your batch is sealed and ready.
+    </p>
+    <div class="success-hero__meta">
+      <div class="success-hero__ref" *ngIf="vm.reference; else noRef">
+        <span>Order reference</span>
+        <strong>{{ vm.reference }}</strong>
+      </div>
+      <ng-template #noRef>
+        <div class="success-hero__ref">
+          <span>Order reference</span>
+          <strong>Pending confirmation</strong>
+        </div>
+      </ng-template>
+      <div class="success-hero__summary">
+        <span>{{ vm.itemsCount }} item{{ vm.itemsCount === 1 ? '' : 's' }}</span>
+        <span>Total {{ vm.total | price }}</span>
+      </div>
+    </div>
+  </header>
+
+  <section class="success-highlights">
+    <article class="success-highlights__item" *ngFor="let highlight of vm.highlights">
+      <span class="material-symbol">{{ highlight.icon }}</span>
+      <h3>{{ highlight.title }}</h3>
+      <p>{{ highlight.description }}</p>
+    </article>
+  </section>
+
+  <section class="success-timeline">
+    <h2>What happens next</h2>
+    <div class="success-timeline__steps">
+      <div class="success-timeline__step" *ngFor="let step of vm.timeline" [ngClass]="step.status">
+        <div class="success-timeline__marker"></div>
+        <div>
+          <h3>{{ step.title }}</h3>
+          <p>{{ step.description }}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="success-actions">
+    <div class="success-actions__card">
+      <h3>Need help with this order?</h3>
+      <p>Our pickle concierge is just a message away for tracking and pairing tips.</p>
+      <a class="btn btn--light" [href]="vm.whatsappUrl" target="_blank" rel="noopener">Chat on WhatsApp</a>
+    </div>
+    <div class="success-actions__card">
+      <h3>Download invoice</h3>
+      <p>Check your inbox for the confirmation email and invoice. Didn’t receive one? Ping us.</p>
+      <a class="link" routerLink="/account">Visit order history</a>
+    </div>
+    <div class="success-actions__card">
+      <h3>Keep browsing</h3>
+      <p>Explore limited batches and gifting combos curated for the season.</p>
+      <a class="link" routerLink="/shop">Back to shop</a>
+    </div>
+  </section>
+
+  <section class="success-summary" *ngIf="vm.summary as summary">
+    <h2>Your Maavoori picks</h2>
+    <div class="success-summary__list">
+      <div class="success-summary__item" *ngFor="let item of summary.items">
+        <div>
+          <h3>{{ item.title || 'Maavoori Pachadi' }}</h3>
+          <span>Qty {{ item.qty }}</span>
+        </div>
+        <span>{{ (item.unitPricePaise * item.qty) / 100 | price }}</span>
+      </div>
+      <div class="success-summary__total">
+        <span>Order total</span>
+        <strong>{{ summary.subtotalPaise / 100 | price }}</strong>
+      </div>
+    </div>
+  </section>
+
+  <section class="success-recommended" *ngIf="vm.hasRecommended">
+    <div class="success-recommended__header">
+      <h2>Wrap your meal plan</h2>
+      <p>Add these Maavoori favourites while your order is still fresh in mind.</p>
+    </div>
+    <div class="success-recommended__grid" *ngIf="vm.recommended as recommended">
+      <app-product-card *ngFor="let product of recommended" [product]="product"></app-product-card>
+    </div>
+  </section>
+
+  <footer class="success-footer">
+    <div class="success-footer__content">
+      <h2>Share your Maavoori moment</h2>
+      <p>Tag <strong>&#64;maavooripachadi</strong> on Instagram once your jars arrive to get featured in our community stories.</p>
+      <a class="btn btn--dark" routerLink="/recipes">Explore recipes</a>
+    </div>
+  </footer>
+</section>
+

@@ -1,0 +1,3 @@
+package com.maavooripachadi.logistics;
+import org.springframework.web.bind.annotation.*; import lombok.RequiredArgsConstructor; @RestController @RequestMapping("/api/v1/admin/returns/intake") @RequiredArgsConstructor
+public class ReturnIntakeController { private final ReturnIntakeService svc; @PostMapping public java.util.Map<String,Object> intake(@RequestParam long returnId,@RequestParam long warehouseId,@RequestParam String condition,@RequestParam boolean restockable,@RequestParam long variantId,@RequestParam int qty){ svc.process(returnId,warehouseId,condition,restockable,variantId,qty,"admin"); return java.util.Map.of("ok",true); } }

@@ -1,0 +1,43 @@
+<section class="top-bar">
+  <div class="top-bar__marquee">
+    <div class="top-bar__marquee-track">
+      <div class="top-bar__message" *ngFor="let message of messages">
+        <span class="material-symbol">sparkles</span>
+        <p>{{ message }}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="top-bar__toolbar">
+    <div class="top-bar__toolbar-container">
+      <nav class="top-bar__links">
+        <ng-container *ngFor="let link of links">
+          <a *ngIf="link.path" [routerLink]="link.path">
+            <span class="material-symbol" *ngIf="link.icon">{{ link.icon }}</span>
+            {{ link.label }}
+          </a>
+        </ng-container>
+      </nav>
+
+      <div class="top-bar__locales">
+        <div class="locale">
+          <label for="currency-select">Currency</label>
+          <select id="currency-select" aria-label="Select currency">
+            <option *ngFor="let currency of currencies" [value]="currency.code">{{ currency.label }}</option>
+          </select>
+        </div>
+        <div class="locale">
+          <label for="language-select">Language</label>
+          <select id="language-select" aria-label="Select language">
+            <option *ngFor="let language of languages" [value]="language.code">{{ language.label }}</option>
+          </select>
+        </div>
+      </div>
+
+      <a class="top-bar__concierge" [href]="concierge.whatsapp" target="_blank" rel="noopener">
+        <span class="material-symbol">support_agent</span>
+        <span>Concierge {{ concierge.display }}</span>
+      </a>
+    </div>
+  </div>
+</section>

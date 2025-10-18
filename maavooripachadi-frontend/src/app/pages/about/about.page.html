@@ -1,0 +1,130 @@
+<section class="about-hero">
+  <div class="about-hero__content">
+    <span class="eyebrow">Maavoori Pachadi</span>
+    <h1>Heritage Andhra flavours, hand-crafted for today</h1>
+    <p>
+      We started Maavoori Pachadi to bring the taste of amma’s kitchen back to every Telugu home.
+      From sun-cured mango avakai to slow-cooked gongura mutton, every jar carries the warmth of
+      our village traditions and the care of our home chefs.
+    </p>
+    <a class="btn" routerLink="/shop">Explore our jars</a>
+  </div>
+  <div class="about-hero__media" role="presentation" aria-hidden="true"></div>
+</section>
+
+<section class="about-story">
+  <div class="shell">
+    <div class="story-block">
+      <h2>Grandma’s recipes, perfected over decades</h2>
+      <p>
+        Our pickles are stone-ground, sun-cured and slow-cooked exactly the way our ammamma taught us.
+        We sift and clean every spice by hand, pound them in traditional rolu-batta and ferment in
+        earthen jars to lock in flavour.
+      </p>
+      <p>
+        Each batch is limited, allowing us to taste every jar, verify spice balance and ensure it
+        hits your table with the same aroma that fills our kitchen in Machilipatnam.
+      </p>
+    </div>
+    <div class="story-block">
+      <h2>Sourcing mindful ingredients from local farms</h2>
+      <p>
+        We partner with small growers across coastal Andhra and Telangana. Our mangoes are plucked
+        at dawn and transported in cold vans, our gingelly oil is cold pressed in Rajahmundry, and our
+        red chilli powder is made from Guntur sannam chillies.
+      </p>
+      <p>
+        The result? A clean label pantry—free from preservatives, artificial colours or shortcuts.
+        Just sun, spice, salt and the stories we grew up with.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section class="about-highlights" *ngIf="highlights$ | async as highlights">
+  <div class="shell">
+    <h2>Why families choose Maavoori</h2>
+    <div class="highlight-grid">
+      <div class="highlight-card" *ngFor="let highlight of highlights">
+        <span class="material-symbol">{{ highlight.icon }}</span>
+        <h3>{{ highlight.title }}</h3>
+        <p>{{ highlight.description }}</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="about-craft">
+  <div class="shell about-craft__grid">
+    <div>
+      <h2>Crafted by a women-led kitchen collective</h2>
+      <p>
+        Our kitchen in Hyderabad is run by a team of women home-chefs who have honed their pickling
+        craft over decades. We employ hygienic stainless-steel prep stations, filtered water and
+        daily sanitation routines, yet keep the process gently manual.
+      </p>
+      <ul>
+        <li>Daily batches limited to 120 jars per recipe</li>
+        <li>Lab-tested for microbial safety and shelf life</li>
+        <li>Reusable glass jars with tamper-evident seals</li>
+      </ul>
+    </div>
+    <div class="about-craft__card">
+      <h3>Visit our tasting studio</h3>
+      <p>
+        Walk into our Banjara Hills studio to sample seasonal specials, custom gift boxes and
+        cooking demos. Book appointments on WhatsApp for guided tastings.
+      </p>
+      <div class="about-craft__cta">
+        <a class="btn secondary" href="https://wa.me/919390012345" target="_blank" rel="noopener">Book a tasting</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="about-timings" *ngIf="timings$ | async as timings">
+  <div class="shell about-timings__grid">
+    <div>
+      <h2>We’re open through the week</h2>
+      <p>
+        Swing by our kitchen studio between these hours or order online for nationwide delivery.
+      </p>
+    </div>
+    <ul class="timing-list">
+      <li *ngFor="let timing of timings">
+        <span>{{ timing.day }}</span>
+        <span>{{ timing.open }} – {{ timing.close }}</span>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<section class="about-testimonials" *ngIf="testimonials$ | async as testimonials">
+  <div class="shell">
+    <h2>Voices from the Maavoori community</h2>
+    <div class="testimonial-grid">
+      <div class="testimonial-card" *ngFor="let testimonial of testimonials">
+        <div class="testimonial-card__rating">
+          <span *ngFor="let star of [1,2,3,4,5]" [class.active]="star <= testimonial.rating">*</span>
+        </div>
+        <blockquote>“{{ testimonial.quote }}”</blockquote>
+        <p class="testimonial-card__author">{{ testimonial.name }}</p>
+        <span class="testimonial-card__location">{{ testimonial.location }}</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="about-cta">
+  <div class="shell">
+    <h2>Carry a piece of home to your table</h2>
+    <p>
+      Choose from our veg and non-veg pickles, millet snacks, sweets and podis. Gift them to friends,
+      share them with family or stock your pantry with the flavours you grew up with.
+    </p>
+    <div class="cta-actions">
+      <a class="btn" routerLink="/shop">Shop the collection</a>
+      <a class="btn secondary" routerLink="/contact">Talk to our team</a>
+    </div>
+  </div>
+</section>

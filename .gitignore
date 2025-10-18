@@ -1,0 +1,18 @@
+# Backend builds
+maavooripachadi-backend/target/
+maavooripachadi-backend/.mvn/
+maavooripachadi-backend/.env
+
+# IDE settings
+maavooripachadi-backend/.vscode/
+maavooripachadi-frontend/.idea/
+maavooripachadi-frontend/.vscode/
+
+# Frontend builds and caches
+maavooripachadi-frontend/.angular/
+maavooripachadi-frontend/node_modules/
+maavooripachadi-frontend/dist/
+
+# Logs and temp files
+*.log
+*.tmp

@@ -1,0 +1,130 @@
+<section class="product" *ngIf="vm$ | async as vm">
+  <div class="product__layout">
+    <div class="product__gallery">
+      <figure class="product__media">
+        <img [src]="vm.product.heroImageUrl || vm.product.image" [alt]="vm.product.title">
+      </figure>
+      <div class="product__highlights">
+        <article class="product__highlight" *ngFor="let highlight of heroHighlights">
+          <h3>{{ highlight.title }}</h3>
+          <p>{{ highlight.description }}</p>
+        </article>
+      </div>
+    </div>
+
+    <aside class="product__summary">
+      <a class="product__breadcrumb" [routerLink]="vm.breadcrumbLink">{{ vm.breadcrumbLabel }}</a>
+      <h1>{{ vm.product.title }}</h1>
+
+      <div class="product__meta">
+        <span class="product__badge" *ngIf="vm.product.badge">{{ vm.product.badge }}</span>
+        <div class="product__rating" *ngIf="vm.product.rating">
+          <span *ngFor="let star of [1,2,3,4,5]" [class.active]="star <= (vm.product.rating || 0)">★</span>
+          <span class="product__reviews" *ngIf="vm.product.reviewsCount">{{ vm.product.reviewsCount }} reviews</span>
+        </div>
+      </div>
+
+      <div class="product__price">
+        <span class="product__price-current">{{ vm.price | price }}</span>
+        <span class="product__price-compare" *ngIf="vm.comparePrice">{{ vm.comparePrice | price }}</span>
+        <span class="product__price-saving" *ngIf="vm.hasDiscount">Save {{ vm.savings | price }}</span>
+      </div>
+
+      <div class="product__variants" *ngIf="vm.variantOptions.length > 1">
+        <p class="product__variants-title">Pick your pack size:</p>
+        <div class="product__variant-list">
+          <button
+            type="button"
+            class="product__variant"
+            *ngFor="let option of vm.variantOptions; trackBy: trackVariant"
+            [class.active]="option.isActive"
+            [disabled]="!option.inStock"
+            (click)="selectVariant(option.id)"
+          >
+            <span>{{ option.label }}</span>
+            <small>{{ option.price | price }}</small>
+          </button>
+        </div>
+      </div>
+
+      <div class="product__availability" [class.product__availability--instock]="vm.inStock">
+        <span class="product__availability-indicator"></span>
+        <div>
+          <strong>{{ vm.availabilityLabel }}</strong>
+          <p>{{ vm.availabilityDescription }}</p>
+        </div>
+      </div>
+
+      <div class="product__actions">
+        <app-qty [value]="quantity" (valueChange)="updateQuantity($event)"></app-qty>
+        <div class="product__buttons">
+          <button
+            class="btn"
+            type="button"
+            [disabled]="!vm.inStock || (addingToCart$ | async)"
+            (click)="addToCart(vm.product)"
+          >
+            <ng-container *ngIf="(addingToCart$ | async); else addLabel">Adding…</ng-container>
+            <ng-template #addLabel>Add to cart</ng-template>
+          </button>
+          <a class="btn secondary" href="https://wa.me/919390012345" target="_blank" rel="noopener">Chat to order</a>
+        </div>
+      </div>
+
+      <div
+        class="product__status"
+        *ngIf="(status$ | async) as status"
+        [class.product__status--success]="status.kind === 'success'"
+        [class.product__status--error]="status.kind === 'error'"
+        [hidden]="status.kind === 'idle' || !status.message"
+      >
+        <span>{{ status.message }}</span>
+        <button type="button" (click)="dismissStatus()" aria-label="Dismiss message">×</button>
+      </div>
+
+      <ul class="product__assurances">
+        <li *ngFor="let assurance of assurancePoints">
+          <span class="material-symbol">{{ assurance.icon }}</span>
+          <div>
+            <h4>{{ assurance.title }}</h4>
+            <p>{{ assurance.description }}</p>
+          </div>
+        </li>
+      </ul>
+    </aside>
+  </div>
+
+  <div class="product__details">
+    <div class="product__richtext" [innerHTML]="vm.product.descriptionHtml || vm.product.description"></div>
+    <div class="product__info-panels">
+      <article class="info-card">
+        <h3>Flavour profile</h3>
+        <ul>
+          <li *ngFor="let note of tasteNotes">{{ note }}</li>
+        </ul>
+      </article>
+      <article class="info-card">
+        <h3>Perfect pairings</h3>
+        <ul>
+          <li *ngFor="let pairing of pairingSuggestions">{{ pairing }}</li>
+        </ul>
+      </article>
+      <article class="info-card">
+        <h3>Care & storage</h3>
+        <ul>
+          <li *ngFor="let tip of careTips">{{ tip }}</li>
+        </ul>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="related" *ngIf="relatedProducts$ | async as related" [class.related--visible]="related.length">
+  <div class="section-heading">
+    <h2>You may also like</h2>
+    <p>Picked to complement your Maavoori pantry.</p>
+  </div>
+  <div class="related__grid">
+    <app-product-card *ngFor="let item of related" [product]="item"></app-product-card>
+  </div>
+</section>

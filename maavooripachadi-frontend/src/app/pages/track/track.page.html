@@ -1,0 +1,119 @@
+<section class="track" *ngIf="vm$ | async as vm">
+  <header class="track-hero">
+    <div class="track-hero__copy">
+      <span class="track-hero__eyebrow">Maavoori tracking</span>
+      <h1>Follow your handcrafted jars from our kitchen to your doorstep</h1>
+      <p>
+        Inspired by the reassurance of Kings Premium Pickles, we share every stage of the Maavoori journey—fresh
+        batching, sealing and handover to our courier partners. Enter your order number to see live updates.
+      </p>
+    </div>
+    <aside class="track-hero__tips">
+      <h3>Tracking tips</h3>
+      <ul>
+        <li>Order numbers look like <strong>MP-12345</strong>. You’ll find it in your confirmation email.</li>
+        <li>Updates appear within 4 hours of dispatch. Need help sooner? Ping us on WhatsApp.</li>
+        <li>For gifting or bulk orders, share the reference number and delivery city.</li>
+      </ul>
+    </aside>
+  </header>
+
+  <section class="track-form">
+    <form [formGroup]="trackForm" (ngSubmit)="submit()" novalidate>
+      <div class="track-form__fields">
+        <div class="field" [class.field--invalid]="trackForm.controls.orderNo.touched && trackForm.controls.orderNo.invalid">
+          <label for="track-order">Order number</label>
+          <input id="track-order" type="text" formControlName="orderNo" placeholder="MP-12345">
+          <p class="field__error" *ngIf="trackForm.controls.orderNo.hasError('required')">Order number is required.</p>
+        </div>
+        <div class="field">
+          <label for="track-email">Email used while ordering (optional)</label>
+          <input id="track-email" type="email" formControlName="email" placeholder="you@example.com">
+        </div>
+      </div>
+      <button class="btn btn--primary" type="submit" [disabled]="(loading$ | async) || trackForm.invalid">
+        {{ (loading$ | async) ? 'Fetching updates…' : 'Track order' }}
+      </button>
+    </form>
+    <div
+      class="track-status"
+      *ngIf="vm.status.kind !== 'idle' && vm.status.message"
+      [ngClass]="{
+        'track-status--success': vm.status.kind === 'success',
+        'track-status--error': vm.status.kind === 'error'
+      }"
+    >
+      <span>{{ vm.status.message }}</span>
+      <button type="button" (click)="dismissStatus()">×</button>
+    </div>
+  </section>
+
+  <section class="track-summary" *ngIf="vm.summary as summary">
+    <h2>Shipment summary</h2>
+    <div class="track-summary__grid">
+      <div class="track-summary__item">
+        <span>Order</span>
+        <strong>{{ summary.orderNo }}</strong>
+      </div>
+      <div class="track-summary__item" *ngIf="summary.courier">
+        <span>Courier partner</span>
+        <strong>{{ summary.courier }}</strong>
+      </div>
+      <div class="track-summary__item" *ngIf="summary.trackingNo">
+        <span>Tracking ID</span>
+        <strong>{{ summary.trackingNo }}</strong>
+      </div>
+      <div class="track-summary__item" *ngIf="summary.destination">
+        <span>Destination</span>
+        <strong>{{ summary.destination }}</strong>
+      </div>
+      <div class="track-summary__item" *ngIf="summary.currentStatus">
+        <span>Current status</span>
+        <strong>{{ summary.currentStatus }}</strong>
+      </div>
+      <div class="track-summary__item" *ngIf="summary.updatedAt">
+        <span>Last updated</span>
+        <strong>{{ summary.updatedAt | date: 'medium' }}</strong>
+      </div>
+    </div>
+  </section>
+
+  <section class="track-timeline">
+    <h2>Live journey</h2>
+    <p *ngIf="!vm.hasTracking">Tracking updates will appear here once the courier scans your package.</p>
+    <div class="track-timeline__list">
+      <article class="track-timeline__event" *ngFor="let event of vm.timeline" [ngClass]="event.status">
+        <div class="track-timeline__marker"></div>
+        <div class="track-timeline__content">
+          <h3>{{ event.title }}</h3>
+          <p>{{ event.description }}</p>
+          <div class="track-timeline__meta">
+            <span *ngIf="event.location">📍 {{ event.location }}</span>
+            <span *ngIf="event.timestamp">{{ event.timestamp | date: 'medium' }}</span>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="track-help">
+    <div>
+      <h2>Need a hand?</h2>
+      <p>Our Maavoori concierge can help reroute packages, update addresses, or expedite replacements.</p>
+    </div>
+    <div class="track-help__actions">
+      <a class="btn btn--light" href="https://wa.me/919390012345" target="_blank" rel="noopener">Chat on WhatsApp</a>
+      <a class="link" routerLink="/support">Open a support ticket</a>
+    </div>
+  </section>
+
+  <section class="track-recommended" *ngIf="vm.hasRecommended">
+    <div class="track-recommended__header">
+      <h2>Stock up before delivery</h2>
+      <p>Add more Maavoori favourites so they ship together in your next order.</p>
+    </div>
+    <div class="track-recommended__grid" *ngIf="vm.recommended as recommended">
+      <app-product-card *ngFor="let product of recommended" [product]="product"></app-product-card>
+    </div>
+  </section>
+</section>

@@ -1,0 +1,246 @@
+:host {
+  display: block;
+}
+
+.blog {
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+  padding: 64px 18px 80px;
+}
+
+.blog__hero {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 36px;
+  background: linear-gradient(120deg, rgba(249, 115, 22, 0.08), rgba(14, 165, 233, 0.12));
+  border-radius: 32px;
+  overflow: hidden;
+}
+
+.blog__hero-content {
+  padding: 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  max-width: 560px;
+}
+
+.blog__hero-content .eyebrow {
+  text-transform: uppercase;
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  color: #f97316;
+}
+
+.blog__hero-content h1 {
+  margin: 0;
+  font-size: clamp(34px, 5vw, 48px);
+  color: #111827;
+}
+
+.blog__hero-content p {
+  margin: 0;
+  color: #374151;
+  line-height: 1.7;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.blog__hero-media {
+  min-height: 360px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.blog__grid {
+  display: grid;
+  gap: 24px;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+.blog-card {
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 28px 45px -36px rgba(15, 23, 42, 0.4);
+}
+
+.blog-card__media {
+  height: 220px;
+  background-size: cover;
+  background-position: center;
+}
+
+.blog-card__body {
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.blog-card__date {
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #9ca3af;
+}
+
+.blog-card__body h2 {
+  margin: 0;
+  font-size: 22px;
+  color: #111827;
+}
+
+.blog-card__body p {
+  margin: 0;
+  color: #4b5563;
+  line-height: 1.6;
+}
+
+.blog-card__body a {
+  color: #f97316;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.blog__newsletter {
+  background: #0f172a;
+  color: #e2e8f0;
+  border-radius: 28px;
+  padding: 32px;
+  display: grid;
+  gap: 18px;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  align-items: center;
+}
+
+.newsletter__content h2 {
+  margin: 0 0 12px;
+  font-size: 28px;
+}
+
+.newsletter__content p {
+  margin: 0;
+  color: #cbd5f5;
+}
+
+.newsletter__form {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.newsletter__form input {
+  flex: 1 1 240px;
+  border-radius: 14px;
+  border: 1px solid rgba(226, 232, 240, 0.4);
+  padding: 12px 16px;
+  background: rgba(255, 255, 255, 0.12);
+  color: #f9fafb;
+}
+
+.newsletter__form input::placeholder {
+  color: rgba(226, 232, 240, 0.6);
+}
+
+.status {
+  margin: 0;
+  color: #facc15;
+  font-size: 13px;
+}
+
+.blog__social .social__header {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.blog__social h2 {
+  margin: 0;
+  font-size: 28px;
+  color: #111827;
+}
+
+.muted {
+  color: #6b7280;
+  font-size: 14px;
+}
+
+.social__grid {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+}
+
+.social__item {
+  display: block;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 20px 45px -38px rgba(15, 23, 42, 0.4);
+}
+
+.social__item img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  display: block;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 22px;
+  border-radius: 999px;
+  border: none;
+  background: linear-gradient(135deg, #f97316, #facc15);
+  color: #1f2937;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn.secondary {
+  background: #ffffff;
+  border: 1px solid rgba(17, 24, 39, 0.14);
+  color: #111827;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 18px 38px -26px rgba(249, 115, 22, 0.4);
+}
+
+@media (max-width: 960px) {
+  .blog__hero {
+    grid-template-columns: 1fr;
+  }
+
+  .blog__hero-content {
+    padding: 36px;
+  }
+}
+
+@media (max-width: 640px) {
+  .blog {
+    padding: 48px 16px 64px;
+  }
+
+  .blog__hero-content {
+    padding: 28px;
+  }
+
+  .newsletter__form {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}

@@ -1,0 +1,53 @@
+.qty {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid rgba(15, 23, 42, 0.16);
+  border-radius: 999px;
+  padding: 6px 16px;
+  background: #ffffff;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+.qty:hover {
+  border-color: rgba(249, 115, 22, 0.5);
+  transform: translateY(-1px);
+}
+.qty--compact {
+  padding: 4px 12px;
+  gap: 6px;
+}
+
+.qty__btn {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(15, 23, 42, 0.06);
+  color: #111827;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+.qty__btn .material-symbol {
+  font-size: 18px;
+  line-height: 1;
+}
+.qty__btn:hover:not(:disabled) {
+  background: rgba(249, 115, 22, 0.18);
+  color: #f97316;
+}
+.qty__btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.qty__value {
+  min-width: 28px;
+  text-align: center;
+  font-weight: 600;
+  color: #1f2937;
+  font-size: 15px;
+}

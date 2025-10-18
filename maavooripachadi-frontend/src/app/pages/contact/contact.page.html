@@ -1,0 +1,120 @@
+<section class="contact">
+  <header class="contact__header">
+    <h1>Let’s chat about Maavoori flavours</h1>
+    <p>We are based in Hyderabad, crafting small-batch Andhra pickles with family recipes. Reach out for orders, partnerships, or feedback.</p>
+    <div class="contact__meta">
+      <span>{{ businessHours }}</span>
+      <span class="contact__meta-divider" aria-hidden="true">|</span>
+      <span>{{ studioAddress }}</span>
+    </div>
+  </header>
+
+  <div
+    class="contact__alert"
+    *ngIf="(status$ | async) as status"
+    [class.contact__alert--success]="status.kind === 'success'"
+    [class.contact__alert--error]="status.kind === 'error'"
+    [hidden]="status.kind === 'idle' || !status.message"
+  >
+    <span>{{ status.message }}</span>
+    <button type="button" (click)="dismissStatus()" aria-label="Dismiss message">×</button>
+  </div>
+
+  <div class="contact__layout">
+    <aside class="contact__info">
+      <div class="contact__channels">
+        <article class="contact-channel" *ngFor="let channel of contactChannels; trackBy: trackByChannel">
+          <a *ngIf="channel.href; else plain" [href]="channel.href" class="contact-channel__link">
+            <span class="contact-channel__icon">{{ channel.icon }}</span>
+            <div>
+              <h3>{{ channel.label }}</h3>
+              <p>{{ channel.value }}</p>
+            </div>
+          </a>
+          <ng-template #plain>
+            <div class="contact-channel__link">
+              <span class="contact-channel__icon">{{ channel.icon }}</span>
+              <div>
+                <h3>{{ channel.label }}</h3>
+                <p>{{ channel.value }}</p>
+              </div>
+            </div>
+          </ng-template>
+        </article>
+      </div>
+
+      <section class="contact__highlights">
+        <h2>How we can help</h2>
+        <article class="contact-highlight" *ngFor="let highlight of supportHighlights; trackBy: trackByHighlight">
+          <h3>{{ highlight.title }}</h3>
+          <p>{{ highlight.description }}</p>
+        </article>
+      </section>
+    </aside>
+
+    <form class="contact__form" [formGroup]="contactForm" (ngSubmit)="submit()">
+      <h2>Send us a note</h2>
+      <p>Share a few details and we’ll connect with you shortly.</p>
+
+      <div class="field-grid field-grid--two">
+        <div class="field" [class.field--invalid]="contactForm.controls.name.touched && contactForm.controls.name.invalid">
+          <label for="contactName">Full name</label>
+          <input id="contactName" type="text" formControlName="name" placeholder="Enter your name" autocomplete="name">
+          <p class="field__error" *ngIf="contactForm.controls.name.touched && contactForm.controls.name.hasError('required')">
+            Name is required.
+          </p>
+        </div>
+        <div class="field" [class.field--invalid]="contactForm.controls.email.touched && contactForm.controls.email.invalid">
+          <label for="contactEmail">Email address</label>
+          <input id="contactEmail" type="email" formControlName="email" placeholder="you@example.com" autocomplete="email">
+          <p class="field__error" *ngIf="contactForm.controls.email.touched && contactForm.controls.email.hasError('required')">
+            Email is required.
+          </p>
+          <p class="field__error" *ngIf="contactForm.controls.email.touched && contactForm.controls.email.hasError('email')">
+            Enter a valid email address.
+          </p>
+        </div>
+      </div>
+
+      <div class="field-grid field-grid--two">
+        <div class="field" [class.field--invalid]="contactForm.controls.phone.touched && contactForm.controls.phone.invalid">
+          <label for="contactPhone">Phone number (optional)</label>
+          <input id="contactPhone" type="tel" formControlName="phone" placeholder="10-digit mobile number" autocomplete="tel">
+          <p class="field__error" *ngIf="contactForm.controls.phone.touched && contactForm.controls.phone.hasError('pattern')">
+            Enter a valid 10-digit mobile number.
+          </p>
+        </div>
+        <div class="field" [class.field--invalid]="contactForm.controls.subject.touched && contactForm.controls.subject.invalid">
+          <label for="contactSubject">Subject</label>
+          <input id="contactSubject" type="text" formControlName="subject" placeholder="How can we help?">
+          <p class="field__error" *ngIf="contactForm.controls.subject.touched && contactForm.controls.subject.hasError('required')">
+            Subject is required.
+          </p>
+        </div>
+      </div>
+
+      <div class="field" [class.field--invalid]="contactForm.controls.message.touched && contactForm.controls.message.invalid">
+        <label for="contactMessage">Message</label>
+        <textarea id="contactMessage" rows="6" formControlName="message" placeholder="Tell us about your request"></textarea>
+        <p class="field__error" *ngIf="contactForm.controls.message.touched && contactForm.controls.message.hasError('required')">
+          Message is required.
+        </p>
+        <p class="field__error" *ngIf="contactForm.controls.message.touched && contactForm.controls.message.hasError('minlength')">
+          Please share at least 20 characters so we can understand better.
+        </p>
+      </div>
+
+      <label class="consent" [class.field--invalid]="contactForm.controls.consent.touched && contactForm.controls.consent.invalid">
+        <input type="checkbox" formControlName="consent">
+        <span>I agree to receive updates about my enquiry via email or WhatsApp.</span>
+      </label>
+      <p class="field__error" *ngIf="contactForm.controls.consent.touched && contactForm.controls.consent.hasError('required')">
+        Please agree so we can reach you with updates.
+      </p>
+
+      <button class="btn btn--primary contact__submit" type="submit" [disabled]="(submitting$ | async) ?? false">
+        {{ ((submitting$ | async) ?? false) ? 'Sending…' : 'Send message' }}
+      </button>
+    </form>
+  </div>
+</section>

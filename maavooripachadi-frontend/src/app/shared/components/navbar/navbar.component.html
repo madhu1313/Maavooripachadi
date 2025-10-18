@@ -1,0 +1,154 @@
+<header class="navbar">
+  <!-- Announcement bar -->
+  <div class="navbar__announcement">
+    <div class="navbar__announcement-track">
+      <div class="announcement" *ngFor="let item of announcements">
+        <span class="material-symbol">{{ item.icon }}</span>
+        <p>{{ item.message }}</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Utility bar -->
+  <div class="navbar__utility">
+    <div class="navbar__utility-container">
+      <div class="navbar__utility-contact">
+        <a [href]="hotline.href" target="_blank" rel="noopener">
+          <span class="material-symbol">{{ hotline.icon }}</span>
+          <span>{{ hotline.label }}: {{ hotline.value }}</span>
+        </a>
+        <a [href]="email.href">
+          <span class="material-symbol">{{ email.icon }}</span>
+          <span>{{ email.value }}</span>
+        </a>
+      </div>
+      <nav class="navbar__utility-links">
+        <a *ngFor="let link of quickLinks" [routerLink]="link.path">{{ link.label }}</a>
+      </nav>
+    </div>
+  </div>
+
+  <!-- Primary navigation -->
+  <div class="navbar__primary">
+    <div class="navbar__container">
+      <button class="navbar__toggle" type="button" (click)="toggleMenu()" aria-label="Toggle menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <a class="navbar__brand" routerLink="/" (click)="closeMenu()">
+        <img src="/assets/images/Maavooripachadi_logo.jpg" alt="Maavoori Pachadi logo">
+      </a>
+
+      <nav class="navbar__links" [ngClass]="{ 'navbar__links--open': menuOpen() }">
+        <div class="navbar__links-inner">
+          <a
+            *ngFor="let link of links$ | async; trackBy: trackByLink"
+            routerLink="{{ link.path }}"
+            routerLinkActive="is-active"
+            class="nav-link"
+            (click)="closeMenu()"
+            [attr.aria-haspopup]="link.children?.length ? true : null"
+          >
+            <span>{{ link.label }}</span>
+            <span *ngIf="link.badge" class="badge">{{ link.badge }}</span>
+            <div *ngIf="link.children?.length" class="mega">
+              <div class="mega__wrapper">
+                <div class="mega__columns">
+                  <div class="mega__column" *ngFor="let child of link.children">
+                    <a routerLink="{{ child.path }}" class="mega__item" (click)="closeMenu()">
+                      <span>{{ child.label }}</span>
+                      <span *ngIf="child.badge" class="badge badge--accent">{{ child.badge }}</span>
+                    </a>
+                  </div>
+                </div>
+                <div class="mega__highlight">
+                  <h4>Popular picks</h4>
+                  <div class="mega__products">
+                    <a
+                      *ngFor="let product of highlightedProducts$ | async; trackBy: trackByProduct"
+                      routerLink="/product/{{ product.id }}"
+                      class="mega__product"
+                      (click)="closeMenu()"
+                    >
+                      <img [src]="product.image" [alt]="product.title">
+                      <div>
+                        <p>{{ product.title }}</p>
+                        <span>{{ product.price | price }}</span>
+                      </div>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+      </nav>
+
+      <div class="navbar__actions">
+        <button class="icon-btn" type="button" aria-label="Search" (click)="toggleSearch()">
+          <span class="material-symbol">search</span>
+        </button>
+        <a class="icon-btn" routerLink="/account">
+          <span class="material-symbol">person</span>
+        </a>
+        <a class="icon-btn" routerLink="/wishlist">
+          <span class="material-symbol">favorite</span>
+        </a>
+        <a class="icon-btn icon-btn--cart" routerLink="/cart" aria-label="View cart">
+          <span class="material-symbol">shopping_bag</span>
+          <ng-container *ngIf="(cartCount$ | async) as count">
+            <span class="navbar__cart-badge" *ngIf="count > 0">{{ count }}</span>
+          </ng-container>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Search overlay -->
+  <div class="search-overlay" *ngIf="searchOpen()">
+    <div class="search-overlay__content">
+      <div class="search-overlay__header">
+        <h3>What Maavoori craving do you have?</h3>
+        <button class="icon-btn icon-btn--close" type="button" (click)="toggleSearch()" aria-label="Close search">
+          <span class="material-symbol">close</span>
+        </button>
+      </div>
+      <input
+        type="search"
+        placeholder="Try mango avakai, gongura mutton, millet murukulu…"
+        [formControl]="searchControl"
+        autofocus
+      >
+      <div class="search-overlay__body">
+        <div class="search-overlay__results">
+          <a
+            *ngFor="let product of searchResults$ | async; trackBy: trackByProduct"
+            routerLink="/product/{{ product.id }}"
+            (click)="toggleSearch()"
+          >
+            <img [src]="product.image" [alt]="product.title">
+            <div>
+              <p>{{ product.title }}</p>
+              <span>{{ product.price | price }}</span>
+            </div>
+          </a>
+          <div *ngIf="!(searchResults$ | async)?.length" class="search-overlay__empty">
+            Start typing to see matching products or explore trending searches below.
+          </div>
+        </div>
+        <aside class="search-overlay__suggestions">
+          <h4>Trending searches</h4>
+          <button
+            type="button"
+            *ngFor="let term of trendingSearches"
+            (click)="openSearchWith(term)"
+          >
+            {{ term }}
+          </button>
+        </aside>
+      </div>
+    </div>
+  </div>
+</header>

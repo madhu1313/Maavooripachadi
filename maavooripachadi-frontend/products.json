@@ -1,0 +1,272 @@
+{
+  "updated_at": "2025-10-12T08:45:00+05:30",
+  "currency": "INR",
+  "products": [
+    {
+      "id": 2001001,
+      "title": "Signature Mango Avakai",
+      "handle": "mango-avakai",
+      "body_html": "<p>Our family heirloom recipe from the Vakadu coast. Raw Totapuri mangoes sun cured with stone-ground mustard, chilli and cold-pressed gingelly oil.</p>",
+      "published_at": "2025-04-01T09:00:00+05:30",
+      "created_at": "2025-03-20T09:00:00+05:30",
+      "updated_at": "2025-10-12T08:30:00+05:30",
+      "vendor": "Maavoori Pachadi",
+      "product_type": "Veg Pickles",
+      "tags": ["veg", "classic", "summer-batch", "spicy"],
+      "variants": [
+        {
+          "id": 2001001001,
+          "title": "300 g",
+          "option1": "300 g",
+          "sku": "MP-AVA-300",
+          "price": "295.00",
+          "compare_at_price": "320.00",
+          "grams": 300,
+          "requires_shipping": true,
+          "taxable": true,
+          "available": true
+        },
+        {
+          "id": 2001001002,
+          "title": "600 g",
+          "option1": "600 g",
+          "sku": "MP-AVA-600",
+          "price": "560.00",
+          "compare_at_price": "600.00",
+          "grams": 600,
+          "requires_shipping": true,
+          "taxable": true,
+          "available": true
+        }
+      ],
+      "images": [
+        {
+          "id": 401001,
+          "position": 1,
+          "src": "/assets/images/products/mango-avakai-hero.jpg",
+          "width": 1200,
+          "height": 1200
+        },
+        {
+          "id": 401002,
+          "position": 2,
+          "src": "/assets/images/products/mango-avakai-detail.jpg",
+          "width": 1200,
+          "height": 1200
+        }
+      ],
+      "options": [
+        {
+          "name": "Weight",
+          "position": 1,
+          "values": ["300 g", "600 g"]
+        }
+      ]
+    },
+    {
+      "id": 2001002,
+      "title": "Gongura Mutton Pickle",
+      "handle": "gongura-mutton",
+      "body_html": "<p>Tender boneless mutton slow-cooked with sorrel leaves, ginger-garlic and our signature garam masala. Finished with smoked gingelly oil.</p>",
+      "published_at": "2025-04-15T10:00:00+05:30",
+      "created_at": "2025-03-25T10:00:00+05:30",
+      "updated_at": "2025-10-10T17:30:00+05:30",
+      "vendor": "Maavoori Pachadi",
+      "product_type": "Non-Veg Pickles",
+      "tags": ["non-veg", "signature", "best-seller"],
+      "variants": [
+        {
+          "id": 2001002001,
+          "title": "275 g",
+          "option1": "275 g",
+          "sku": "MP-GMP-275",
+          "price": "720.00",
+          "grams": 275,
+          "requires_shipping": true,
+          "taxable": true,
+          "available": true
+        }
+      ],
+      "images": [
+        {
+          "id": 401101,
+          "position": 1,
+          "src": "/assets/images/products/gongura-mutton-hero.jpg",
+          "width": 1200,
+          "height": 1200
+        }
+      ],
+      "options": [
+        {
+          "name": "Weight",
+          "position": 1,
+          "values": ["275 g"]
+        }
+      ]
+    },
+    {
+      "id": 2001003,
+      "title": "Nalla Karam Idli Podi",
+      "handle": "nalla-karam-podi",
+      "body_html": "<p>Toast your mornings with a smoky chilli-lentil powder. Pair with ghee, dosa, or sprinkle over hot rice.</p>",
+      "published_at": "2025-05-01T09:30:00+05:30",
+      "created_at": "2025-04-10T09:30:00+05:30",
+      "updated_at": "2025-10-09T12:40:00+05:30",
+      "vendor": "Maavoori Pachadi",
+      "product_type": "Podi & Mixes",
+      "tags": ["podi", "breakfast", "spicy"],
+      "variants": [
+        {
+          "id": 2001003001,
+          "title": "200 g",
+          "option1": "200 g",
+          "sku": "MP-NKP-200",
+          "price": "180.00",
+          "grams": 200,
+          "requires_shipping": true,
+          "taxable": true,
+          "available": true
+        }
+      ],
+      "images": [
+        {
+          "id": 401201,
+          "position": 1,
+          "src": "/assets/images/products/nalla-karam-hero.jpg",
+          "width": 1200,
+          "height": 1200
+        }
+      ],
+      "options": [
+        {
+          "name": "Weight",
+          "position": 1,
+          "values": ["200 g"]
+        }
+      ]
+    },
+    {
+      "id": 2001004,
+      "title": "Sweet Avakai with Jaggery",
+      "handle": "sweet-avakai",
+      "body_html": "<p>A gentle, sweet-tangy take on the iconic pickle. Jaggery, cardamom and chilli balance the raw mango for family-friendly meals.</p>",
+      "published_at": "2025-05-18T11:00:00+05:30",
+      "created_at": "2025-04-22T11:00:00+05:30",
+      "updated_at": "2025-10-08T16:15:00+05:30",
+      "vendor": "Maavoori Pachadi",
+      "product_type": "Veg Pickles",
+      "tags": ["veg", "mild", "family-favourite", "seasonal"],
+      "variants": [
+        {
+          "id": 2001004001,
+          "title": "300 g",
+          "option1": "300 g",
+          "sku": "MP-SAV-300",
+          "price": "310.00",
+          "grams": 300,
+          "requires_shipping": true,
+          "taxable": true,
+          "available": true
+        }
+      ],
+      "images": [
+        {
+          "id": 401301,
+          "position": 1,
+          "src": "/assets/images/products/sweet-avakai-hero.jpg",
+          "width": 1200,
+          "height": 1200
+        }
+      ],
+      "options": [
+        {
+          "name": "Weight",
+          "position": 1,
+          "values": ["300 g"]
+        }
+      ]
+    },
+    {
+      "id": 2001005,
+      "title": "Millet Murukulu Snack",
+      "handle": "millet-murukulu",
+      "body_html": "<p>Crunchy ribbon murukulu made with a millet flour blend, sesame and ajwain. Slow fried in groundnut oil for everyday snacking.</p>",
+      "published_at": "2025-06-05T08:45:00+05:30",
+      "created_at": "2025-05-12T08:45:00+05:30",
+      "updated_at": "2025-10-03T09:20:00+05:30",
+      "vendor": "Maavoori Pachadi",
+      "product_type": "Snacks & Sweets",
+      "tags": ["snack", "gluten-light", "festival"],
+      "variants": [
+        {
+          "id": 2001005001,
+          "title": "250 g",
+          "option1": "250 g",
+          "sku": "MP-MMU-250",
+          "price": "220.00",
+          "grams": 250,
+          "requires_shipping": true,
+          "taxable": true,
+          "available": true
+        }
+      ],
+      "images": [
+        {
+          "id": 401401,
+          "position": 1,
+          "src": "/assets/images/products/millet-murukulu.jpg",
+          "width": 1200,
+          "height": 1200
+        }
+      ],
+      "options": [
+        {
+          "name": "Weight",
+          "position": 1,
+          "values": ["250 g"]
+        }
+      ]
+    },
+    {
+      "id": 2001006,
+      "title": "Corporate Gifting Hamper",
+      "handle": "corporate-gifting-hamper",
+      "body_html": "<p>A curated trio of Maavoori jars packed in a premium keepsake box. Perfect for festive gifting and client appreciation.</p>",
+      "published_at": "2025-07-10T10:30:00+05:30",
+      "created_at": "2025-06-30T10:30:00+05:30",
+      "updated_at": "2025-09-29T14:00:00+05:30",
+      "vendor": "Maavoori Pachadi",
+      "product_type": "Gift Hampers",
+      "tags": ["gifting", "corporate", "festival"],
+      "variants": [
+        {
+          "id": 2001006001,
+          "title": "Standard Trio",
+          "option1": "Standard Trio",
+          "sku": "MP-GFT-TRIO",
+          "price": "1250.00",
+          "grams": 1200,
+          "requires_shipping": true,
+          "taxable": true,
+          "available": true
+        }
+      ],
+      "images": [
+        {
+          "id": 401501,
+          "position": 1,
+          "src": "/assets/images/products/gift-hamper-standard.jpg",
+          "width": 1200,
+          "height": 1200
+        }
+      ],
+      "options": [
+        {
+          "name": "Configuration",
+          "position": 1,
+          "values": ["Standard Trio"]
+        }
+      ]
+    }
+  ]
+}

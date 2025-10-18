@@ -1,0 +1,14 @@
+package com.maavooripachadi.cart;
+
+
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
+
+public record AddToCartRequest(
+        @NotBlank String sessionId,
+        @NotNull Long variantId,
+        @Min(1) int qty,
+        @Min(1) int unitPricePaise
+) {}

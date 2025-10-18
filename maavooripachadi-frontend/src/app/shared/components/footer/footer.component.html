@@ -1,0 +1,65 @@
+<footer class="footer">
+  <section class="footer__primary">
+    <div class="footer__brand">
+      <img src="/assets/images/Maavooripachadi_logo.jpg" alt="Maavoori Pachadi">
+      <p>
+        Heritage Andhra & Telangana pickles handcrafted in micro batches, sun cured and sealed with cold pressed oils.
+        Packed in Hyderabad and shipped with love to Maavoori homes worldwide.
+      </p>
+      <div class="footer__socials">
+        <a *ngFor="let social of socials" [href]="social.href" target="_blank" rel="noopener">
+          <span class="material-symbol">{{ social.icon }}</span>
+          <span>{{ social.label }}</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="footer__nav">
+      <div class="footer__column" *ngFor="let column of navColumns">
+        <h4>{{ column.title }}</h4>
+        <a *ngFor="let link of column.links" [routerLink]="link.path">{{ link.label }}</a>
+      </div>
+    </div>
+
+    <div class="footer__connect" *ngIf="channels$ | async as channels">
+      <h4>Need a hand?</h4>
+      <div class="footer__channel" *ngFor="let channel of channels">
+        <span class="material-symbol">{{ channel.icon }}</span>
+        <div>
+          <p>{{ channel.label }}</p>
+          <a *ngIf="channel.href" [href]="channel.href" target="_blank" rel="noopener">{{ channel.value }}</a>
+          <span *ngIf="!channel.href">{{ channel.value }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer__hours" *ngIf="timings$ | async as timings">
+      <h4>Kitchen hours</h4>
+      <div class="footer__timing" *ngFor="let timing of timings">
+        <span>{{ timing.day }}</span>
+        <span>{{ timing.open }} – {{ timing.close }}</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="footer__newsletter">
+    <div>
+      <h4>Join the Maavoori circle</h4>
+      <p>Be the first to know about seasonal batches, gifting hampers and new recipes.</p>
+    </div>
+    <form class="newsletter-form">
+      <input type="email" name="email" placeholder="you@example.com" autocomplete="email">
+      <button type="submit">Subscribe</button>
+    </form>
+  </section>
+
+  <section class="footer__legal">
+    <nav class="footer__legal-links">
+      <a *ngFor="let link of legalLinks" [routerLink]="link.path">{{ link.label }}</a>
+    </nav>
+    <div class="footer__credits">
+      <span>&copy; {{ today | date: 'yyyy' }} Maavoori Pachadi. Crafted with love in Hyderabad.</span>
+      <span>Inspired by Maavoori traditions · Powered by Angular</span>
+    </div>
+  </section>
+</footer>

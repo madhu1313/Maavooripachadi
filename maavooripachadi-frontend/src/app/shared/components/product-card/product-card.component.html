@@ -1,0 +1,46 @@
+<article class="product-card" [ngClass]="{ 'product-card--compact': compact }">
+  <div class="product-card__media">
+    <img [src]="product.image" [alt]="product.title">
+    <div class="product-card__badges">
+      <span class="badge" *ngIf="primaryBadge">{{ primaryBadge }}</span>
+      <span class="badge badge--secondary" *ngIf="secondaryBadge">{{ secondaryBadge }}</span>
+    </div>
+    <div class="product-card__overlay">
+      <a class="icon-btn" routerLink="/product/{{ product.id }}" aria-label="View product details">
+        <span class="material-symbol">visibility</span>
+      </a>
+      <a class="icon-btn" routerLink="/wishlist" aria-label="Add to wishlist">
+        <span class="material-symbol">favorite</span>
+      </a>
+      <a class="icon-btn" routerLink="/cart" aria-label="Add to cart">
+        <span class="material-symbol">add_shopping_cart</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="product-card__body">
+    <a class="product-card__title" routerLink="/product/{{ product.id }}">
+      {{ product.title }}
+    </a>
+    <p class="product-card__description">{{ description }}</p>
+
+    <div class="product-card__meta">
+      <span class="product-card__price">{{ product.price | price }}</span>
+      <span class="product-card__compare" *ngIf="product.compareAtPrice">{{ product.compareAtPrice | price }}</span>
+    </div>
+
+    <div class="product-card__rating" *ngIf="product.rating">
+      <span *ngFor="let star of [1,2,3,4,5]" [ngClass]="{ active: star <= (product.rating || 0) }">★</span>
+      <small *ngIf="product.reviewsCount">{{ product.reviewsCount }} reviews</small>
+    </div>
+
+    <div class="product-card__tags" *ngIf="tags.length">
+      <span *ngFor="let tag of tags">#{{ tag }}</span>
+    </div>
+
+    <div class="product-card__actions">
+      <a class="btn btn--primary" routerLink="/product/{{ product.id }}">View details</a>
+      <a class="btn btn--ghost" routerLink="/product/{{ product.id }}">Add to cart</a>
+    </div>
+  </div>
+</article>

@@ -1,0 +1,66 @@
+<section class="admin">
+  <header class="admin__header">
+    <div>
+      <h1>Maavoori Admin Console</h1>
+      <p class="muted">Monitor performance, record notes and stay on top of operations.</p>
+    </div>
+    <a class="btn secondary" routerLink="/">Back to storefront</a>
+  </header>
+
+  <section class="panel" *ngIf="stats$ | async as stats; else statsLoading">
+    <h2>Live metrics</h2>
+    <div class="metrics">
+      <div class="metric">
+        <span class="metric__label">Checkout starts</span>
+        <span class="metric__value">{{ stats?.checkoutStarts || 0 | number: '1.0-0' }}</span>
+      </div>
+      <div class="metric">
+        <span class="metric__label">Payments captured</span>
+        <span class="metric__value">{{ stats?.paymentSuccess || 0 | number: '1.0-0' }}</span>
+      </div>
+      <div class="metric">
+        <span class="metric__label">Webhook events</span>
+        <span class="metric__value">{{ stats?.webhooksOk || 0 | number: '1.0-0' }}</span>
+      </div>
+    </div>
+  </section>
+  <ng-template #statsLoading>
+    <section class="panel loading">
+      <p>Loading metrics…</p>
+    </section>
+  </ng-template>
+
+  <section class="panel">
+    <h2>Leave an internal note</h2>
+    <p class="muted">Notes are logged in the admin audit trail for your team.</p>
+    <form class="note-form" [formGroup]="noteForm" (ngSubmit)="submitNote()">
+      <textarea formControlName="message" rows="3" placeholder="Share updates for your team" required></textarea>
+      <button class="btn" type="submit" [disabled]="noteForm.invalid">Record note</button>
+    </form>
+  </section>
+
+  <section class="panel" *ngIf="auditLogs$ | async as logs">
+    <h2>Recent audit entries</h2>
+    <p class="muted" *ngIf="!logs.length">No audit entries yet.</p>
+    <table *ngIf="logs.length">
+      <thead>
+        <tr>
+          <th>Timestamp</th>
+          <th>Actor</th>
+          <th>Action</th>
+          <th>Message</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let log of logs">
+          <td>{{ log.createdAt | date: 'short' }}</td>
+          <td>{{ log.actor || 'system' }}</td>
+          <td>{{ log.action }}</td>
+          <td>{{ log.message }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <p class="status" *ngIf="statusMessage">{{ statusMessage }}</p>
+</section>

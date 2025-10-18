@@ -1,0 +1,142 @@
+﻿<section class="support" *ngIf="status$ | async as status">
+  <header class="support-hero">
+    <div class="support-hero__copy">
+      <span class="support-hero__eyebrow">Maavoori care desk</span>
+      <h1>We’re here to help with every jar, from kitchen to doorstep</h1>
+      <p>
+        Taking cues from the warmth of Kings Premium Pickles support, our Maavoori team offers WhatsApp concierge,
+        gifting guidance and quick turnarounds on delivery queries. Choose a topic below or open a ticket for
+        personalised assistance.
+      </p>
+      <div class="support-hero__meta">
+        <span>Response average · under 4 hours</span>
+        <span>Support hours · 10 AM – 9 PM IST</span>
+      </div>
+    </div>
+    <aside class="support-hero__channels">
+      <article class="support-hero__channel" *ngFor="let channel of channels">
+        <span class="material-symbol">{{ channel.icon }}</span>
+        <div>
+          <h3>{{ channel.label }}</h3>
+          <p>{{ channel.value }}</p>
+          <small *ngIf="channel.description">{{ channel.description }}</small>
+          <a *ngIf="channel.href" [href]="channel.href" target="_blank" rel="noopener">Start now</a>
+        </div>
+      </article>
+    </aside>
+  </header>
+
+  <section class="support-topics">
+    <h2>Quick links</h2>
+    <div class="support-topics__grid">
+      <article
+        class="support-topic"
+        *ngFor="let topic of topics"
+        [class.support-topic--active]="supportForm.controls.topic.value === topic.id"
+        (click)="selectTopic(topic.id)"
+      >
+        <span class="material-symbol">{{ topic.icon }}</span>
+        <h3>{{ topic.title }}</h3>
+        <p>{{ topic.description }}</p>
+        <a *ngIf="topic.link" [routerLink]="topic.link">Go to page</a>
+      </article>
+    </div>
+  </section>
+
+  <section class="support-status" *ngIf="status.kind !== 'idle' && status.message">
+    <div
+      class="support-status__banner"
+      [class.support-status__banner--success]="status.kind === 'success'"
+      [class.support-status__banner--error]="status.kind === 'error'"
+    >
+      <span>{{ status.message }}</span>
+      <button type="button" (click)="dismissStatus()">×</button>
+    </div>
+  </section>
+
+  <section class="support-form">
+    <div class="support-form__intro">
+      <h2>Open a support ticket</h2>
+      <p>Share a few details and our Maavoori concierge will get back with answers or a trackable solution.</p>
+    </div>
+    <form [formGroup]="supportForm" (ngSubmit)="submit()" novalidate>
+      <div class="support-form__grid">
+        <div class="field" [class.field--invalid]="supportForm.controls.name.touched && supportForm.controls.name.invalid">
+          <label for="support-name">Full name</label>
+          <input id="support-name" type="text" formControlName="name" placeholder="Your name">
+          <p class="field__error" *ngIf="supportForm.controls.name.hasError('required')">Name is required.</p>
+        </div>
+
+        <div class="field" [class.field--invalid]="supportForm.controls.email.touched && supportForm.controls.email.invalid">
+          <label for="support-email">Email</label>
+          <input id="support-email" type="email" formControlName="email" placeholder="you@example.com">
+          <p class="field__error" *ngIf="supportForm.controls.email.hasError('required')">Email is required.</p>
+          <p class="field__error" *ngIf="supportForm.controls.email.hasError('email')">Enter a valid email address.</p>
+        </div>
+
+        <div class="field">
+          <label for="support-phone">Phone (optional)</label>
+          <input id="support-phone" type="tel" formControlName="phone" placeholder="10-digit number">
+        </div>
+
+        <div class="field">
+          <label for="support-order">Order ID (if any)</label>
+          <input id="support-order" type="text" formControlName="orderId" placeholder="e.g. MP-12345">
+        </div>
+
+        <div class="field field--select">
+          <label for="support-topic">Topic</label>
+          <select id="support-topic" formControlName="topic">
+            <option *ngFor="let topic of topics" [value]="topic.id">{{ topic.title }}</option>
+          </select>
+        </div>
+
+        <div class="field field--select">
+          <label for="support-priority">Priority</label>
+          <select id="support-priority" formControlName="priority">
+            <option *ngFor="let priority of priorities" [value]="priority.id">{{ priority.label }}</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field" [class.field--invalid]="supportForm.controls.message.touched && supportForm.controls.message.invalid">
+        <label for="support-message">Describe your request</label>
+        <textarea id="support-message" rows="6" formControlName="message" placeholder="Let us know how we can help you today"></textarea>
+        <p class="field__error" *ngIf="supportForm.controls.message.hasError('required')">Message is required.</p>
+        <p class="field__error" *ngIf="supportForm.controls.message.hasError('minlength')">Please share at least 20 characters.</p>
+      </div>
+
+      <label class="consent" [class.field--invalid]="supportForm.controls.consent.touched && supportForm.controls.consent.invalid">
+        <input type="checkbox" formControlName="consent">
+        <span>I agree to be contacted for updates on this enquiry via email or WhatsApp.</span>
+      </label>
+      <p class="field__error" *ngIf="supportForm.controls.consent.hasError('required')">Consent helps us follow up promptly.</p>
+
+      <button class="btn btn--primary" type="submit" [disabled]="supportForm.invalid || (submitting$ | async)"> 
+        {{ (submitting$ | async) ? 'Submitting...' : 'Create ticket' }}
+      </button>
+    </form>
+  </section>
+
+  <section class="support-faq">
+    <div class="support-faq__intro">
+      <h2>Frequently asked questions</h2>
+      <p>Find instant answers for the most common Maavoori support requests.</p>
+    </div>
+    <div class="support-faq__grid">
+      <article *ngFor="let item of faq">
+        <h3>{{ item.question }}</h3>
+        <p>{{ item.answer }}</p>
+      </article>
+    </div>
+  </section>
+
+  <footer class="support-footer">
+    <div class="support-footer__content">
+      <h2>Follow our curing stories on Instagram</h2>
+      <p>See behind-the-scenes from the Maavoori kitchen and DM us &#64;maavooripachadi for quick updates.</p>
+      <a class="btn btn--dark" href="https://instagram.com/maavooripachadi" target="_blank" rel="noopener">Visit Instagram</a>
+    </div>
+  </footer>
+</section>
+
