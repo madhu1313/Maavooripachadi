@@ -35,8 +35,10 @@ function handleAuthError(error: HttpErrorResponse, url: string) {
   if (error.status === 401 || error.status === 403) {
     clearSession();
     const router = inject(Router);
-    const redirectTo = shouldPreserveUrl(url) ? url : router.url;
-    router.navigate(['/account/login'], { queryParams: { redirectTo } }).catch(() => undefined);
+    const currentRoute = router.url;
+    const redirectTo = shouldPreserveUrl(currentRoute) ? currentRoute : undefined;
+    const queryParams = redirectTo ? { redirectTo } : undefined;
+    router.navigate(['/account'], { queryParams }).catch(() => undefined);
   }
 
   return throwError(() => error);

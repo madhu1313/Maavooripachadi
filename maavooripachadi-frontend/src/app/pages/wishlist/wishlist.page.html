@@ -1,0 +1,53 @@
+<section class="wishlist">
+  <header class="wishlist__header">
+    <ng-container *ngIf="(count$ | async) as count">
+      <p class="wishlist__subtitle">
+        {{ count > 0 ? ('You have ' + count + ' product' + (count > 1 ? 's' : '') + ' saved for later.') : 'Save products you love and revisit them anytime.' }}
+      </p>
+      <button type="button" class="wishlist__clear" (click)="clear()" [disabled]="count === 0">
+        Clear wishlist
+      </button>
+    </ng-container>
+  </header>
+
+  <ng-container *ngIf="(items$ | async) as items">
+    <ng-container *ngIf="items.length > 0; else emptyWishlist">
+      <div class="wishlist__grid">
+        <article class="wishlist__item" *ngFor="let item of items; trackBy: trackById">
+          <a class="wishlist__image" routerLink="/product/{{ item.id }}">
+            <img [src]="item.image" [alt]="item.title">
+          </a>
+          <div class="wishlist__content">
+            <a class="wishlist__title" routerLink="/product/{{ item.id }}">{{ item.title }}</a>
+            <p class="wishlist__price">{{ item.price | price }}</p>
+            <p class="wishlist__description" *ngIf="item.description">{{ item.description }}</p>
+            <small class="wishlist__meta">Saved on {{ item.addedAt | date: 'mediumDate' }}</small>
+            <div class="wishlist__actions">
+              <button
+                type="button"
+                class="btn btn--primary"
+                (click)="moveToCart(item)"
+                [disabled]="isProcessing(item.id)"
+              >
+                {{ isProcessing(item.id) ? 'Moving…' : 'Move to cart' }}
+              </button>
+              <a class="btn btn--ghost" routerLink="/product/{{ item.id }}">View product</a>
+              <button type="button" class="btn btn--ghost" (click)="remove(item.id)">Remove</button>
+            </div>
+          </div>
+        </article>
+      </div>
+    </ng-container>
+  </ng-container>
+
+  <ng-template #emptyWishlist>
+    <div class="wishlist__empty">
+      <span class="material-symbol">favorite_border</span>
+      <h2>Your wishlist is empty</h2>
+      <p>Explore our collections and tap the heart icon to save your Maavoori favourites here.</p>
+      <a class="btn btn--primary" routerLink="/shop">Browse products</a>
+    </div>
+  </ng-template>
+
+  <p class="wishlist__status" *ngIf="statusMessage">{{ statusMessage }}</p>
+</section>

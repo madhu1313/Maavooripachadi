@@ -306,6 +306,7 @@
   color: #111827;
   transition: border-color 0.2s ease, transform 0.2s ease;
   text-decoration: none;
+  position: relative;
 }
 .icon-btn:hover {
   border-color: #f97316;
@@ -314,6 +315,9 @@
 .icon-btn--cart {
   border-color: rgba(249, 115, 22, 0.4);
   position: relative;
+}
+.icon-btn--wishlist {
+  border-color: rgba(249, 115, 22, 0.4);
 }
 .navbar__cart-badge {
   position: absolute;

@@ -54,9 +54,6 @@ export const routes: Routes = [
   { path: 'support', loadComponent: () => import('./pages/support/support.page').then((m) => m.SupportPage) },
   { path: 'account', loadComponent: () => import('./pages/account/account.page').then((m) => m.AccountPage) },
   { path: 'admin', loadComponent: () => import('./pages/admin/admin.page').then((m) => m.AdminPage) },
-  {
-    path: 'wishlist',
-    loadComponent: () => import('./pages/account/account.page').then((m) => m.AccountPage)
-  },
+  { path: 'wishlist', loadComponent: () => import('./pages/wishlist/wishlist.page').then((m) => m.WishlistPage) },
   { path: '**', redirectTo: '' }
 ];

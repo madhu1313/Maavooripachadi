@@ -4,7 +4,7 @@
       <h1>Your Maavoori account</h1>
       <p class="muted">Sign in to track orders, manage subscriptions and chat with our kitchen team.</p>
 
-      <ng-container *ngIf="!profileLoaded">
+      <ng-container *ngIf="showAuthForms">
         <div class="account__tabs">
           <button type="button" class="account__tab" [class.account__tab--active]="!registerMode" (click)="toggleMode('login')">
             Sign in
@@ -52,14 +52,14 @@
         </form>
       </ng-container>
 
-      <div class="account__summary" *ngIf="profileLoaded">
+      <div class="account__summary" *ngIf="profileLoaded && !showAuthForms">
         <h2>Welcome back, {{ currentProfile?.name || currentProfile?.email || currentProfile?.identifier }}</h2>
         <p class="muted">Cart session ID: {{ cart.getSessionId() }}</p>
-        <a class="btn secondary" routerLink="/account/logout">Sign out</a>
+        <button class="btn secondary" type="button" (click)="signOut()">Sign out</button>
       </div>
     </div>
 
-    <div class="account__support" *ngIf="profileLoaded">
+    <div class="account__support" *ngIf="profileLoaded && !showAuthForms">
       <h2>Need help?</h2>
       <p class="muted">Open a support ticket and our team will respond within 24 hours.</p>
       <form class="account__form" [formGroup]="supportForm" (ngSubmit)="openTicket()">

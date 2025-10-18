@@ -9,9 +9,16 @@
       <a class="icon-btn" routerLink="/product/{{ product.id }}" aria-label="View product details">
         <span class="material-symbol">visibility</span>
       </a>
-      <a class="icon-btn" routerLink="/wishlist" aria-label="Add to wishlist">
-        <span class="material-symbol">favorite</span>
-      </a>
+      <button
+        class="icon-btn"
+        type="button"
+        (click)="toggleWishlist($event)"
+        [attr.aria-pressed]="isWishlisted()"
+        [attr.aria-label]="wishlistLabel()"
+        [ngClass]="{ 'icon-btn--active': isWishlisted() }"
+      >
+        <span class="material-symbol">{{ wishlistIcon() }}</span>
+      </button>
       <a class="icon-btn" routerLink="/cart" aria-label="Add to cart">
         <span class="material-symbol">add_shopping_cart</span>
       </a>

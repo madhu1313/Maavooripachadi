@@ -1,6 +1,6 @@
 import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { BehaviorSubject, EMPTY, combineLatest, of } from 'rxjs';
 import { catchError, finalize, map, shareReplay, switchMap, tap } from 'rxjs/operators';
 import { CartItem, CartService, CartSummary } from '../../core/services/cart.service';
@@ -8,6 +8,7 @@ import { CatalogService } from '../../core/services/catalog.service';
 import { QuantityInputComponent } from '../../shared/components/quantity-input/quantity-input.component';
 import { PricePipe } from '../../shared/pipes/price.pipe';
 import { ProductCardComponent } from '../../shared/components/product-card/product-card.component';
+import { AuthService } from '../../core/services/auth.service';
 
 interface CartItemViewModel {
   variantId: number;
@@ -43,6 +44,8 @@ const MAX_PER_ITEM = 12;
 export class CartPage {
   private readonly cart = inject(CartService);
   private readonly catalog = inject(CatalogService);
+  private readonly auth = inject(AuthService);
+  private readonly router = inject(Router);
 
   private readonly processingIds$ = new BehaviorSubject<ReadonlySet<number>>(new Set());
   private readonly clearing$ = new BehaviorSubject<boolean>(false);
@@ -162,6 +165,19 @@ export class CartPage {
 
   trackItemById(_: number, item: CartItemViewModel) {
     return item.variantId;
+  }
+
+  goToCheckout(): void {
+    if (!this.auth.isAuthenticated()) {
+      this.errorSubject.next('Please sign in or create an account before placing your order.');
+      this.router.navigate(['/account'], {
+        queryParams: { redirectTo: '/checkout' }
+      });
+      return;
+    }
+    this.router.navigate(['/checkout']).catch(() => {
+      this.errorSubject.next('We could not open checkout right now. Please try again.');
+    });
   }
 
   private toViewModel(cart: CartSummary, processing: ReadonlySet<number>, isClearing: boolean): CartViewModel {

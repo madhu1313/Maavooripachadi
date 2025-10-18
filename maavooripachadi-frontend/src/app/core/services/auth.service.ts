@@ -68,6 +68,10 @@ export class AuthService {
     this.clearSession();
   }
 
+  isAuthenticated(): boolean {
+    return Boolean(this.getAccessToken());
+  }
+
   storeSession(session: SessionState): void {
     localStorage.setItem(ACCESS_TOKEN_KEY, session.accessToken);
     if (session.refreshToken) {

@@ -144,6 +144,7 @@ export class CatalogService {
       description: '',
       image: card.imageUrl,
       price: this.toCurrency(card.pricePaise),
+      pricePaise: Math.round(card.pricePaise),
       compareAtPrice: card.mrpPaise != null ? this.toCurrency(card.mrpPaise) : undefined,
       badge: card.badge ?? undefined,
       tags: [],

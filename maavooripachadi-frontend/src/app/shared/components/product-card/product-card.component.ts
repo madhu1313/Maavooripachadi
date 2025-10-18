@@ -1,8 +1,9 @@
 import { NgClass, NgFor, NgIf } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Product } from '../../../core/models/storefront.models';
 import { PricePipe } from '../../pipes/price.pipe';
+import { WishlistService } from '../../../core/services/wishlist.service';
 
 @Component({
   selector: 'app-product-card',
@@ -12,6 +13,8 @@ import { PricePipe } from '../../pipes/price.pipe';
   styleUrls: ['./product-card.component.css']
 })
 export class ProductCardComponent {
+  private readonly wishlist = inject(WishlistService);
+
   @Input({ required: true }) product!: Product;
   @Input() compact = false;
 
@@ -44,5 +47,23 @@ export class ProductCardComponent {
 
   get tags(): string[] {
     return (this.product.tags ?? []).slice(0, 3);
+  }
+
+  toggleWishlist(event: Event): void {
+    event.preventDefault();
+    event.stopPropagation();
+    this.wishlist.toggle(this.product);
+  }
+
+  isWishlisted(): boolean {
+    return this.wishlist.has(this.product.id);
+  }
+
+  wishlistIcon(): string {
+    return this.isWishlisted() ? 'favorite' : 'favorite_border';
+  }
+
+  wishlistLabel(): string {
+    return this.isWishlisted() ? 'Remove from wishlist' : 'Add to wishlist';
   }
 }

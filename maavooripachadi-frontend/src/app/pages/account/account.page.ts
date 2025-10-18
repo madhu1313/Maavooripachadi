@@ -1,13 +1,14 @@
 import { AsyncPipe, NgIf } from '@angular/common';
-import { Component, inject } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Component, DestroyRef, inject } from '@angular/core';
+import { NavigationEnd, Router, RouterLink } from '@angular/router';
 import { AbstractControl, FormBuilder, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { AuthService, LoginRequest, ProfileResponse, RegisterRequest } from '../../core/services/auth.service';
 import { SupportService, CreateTicketPayload, TicketChannel, TicketPriority } from '../../core/services/support.service';
 import { CheckoutService } from '../../core/services/checkout.service';
 import { CartService } from '../../core/services/cart.service';
 import { Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { catchError, filter, map, shareReplay, tap, take } from 'rxjs/operators';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 interface AccountViewState {
   profile?: ProfileResponse;
@@ -28,7 +29,10 @@ export class AccountPage {
   private readonly support = inject(SupportService);
   readonly cart = inject(CartService);
   private readonly fb = inject(FormBuilder);
+  private readonly destroyRef = inject(DestroyRef);
+  private readonly router = inject(Router);
 
+  showAuthForms = !this.auth.isAuthenticated();
   accountState$: Observable<AccountViewState> = of({
     profile: undefined,
     cartSessionId: this.cart.getSessionId(),
@@ -62,6 +66,14 @@ export class AccountPage {
 
   constructor() {
     this.fetchAccountSnapshot();
+
+    this.syncModeWithUrl(this.router.url);
+    this.router.events
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        filter((event): event is NavigationEnd => event instanceof NavigationEnd)
+      )
+      .subscribe(event => this.syncModeWithUrl(event.urlAfterRedirects));
   }
 
   get profileLoaded(): boolean {
@@ -71,10 +83,23 @@ export class AccountPage {
   currentProfile: ProfileResponse | undefined;
 
   private fetchAccountSnapshot(): void {
-    this.accountState$ = this.auth.me().pipe(
+    if (!this.auth.isAuthenticated()) {
+      this.currentProfile = undefined;
+      const fallback$ = of({
+        profile: undefined,
+        recentOrders: [],
+        cartSessionId: this.cart.getSessionId()
+      }).pipe(shareReplay(1));
+      this.accountState$ = fallback$;
+      this.showAuthForms = true;
+      return;
+    }
+
+    const snapshot$ = this.auth.me().pipe(
       tap((profile) => {
         this.currentProfile = profile;
         this.loadRecentOrders();
+        this.showAuthForms = false;
       }),
       map((profile) => ({
         profile,
@@ -83,17 +108,40 @@ export class AccountPage {
       })),
       catchError(() => {
         this.currentProfile = undefined;
+        this.auth.logout();
+        this.showAuthForms = true;
+        this.statusMessage = '';
         return of({
           profile: undefined,
           recentOrders: [],
           cartSessionId: this.cart.getSessionId()
         } as AccountViewState);
-      })
+      }),
+      shareReplay(1)
     );
+
+    this.accountState$ = snapshot$;
+
+    snapshot$
+      .pipe(takeUntilDestroyed(this.destroyRef), take(1))
+      .subscribe();
   }
 
   private loadRecentOrders(): void {
-    this.checkout.getCheckout('latest').pipe(catchError(() => of(undefined))).subscribe();
+    // Recent order history will be fetched once the backend endpoint is available.
+  }
+
+  private syncModeWithUrl(url: string): void {
+    if (!url) {
+      return;
+    }
+    if (url.includes('/wishlist')) {
+      this.registerMode = false;
+      if (!this.auth.isAuthenticated()) {
+        this.showAuthForms = true;
+        this.statusMessage = 'Sign in to view and save wishlist items.';
+      }
+    }
   }
 
   login(): void {
@@ -112,6 +160,7 @@ export class AccountPage {
       tap(() => {
         this.statusMessage = 'Logged in successfully.';
         this.fetchAccountSnapshot();
+        this.showAuthForms = false;
       }),
       catchError((err) => {
         this.statusMessage = err?.error?.message ?? 'Unable to sign in. Please verify your details.';
@@ -128,8 +177,36 @@ export class AccountPage {
       this.registerMode = false;
     } else {
       this.registerMode = true;
+      if (this.auth.isAuthenticated()) {
+        this.auth.logout();
+        this.currentProfile = undefined;
+        this.accountState$ = of({
+          profile: undefined,
+          recentOrders: [],
+          cartSessionId: this.cart.getSessionId()
+        });
+      }
     }
+    this.showAuthForms = true;
     this.statusMessage = '';
+  }
+
+  signOut(): void {
+    if (this.submittingLogin || this.submittingRegister) {
+      return;
+    }
+    this.auth.logout();
+    this.currentProfile = undefined;
+    this.registerMode = false;
+    this.statusMessage = '';
+    this.loginForm.reset({
+      identifier: '',
+      password: '',
+      remember: true
+    });
+    this.showAuthForms = true;
+    this.fetchAccountSnapshot();
+    this.router.navigate(['/account']).catch(() => undefined);
   }
 
   register(): void {
@@ -146,9 +223,10 @@ export class AccountPage {
 
     this.auth.register(payload).pipe(
       tap(() => {
-        this.statusMessage = 'Account created successfully.';
         this.registerMode = false;
         this.registerForm.reset({ fullName: '', identifier: '', password: '' });
+        this.showAuthForms = false;
+        this.statusMessage = 'Account created successfully.';
         this.fetchAccountSnapshot();
       }),
       catchError((err) => {

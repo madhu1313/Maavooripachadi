@@ -8,6 +8,7 @@ import { StorefrontService } from '../../../core/services/storefront.service';
 import { NavigationLink, Product } from '../../../core/models/storefront.models';
 import { PricePipe } from '../../pipes/price.pipe';
 import { CartService } from '../../../core/services/cart.service';
+import { WishlistService } from '../../../core/services/wishlist.service';
 
 interface Announcement {
   id: string;
@@ -40,6 +41,7 @@ export class NavbarComponent {
   private readonly storefront = inject(StorefrontService);
   private readonly catalog = inject(CatalogService);
   private readonly cart = inject(CartService);
+  private readonly wishlist = inject(WishlistService);
 
   readonly announcements: Announcement[] = [
     { id: 'no-preservatives', message: 'No preservatives • HACCP certified • Made fresh every fortnight', icon: 'verified' },
@@ -67,6 +69,7 @@ export class NavbarComponent {
   readonly links$ = this.storefront.getNavigation();
   readonly highlightedProducts$ = this.catalog.bestSellers(6);
   readonly cartCount$ = this.cart.cart$.pipe(map((summary) => summary.itemsCount ?? 0));
+  readonly wishlistCount$ = this.wishlist.count$;
 
   readonly menuOpen: WritableSignal<boolean> = signal(false);
   readonly searchOpen: WritableSignal<boolean> = signal(false);

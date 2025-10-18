@@ -45,9 +45,9 @@ public class AuthController {
     public ResponseEntity<Void> logout(@Valid @RequestBody RefreshRequest req){ auth.logout(req.getRefreshToken()); return ResponseEntity.ok().build(); }
 
     @GetMapping("/me")
-    public java.util.Map<String,Object> me(@AuthenticationPrincipal UserDetails ud){
+    public ResponseEntity<java.util.Map<String,Object>> me(@AuthenticationPrincipal UserDetails ud){
         if (ud == null) {
-            return java.util.Map.of();
+            return ResponseEntity.status(org.springframework.http.HttpStatus.UNAUTHORIZED).build();
         }
         String username = ud.getUsername();
         LoginIdentifier.Parsed parsed;
@@ -67,12 +67,12 @@ public class AuthController {
                 .toList();
 
         if (userOpt.isEmpty()) {
-            return java.util.Map.of(
+            return ResponseEntity.ok(java.util.Map.of(
                     "identifier", username,
                     "email", username,
                     "roles", authorities,
                     "authorities", authorities
-            );
+            ));
         }
 
         AppUser user = userOpt.get();
@@ -85,7 +85,7 @@ public class AuthController {
         payload.put("name", user.getFullName());
         payload.put("roles", roles);
         payload.put("authorities", authorities);
-        return payload;
+        return ResponseEntity.ok(payload);
     }
 
     private String normaliseIdentifier(String raw){

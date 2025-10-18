@@ -35,6 +35,7 @@ export interface Product {
   image: string;
   price: number;
   compareAtPrice?: number;
+  pricePaise?: number;
   badge?: string;
   rating?: number;
   reviewsCount?: number;

@@ -93,8 +93,11 @@
         <a class="icon-btn" routerLink="/account">
           <span class="material-symbol">person</span>
         </a>
-        <a class="icon-btn" routerLink="/wishlist">
+        <a class="icon-btn icon-btn--wishlist" routerLink="/wishlist" aria-label="View wishlist">
           <span class="material-symbol">favorite</span>
+          <ng-container *ngIf="(wishlistCount$ | async) as wishlistCount">
+            <span class="navbar__cart-badge" *ngIf="wishlistCount > 0">{{ wishlistCount }}</span>
+          </ng-container>
         </a>
         <a class="icon-btn icon-btn--cart" routerLink="/cart" aria-label="View cart">
           <span class="material-symbol">shopping_bag</span>

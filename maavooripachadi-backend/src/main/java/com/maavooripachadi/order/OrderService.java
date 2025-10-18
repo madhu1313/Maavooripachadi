@@ -2,8 +2,10 @@ package com.maavooripachadi.order;
 
 
 import com.maavooripachadi.order.dto.CheckoutRequest;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 
 @Service
@@ -69,7 +71,10 @@ public Order checkout(CheckoutRequest req){
 
 
 @Transactional(readOnly = true)
-public Order getByOrderNo(String orderNo){ return orders.findByOrderNo(orderNo).orElseThrow(); }
+public Order getByOrderNo(String orderNo){
+    return orders.findByOrderNo(orderNo)
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Order not found"));
+}
 
 
 @Transactional

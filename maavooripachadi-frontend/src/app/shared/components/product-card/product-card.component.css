@@ -93,6 +93,14 @@
   transform: translateY(-2px);
   border-color: rgba(249, 115, 22, 0.8);
 }
+.icon-btn--active {
+  background: #f97316;
+  border-color: rgba(249, 115, 22, 0.95);
+  color: #fff7ed;
+}
+.icon-btn--active:hover {
+  border-color: #fbbf24;
+}
 
 .product-card__body {
   padding: 22px 22px 20px;
