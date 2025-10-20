@@ -22,9 +22,22 @@
       <div class="top-bar__locales">
         <div class="locale">
           <label for="currency-select">Currency</label>
-          <select id="currency-select" aria-label="Select currency">
-            <option *ngFor="let currency of currencies" [value]="currency.code">{{ currency.label }}</option>
-          </select>
+          <ng-container *ngIf="selectedCurrency$ | async as activeCurrency">
+            <select
+              #currencySelect
+              id="currency-select"
+              aria-label="Select currency"
+              [value]="activeCurrency.code"
+              (change)="onCurrencyChange(currencySelect.value)"
+            >
+              <option
+                *ngFor="let currency of currencies"
+                [value]="currency.code"
+              >
+                {{ currency.label }}
+              </option>
+            </select>
+          </ng-container>
         </div>
         <div class="locale">
           <label for="language-select">Language</label>
