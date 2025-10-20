@@ -8,6 +8,7 @@ const ACCESS_TOKEN_KEY = 'accessToken';
 const REFRESH_TOKEN_KEY = 'refreshToken';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
+  const router: Router = inject(Router);
   if (!isBrowserEnvironment()) {
     return next(req);
   }
@@ -23,18 +24,17 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   }
 
   return next(req).pipe(
-    catchError((error: HttpErrorResponse) => handleAuthError(error, req.url))
+    catchError((error: HttpErrorResponse) => handleAuthError(error, req.url, router))
   );
 };
 
-function handleAuthError(error: HttpErrorResponse, url: string) {
+function handleAuthError(error: HttpErrorResponse, url: string, router: Router) {
   if (!isBrowserEnvironment()) {
     return throwError(() => error);
   }
 
   if (error.status === 401 || error.status === 403) {
     clearSession();
-    const router = inject(Router);
     const currentRoute = router.url;
     const redirectTo = shouldPreserveUrl(currentRoute) ? currentRoute : undefined;
     const queryParams = redirectTo ? { redirectTo } : undefined;

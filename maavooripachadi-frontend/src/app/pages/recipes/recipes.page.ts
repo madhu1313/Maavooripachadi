@@ -251,7 +251,7 @@ const DIFFICULTY_LEVELS = ['All', 'Easy', 'Intermediate', 'Advanced'];
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RecipesPage {
-  private readonly fb = inject(FormBuilder);
+  private readonly fb: FormBuilder = inject(FormBuilder);
 
   readonly categories = RECIPE_CATEGORIES;
   readonly difficultyLevels = DIFFICULTY_LEVELS;

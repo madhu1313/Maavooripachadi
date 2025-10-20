@@ -23,23 +23,23 @@ interface SupportHighlight {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ContactPage {
-  private readonly fb = inject(FormBuilder);
-  private readonly support = inject(SupportService);
+  private readonly fb: FormBuilder = inject(FormBuilder);
+  private readonly support: SupportService = inject(SupportService);
 
   readonly contactChannels: ContactChannel[] = [
     {
       id: 'phone',
       label: 'Call us',
-      value: '+91 98765 43210',
+      value: '+91 85558 59667',
       icon: 'PH',
-      href: 'tel:+919876543210'
+      href: 'tel:+918555859667'
     },
     {
       id: 'whatsapp',
       label: 'WhatsApp',
-      value: '+91 91234 56789',
+      value: '+91 85558 59667',
       icon: 'WA',
-      href: 'https://wa.me/919123456789'
+      href: 'https://wa.me/918555859667'
     },
     {
       id: 'email',

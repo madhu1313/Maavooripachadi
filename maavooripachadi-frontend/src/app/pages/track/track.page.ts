@@ -53,9 +53,9 @@ interface TrackViewModel {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TrackPage {
-  private readonly fb = inject(FormBuilder);
-  private readonly shipping = inject(ShippingService);
-  private readonly catalog = inject(CatalogService);
+  private readonly fb: FormBuilder = inject(FormBuilder);
+  private readonly shipping: ShippingService = inject(ShippingService);
+  private readonly catalog: CatalogService = inject(CatalogService);
 
   private readonly trackingSubject = new BehaviorSubject<ShipmentTracking | null>(null);
   private readonly orderRefSubject = new BehaviorSubject<string | null>(this.readStoredOrder());

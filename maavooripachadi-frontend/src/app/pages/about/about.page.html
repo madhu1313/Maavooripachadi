@@ -1,9 +1,9 @@
-<section class="about-hero">
+Ôªø<section class="about-hero">
   <div class="about-hero__content">
     <span class="eyebrow">Maavoori Pachadi</span>
     <h1>Heritage Andhra flavours, hand-crafted for today</h1>
     <p>
-      We started Maavoori Pachadi to bring the taste of ammaís kitchen back to every Telugu home.
+      We started Maavoori Pachadi to bring the taste of amma‚Äôs kitchen back to every Telugu home.
       From sun-cured mango avakai to slow-cooked gongura mutton, every jar carries the warmth of
       our village traditions and the care of our home chefs.
     </p>
@@ -15,7 +15,7 @@
 <section class="about-story">
   <div class="shell">
     <div class="story-block">
-      <h2>Grandmaís recipes, perfected over decades</h2>
+      <h2>Grandma‚Äôs recipes, perfected over decades</h2>
       <p>
         Our pickles are stone-ground, sun-cured and slow-cooked exactly the way our ammamma taught us.
         We sift and clean every spice by hand, pound them in traditional rolu-batta and ferment in
@@ -34,7 +34,7 @@
         red chilli powder is made from Guntur sannam chillies.
       </p>
       <p>
-        The result? A clean label pantryófree from preservatives, artificial colours or shortcuts.
+        The result? A clean label pantry‚Äîfree from preservatives, artificial colours or shortcuts.
         Just sun, spice, salt and the stories we grew up with.
       </p>
     </div>
@@ -76,7 +76,7 @@
         cooking demos. Book appointments on WhatsApp for guided tastings.
       </p>
       <div class="about-craft__cta">
-        <a class="btn secondary" href="https://wa.me/919390012345" target="_blank" rel="noopener">Book a tasting</a>
+        <a class="btn secondary" href="https://wa.me/918555859667" target="_blank" rel="noopener">Book a tasting</a>
       </div>
     </div>
   </div>
@@ -85,7 +85,7 @@
 <section class="about-timings" *ngIf="timings$ | async as timings">
   <div class="shell about-timings__grid">
     <div>
-      <h2>Weíre open through the week</h2>
+      <h2>We‚Äôre open through the week</h2>
       <p>
         Swing by our kitchen studio between these hours or order online for nationwide delivery.
       </p>
@@ -93,7 +93,7 @@
     <ul class="timing-list">
       <li *ngFor="let timing of timings">
         <span>{{ timing.day }}</span>
-        <span>{{ timing.open }} ñ {{ timing.close }}</span>
+        <span>{{ timing.open }} ‚Äì {{ timing.close }}</span>
       </li>
     </ul>
   </div>
@@ -107,7 +107,7 @@
         <div class="testimonial-card__rating">
           <span *ngFor="let star of [1,2,3,4,5]" [class.active]="star <= testimonial.rating">*</span>
         </div>
-        <blockquote>ì{{ testimonial.quote }}î</blockquote>
+        <blockquote>‚Äú{{ testimonial.quote }}‚Äù</blockquote>
         <p class="testimonial-card__author">{{ testimonial.name }}</p>
         <span class="testimonial-card__location">{{ testimonial.location }}</span>
       </div>
@@ -128,3 +128,4 @@
     </div>
   </div>
 </section>
+

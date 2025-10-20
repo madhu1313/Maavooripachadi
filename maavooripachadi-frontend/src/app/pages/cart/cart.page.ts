@@ -42,10 +42,10 @@ const MAX_PER_ITEM = 12;
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CartPage {
-  private readonly cart = inject(CartService);
-  private readonly catalog = inject(CatalogService);
-  private readonly auth = inject(AuthService);
-  private readonly router = inject(Router);
+  private readonly cart: CartService = inject(CartService);
+  private readonly catalog: CatalogService = inject(CatalogService);
+  private readonly auth: AuthService = inject(AuthService);
+  private readonly router: Router = inject(Router);
 
   private readonly processingIds$ = new BehaviorSubject<ReadonlySet<number>>(new Set());
   private readonly clearing$ = new BehaviorSubject<boolean>(false);
@@ -63,7 +63,7 @@ export class CartPage {
     shareReplay(1)
   );
 
-  readonly vm$ = combineLatest([this.cart.cart$, this.processingIds$, this.clearing$]).pipe(
+  readonly vm$ = combineLatest<[CartSummary, ReadonlySet<number>, boolean]>([this.cart.cart$, this.processingIds$, this.clearing$]).pipe(
     map(([cart, processing, clearing]) => this.toViewModel(cart, processing, clearing)),
     shareReplay(1)
   );

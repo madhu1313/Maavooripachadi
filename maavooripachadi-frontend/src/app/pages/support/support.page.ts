@@ -46,8 +46,8 @@ interface SupportChannel {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SupportPage {
-  private readonly fb = inject(FormBuilder);
-  private readonly support = inject(SupportService);
+  private readonly fb: FormBuilder = inject(FormBuilder);
+  private readonly support: SupportService = inject(SupportService);
 
   readonly topics: SupportTopicCard[] = [
     {
@@ -107,9 +107,9 @@ export class SupportPage {
     {
       id: 'whatsapp',
       label: 'WhatsApp concierge',
-      value: '+91 93900 12345',
+      value: '+91 85558 59667',
       icon: 'phone_iphone',
-      href: 'https://wa.me/919390012345',
+      href: 'https://wa.me/918555859667',
       description: 'Quickest support 10 AM – 9 PM IST'
     },
     {
@@ -123,7 +123,7 @@ export class SupportPage {
     {
       id: 'phone',
       label: 'Call us',
-      value: '+91 98765 43210',
+      value: '+91 85558 59667',
       icon: 'call',
       description: 'Monday to Saturday, 10 AM – 7 PM'
     }

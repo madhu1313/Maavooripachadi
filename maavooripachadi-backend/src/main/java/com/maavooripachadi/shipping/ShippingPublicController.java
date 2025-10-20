@@ -19,6 +19,9 @@ public class ShippingPublicController {
     public java.util.Map<String,Object> track(@PathVariable String orderNo){
         var s = ships.findByOrderNo(orderNo).orElse(null);
         var ev = s==null? java.util.List.of() : tracks.findByShipmentIdOrderByCreatedAtAsc(s.getId());
-        return java.util.Map.of("shipment", s, "events", ev);
+        java.util.Map<String,Object> result = new java.util.HashMap<>();
+        result.put("shipment", s);
+        result.put("events", ev);
+        return result;
     }
 }

@@ -371,7 +371,7 @@ export const CONTACT_CHANNELS: ContactChannel[] = [
   {
     id: 'whatsapp',
     label: 'WhatsApp',
-    value: '+91 8555859667',
+    value: '+91 85558 59667',
     icon: 'chat',
     href: 'https://wa.me/918555859667'
   },

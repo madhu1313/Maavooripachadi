@@ -12,7 +12,7 @@ import { StoreTiming } from '../../core/models/storefront.models';
   styleUrls: ['./about.page.css']
 })
 export class AboutPage {
-  private readonly storefront = inject(StorefrontService);
+  private readonly storefront: StorefrontService = inject(StorefrontService);
 
   highlights$ = this.storefront.getHighlights();
   timings$ = this.storefront.getStoreTimings();

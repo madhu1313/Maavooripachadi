@@ -13,7 +13,7 @@ import { WishlistService } from '../../../core/services/wishlist.service';
   styleUrls: ['./product-card.component.css']
 })
 export class ProductCardComponent {
-  private readonly wishlist = inject(WishlistService);
+  private readonly wishlist: WishlistService = inject(WishlistService);
 
   @Input({ required: true }) product!: Product;
   @Input() compact = false;

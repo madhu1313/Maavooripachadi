@@ -7,8 +7,8 @@ export const environment = {
     baseUrl: 'https://maavooripachadi.com',
     tagline: 'Heritage Andhra pickles, sun-cured for modern kitchens',
     supportEmail: 'support@maavooripachadi.com',
-    supportPhone: '+91 93900 12345',
-    whatsappLink: 'https://wa.me/919390012345'
+    supportPhone: '+91 85558 59667',
+    whatsappLink: 'https://wa.me/918555859667'
   },
   payments: {
     razorpayKey: 'rzp_test_RUbsNadTP2WNOd'

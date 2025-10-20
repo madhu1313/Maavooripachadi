@@ -49,10 +49,10 @@ interface ProductViewModel {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductPage {
-  private readonly route = inject(ActivatedRoute);
-  private readonly catalog = inject(CatalogService);
-  private readonly cart = inject(CartService);
-  private readonly router = inject(Router);
+  private readonly route: ActivatedRoute = inject(ActivatedRoute);
+  private readonly catalog: CatalogService = inject(CatalogService);
+  private readonly cart: CartService = inject(CartService);
+  private readonly router: Router = inject(Router);
 
   private readonly selectedVariantId$ = new BehaviorSubject<number | null>(null);
   private readonly addingToCartSubject = new BehaviorSubject<boolean>(false);
@@ -125,7 +125,7 @@ export class ProductPage {
     shareReplay(1)
   );
 
-  private readonly selectedVariant$ = combineLatest([this.product$, this.selectedVariantId$]).pipe(
+  private readonly selectedVariant$ = combineLatest<[ProductDetailModel | undefined, number | null]>([this.product$, this.selectedVariantId$]).pipe(
     map(([product, selectedId]) => {
       if (!product) {
         return null;
@@ -135,7 +135,7 @@ export class ProductPage {
     shareReplay(1)
   );
 
-  readonly vm$: Observable<ProductViewModel | null> = combineLatest([this.product$, this.selectedVariant$]).pipe(
+  readonly vm$: Observable<ProductViewModel | null> = combineLatest<[ProductDetailModel | undefined, ProductDetailModel["variants"][number] | null]>([this.product$, this.selectedVariant$]).pipe(
     map(([product, selectedVariant]) => {
       if (!product) {
         return null;

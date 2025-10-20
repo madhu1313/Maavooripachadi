@@ -24,13 +24,13 @@ interface AccountViewState {
   styleUrls: ['./account.page.css']
 })
 export class AccountPage {
-  private readonly auth = inject(AuthService);
-  private readonly checkout = inject(CheckoutService);
-  private readonly support = inject(SupportService);
-  readonly cart = inject(CartService);
-  private readonly fb = inject(FormBuilder);
-  private readonly destroyRef = inject(DestroyRef);
-  private readonly router = inject(Router);
+  private readonly auth: AuthService = inject(AuthService);
+  private readonly checkout: CheckoutService = inject(CheckoutService);
+  private readonly support: SupportService = inject(SupportService);
+  readonly cart: CartService = inject(CartService);
+  private readonly fb: FormBuilder = inject(FormBuilder);
+  private readonly destroyRef: DestroyRef = inject(DestroyRef);
+  private readonly router: Router = inject(Router);
 
   showAuthForms = !this.auth.isAuthenticated();
   accountState$: Observable<AccountViewState> = of({

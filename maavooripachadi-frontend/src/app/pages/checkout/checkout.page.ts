@@ -98,9 +98,9 @@ const IDLE_QUOTE_STATE: QuoteState = { status: 'idle', quote: null };
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CheckoutPage {
-  private readonly cart = inject(CartService);
-  private readonly checkout = inject(CheckoutService);
-  private readonly fb = inject(FormBuilder);
+  private readonly cart: CartService = inject(CartService);
+  private readonly checkout: CheckoutService = inject(CheckoutService);
+  private readonly fb: FormBuilder = inject(FormBuilder);
 
   readonly states: string[] = [
     'Andhra Pradesh',

@@ -106,10 +106,10 @@ const CATEGORY_ALIAS_MAP: Record<string, string> = {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ShopPage {
-  private readonly catalog = inject(CatalogService);
-  private readonly storefront = inject(StorefrontService);
-  private readonly route = inject(ActivatedRoute);
-  private readonly fb = inject(FormBuilder);
+  private readonly catalog: CatalogService = inject(CatalogService);
+  private readonly storefront: StorefrontService = inject(StorefrontService);
+  private readonly route: ActivatedRoute = inject(ActivatedRoute);
+  private readonly fb: FormBuilder = inject(FormBuilder);
 
   readonly sortOptions = SORT_OPTIONS;
   readonly priceFilters = PRICE_FILTERS;
@@ -134,12 +134,12 @@ export class ShopPage {
   private readonly collectionsInternal$ = this.storefront.getCollections().pipe(shareReplay(1));
   readonly collections$ = this.collectionsInternal$;
 
-  private readonly activeCollection$ = combineLatest([this.collectionsInternal$, this.selectedCategory$]).pipe(
+  private readonly activeCollection$ = combineLatest<[Collection[], string]>([this.collectionsInternal$, this.selectedCategory$]).pipe(
     map(([collections, category]) => (category === 'all' ? null : collections.find((c) => c.id === category) ?? null)),
     shareReplay(1)
   );
 
-  private readonly baseProducts$: Observable<Product[]> = combineLatest([this.selectedCategory$, this.sort$]).pipe(
+  private readonly baseProducts$: Observable<Product[]> = combineLatest<[string, SortOptionId]>([this.selectedCategory$, this.sort$]).pipe(
     switchMap(([category, sort]) => {
       const params: CatalogListParams = { size: 60 };
       const sortParam = this.mapSortToApi(sort);
@@ -161,7 +161,7 @@ export class ShopPage {
     shareReplay(1)
   );
 
-  private readonly filteredProducts$ = combineLatest([this.baseProducts$, this.query$, this.price$, this.sort$]).pipe(
+  private readonly filteredProducts$ = combineLatest<[Product[], string, PriceFilterId, SortOptionId]>([this.baseProducts$, this.query$, this.price$, this.sort$]).pipe(
     map(([products, query, priceId, sortId]) => {
       let working = products;
 

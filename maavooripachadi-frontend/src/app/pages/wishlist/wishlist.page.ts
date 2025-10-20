@@ -15,9 +15,9 @@ import { CartService } from '../../core/services/cart.service';
   imports: [NgIf, NgFor, AsyncPipe, DatePipe, RouterLink, PricePipe]
 })
 export class WishlistPage {
-  private readonly wishlist = inject(WishlistService);
-  private readonly catalog = inject(CatalogService);
-  private readonly cart = inject(CartService);
+  private readonly wishlist: WishlistService = inject(WishlistService);
+  private readonly catalog: CatalogService = inject(CatalogService);
+  private readonly cart: CartService = inject(CartService);
 
   readonly items$ = this.wishlist.items$;
   readonly count$ = this.wishlist.count$;

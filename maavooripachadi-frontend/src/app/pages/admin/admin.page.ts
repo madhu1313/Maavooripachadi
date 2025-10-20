@@ -29,9 +29,9 @@ interface AuditLogEntry {
   styleUrls: ['./admin.page.css']
 })
 export class AdminPage {
-  private readonly api = inject(ApiService);
-  private readonly auth = inject(AuthService);
-  private readonly fb = inject(FormBuilder);
+  private readonly api: ApiService = inject(ApiService);
+  private readonly auth: AuthService = inject(AuthService);
+  private readonly fb: FormBuilder = inject(FormBuilder);
 
   statusMessage = '';
   loadingStats = false;

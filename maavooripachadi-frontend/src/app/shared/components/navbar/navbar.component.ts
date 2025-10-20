@@ -1,5 +1,5 @@
 import { AsyncPipe, NgClass, NgFor, NgIf } from '@angular/common';
-import { Component, WritableSignal, inject, signal } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { debounceTime, distinctUntilChanged, map, startWith, switchMap } from 'rxjs';
@@ -38,17 +38,17 @@ interface NavQuickLink {
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent {
-  private readonly storefront = inject(StorefrontService);
-  private readonly catalog = inject(CatalogService);
-  private readonly cart = inject(CartService);
-  private readonly wishlist = inject(WishlistService);
+  private readonly storefront: StorefrontService = inject(StorefrontService);
+  private readonly catalog: CatalogService = inject(CatalogService);
+  private readonly cart: CartService = inject(CartService);
+  private readonly wishlist: WishlistService = inject(WishlistService);
 
   readonly announcements: Announcement[] = [
     { id: 'no-preservatives', message: 'No preservatives • HACCP certified • Made fresh every fortnight', icon: 'verified' },
     { id: 'shipping', message: 'Pan-India delivery in 3-5 days • Free Hyderabad delivery on orders over ₹999', icon: 'local_shipping' }
   ];
 
-  readonly hotline = { label: 'Concierge', value: '+91 93900 12345', icon: 'support_agent', href: 'https://wa.me/919390012345' };
+  readonly hotline = { label: 'Concierge', value: '+91 85558 59667', icon: 'support_agent', href: 'https://wa.me/918555859667' };
   readonly email = { label: 'Email', value: 'support@maavooripachadi.com', icon: 'mail', href: 'mailto:support@maavooripachadi.com' };
 
   readonly quickLinks: NavQuickLink[] = [
@@ -71,8 +71,8 @@ export class NavbarComponent {
   readonly cartCount$ = this.cart.cart$.pipe(map((summary) => summary.itemsCount ?? 0));
   readonly wishlistCount$ = this.wishlist.count$;
 
-  readonly menuOpen: WritableSignal<boolean> = signal(false);
-  readonly searchOpen: WritableSignal<boolean> = signal(false);
+  menuOpen = false;
+  searchOpen = false;
 
   readonly searchControl = new FormControl('', { nonNullable: true });
   readonly searchResults$ = this.searchControl.valueChanges.pipe(
@@ -83,22 +83,22 @@ export class NavbarComponent {
   );
 
   toggleMenu(): void {
-    this.menuOpen.update((state) => !state);
+    this.menuOpen = !this.menuOpen;
   }
 
   closeMenu(): void {
-    this.menuOpen.set(false);
+    this.menuOpen = false;
   }
 
   toggleSearch(): void {
-    this.searchOpen.update((state) => !state);
-    if (!this.searchOpen()) {
+    this.searchOpen = !this.searchOpen;
+    if (!this.searchOpen) {
       this.searchControl.setValue('', { emitEvent: true });
     }
   }
 
   openSearchWith(term: string): void {
-    this.searchOpen.set(true);
+    this.searchOpen = true;
     this.searchControl.setValue(term, { emitEvent: true });
   }
 

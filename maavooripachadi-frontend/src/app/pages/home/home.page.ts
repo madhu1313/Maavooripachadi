@@ -1,4 +1,4 @@
-﻿import { AsyncPipe, NgClass, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe, NgClass, NgFor, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { SlickCarouselModule } from 'ngx-slick-carousel';
@@ -49,8 +49,8 @@ interface ExperienceStat {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HomePage {
-  private readonly storefront = inject(StorefrontService);
-  private readonly catalog = inject(CatalogService);
+  private readonly storefront: StorefrontService = inject(StorefrontService);
+  private readonly catalog: CatalogService = inject(CatalogService);
 
   readonly heroSlides$ = this.storefront.getHeroSlides();
   readonly collections$ = this.storefront.getCollections();

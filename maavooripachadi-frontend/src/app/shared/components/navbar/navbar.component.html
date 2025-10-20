@@ -41,7 +41,7 @@
         <img src="/assets/images/Maavooripachadi_logo.jpg" alt="Maavoori Pachadi logo">
       </a>
 
-      <nav class="navbar__links" [ngClass]="{ 'navbar__links--open': menuOpen() }">
+      <nav class="navbar__links" [ngClass]="{ 'navbar__links--open': menuOpen }">
         <div class="navbar__links-inner">
           <a
             *ngFor="let link of links$ | async; trackBy: trackByLink"
@@ -110,7 +110,7 @@
   </div>
 
   <!-- Search overlay -->
-  <div class="search-overlay" *ngIf="searchOpen()">
+  <div class="search-overlay" *ngIf="searchOpen">
     <div class="search-overlay__content">
       <div class="search-overlay__header">
         <h3>What Maavoori craving do you have?</h3>

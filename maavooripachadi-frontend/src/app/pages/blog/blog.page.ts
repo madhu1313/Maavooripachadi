@@ -16,9 +16,9 @@ import { ApiService } from '../../core/services/api.service';
   styleUrls: ['./blog.page.css']
 })
 export class BlogPage {
-  private readonly storefront = inject(StorefrontService);
-  private readonly fb = inject(FormBuilder);
-  private readonly api = inject(ApiService);
+  private readonly storefront: StorefrontService = inject(StorefrontService);
+  private readonly fb: FormBuilder = inject(FormBuilder);
+  private readonly api: ApiService = inject(ApiService);
 
   blogPosts$: Observable<BlogPost[]> = this.storefront.getBlogPosts().pipe(
     map((posts) => posts ?? [])

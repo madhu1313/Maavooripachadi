@@ -16,7 +16,7 @@ interface FooterNavColumn {
   styleUrls: ['./footer.component.css']
 })
 export class FooterComponent {
-  private readonly storefront = inject(StorefrontService);
+  private readonly storefront: StorefrontService = inject(StorefrontService);
 
   readonly channels$ = this.storefront.getContactChannels();
   readonly timings$ = this.storefront.getStoreTimings();

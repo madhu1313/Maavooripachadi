@@ -47,7 +47,7 @@ export class TopBarComponent {
   ];
 
   readonly concierge = {
-    whatsapp: 'https://wa.me/919390012345',
-    display: '+91 93900 12345'
+    whatsapp: 'https://wa.me/918555859667',
+    display: '+91 85558 59667'
   };
 }

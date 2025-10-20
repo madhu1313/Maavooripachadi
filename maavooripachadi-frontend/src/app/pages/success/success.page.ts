@@ -44,8 +44,8 @@ interface SuccessViewModel {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SuccessPage {
-  private readonly cart = inject(CartService);
-  private readonly catalog = inject(CatalogService);
+  private readonly cart: CartService = inject(CartService);
+  private readonly catalog: CatalogService = inject(CatalogService);
 
   private readonly orderRefSubject = new BehaviorSubject<string | null>(null);
   readonly orderReference$ = this.orderRefSubject.asObservable();
@@ -71,7 +71,7 @@ export class SuccessPage {
     }
   ];
 
-  readonly whatsappUrl = 'https://wa.me/919390012345?text=Hi%20Maavoori%20team,%20could%20you%20help%20me%20with%20my%20recent%20order%3F';
+  readonly whatsappUrl = 'https://wa.me/918555859667?text=Hi%20Maavoori%20team,%20could%20you%20help%20me%20with%20my%20recent%20order%3F';
 
   private readonly timelineSteps: TimelineStep[] = [
     {
