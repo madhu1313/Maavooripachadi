@@ -44,12 +44,12 @@ jobs:
           mvn -B verify
 
       - name: Sonar analysis
-        if: ${{ env.SONAR_HOST_URL != '' && env.SONAR_TOKEN != '' }}
+        if: ${{ env.SONAR_HOST_URL != '' && env.SONAR_TOKEN != '' && !contains(env.SONAR_HOST_URL, 'localhost') && !contains(env.SONAR_HOST_URL, '127.0.0.1') && !contains(env.SONAR_HOST_URL, '0:0:0:0:0:0:0:1') }}
         working-directory: maavooripachadi-backend
         env:
           SONAR_HOST_URL: ${{ env.SONAR_HOST_URL }}
           SONAR_TOKEN: ${{ env.SONAR_TOKEN }}
         run: >
-          mvn -B org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
+          mvn -B org.sonarsource.scanner.maven:sonar-maven-plugin:5.2.0.4988:sonar
           -Dsonar.projectKey=Maavooripachadi
           -Dsonar.projectName='Maavooripachadi'
