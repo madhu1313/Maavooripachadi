@@ -37,14 +37,14 @@ VALUES
   ),
   (
     'crab-pickle',
-    'Spiced Crab Pickle',
-    '<p>Handpicked crab meat cooked with stone-ground masalas and sealed with gingelly oil.</p>',
-    '/assets/images/fish.jpg',
+    'Chicken Boneless Pickle',
+    '<p>Juicy boneless chicken pieces slow-cooked in gingelly oil with hand-pounded spices.</p>',
+    '/assets/images/chicken.jpg',
     58900,
     62900,
     'non-veg-pickles',
-    'pickle,non-veg,seafood,crab,heritage',
-    'Spiced crab pickle indulgent seafood delicacy slow cooked stone ground masala',
+    'pickle,non-veg,chicken,boneless,spicy',
+    'Chicken boneless pickle tender chicken chunks slow cooked gingelly oil aromatic spices',
     1,
     NULL
   )
@@ -120,43 +120,56 @@ ON DUPLICATE KEY UPDATE
 INSERT INTO product (slug, title, description_html, hero_image_url, price_paise, mrp_paise, category_slug, tags, search_text, in_stock, badge)
 VALUES
   (
-    'bellam-gavvalu',
-    'Bellam Gavvalu',
-    '<p>Crispy gavvalu coated in glossy jaggery caramel with hints of cardamom.</p>',
-    '/assets/images/dry-fruit_670x.jpg',
-    24900,
-    27900,
+    'raagi-murukulu',
+    'Raagi Murukulu',
+    '<p>Millet murukulu fried crisp with gingelly oil, Byadgi chillies and curry leaf tempering.</p>',
+    '/assets/images/raagi-murukulu.jpg',
+    12500,
+    14900,
     'snacks-sweets',
-    'snack,sweet,gavvalu,jaggery',
-    'Bellam gavvalu jaggery glazed crunchy shells festive sweet snack classic',
+    'snack,millet,murukulu,raagi',
+    'Raagi murukulu crispy millet snack gingelly oil byadgi chilli curry leaf',
     1,
-    'Festive special'
+    'Millet special'
   ),
   (
-    'ribbon-pakodi',
-    'Ribbon Pakodi',
-    '<p>Crunchy ribbon murukku made with rice flour, besan and aromatic chilli-garlic tempering.</p>',
-    '/assets/images/raagi-murukulu.jpg',
-    22900,
-    25900,
+    'pudina-jonna-murukulu',
+    'Pudina Jonna Murukulu',
+    '<p>Jonna murukulu tossed with fresh mint, green chilli and ajwain for a refreshing crunch.</p>',
+    '/assets/images/pudina-jonna-murukulu.jpg',
+    12500,
+    13900,
     'snacks-sweets',
-    'snack,savoury,ribbon,pakodi',
-    'Ribbon pakodi crunchy savoury snack rice flour besan chilli garlic tempering',
+    'snack,pudina,murukulu,jonna',
+    'Pudina jonna murukulu corn flour snack mint green chilli ajwain crispy',
     1,
     NULL
   ),
   (
     'badam-halwa',
-    'Badam Halwa',
-    '<p>Rich almond halwa slow-cooked in ghee with saffron, cardamom and condensed milk.</p>',
-    '/assets/images/dry-fruit_670x.jpg',
-    39900,
-    44900,
+    'The Original Badam Halwa',
+    '<p>Almond halwa slow-cooked with A2 ghee, saffron strands and freshly ground cardamom.</p>',
+    '/assets/images/badam-halwa.jpg',
+    50000,
+    55900,
     'snacks-sweets',
     'sweet,badam,halwa,festive',
     'Badam halwa decadent almond dessert ghee slow cooked saffron festive favourite',
     1,
     'Bestseller'
+  ),
+  (
+    'aloo-cashew-mixture',
+    'Aloo Cashew Mixture',
+    '<p>Spiced potato sev blended with roasted cashews, peanuts and curry leaves.</p>',
+    '/assets/images/sweets-n-snacks.jpg',
+    14000,
+    15900,
+    'snacks-sweets',
+    'snack,mixture,cashew,aloo',
+    'Aloo cashew mixture spicy sev roasted cashews peanuts curry leaf snack',
+    1,
+    NULL
   )
 ON DUPLICATE KEY UPDATE
   title = VALUES(title),
@@ -170,7 +183,22 @@ ON DUPLICATE KEY UPDATE
   in_stock = VALUES(in_stock),
   badge = VALUES(badge);
 
--- Seed basic variants so product pages can add items to cart.
+-- 250 g jars for pickles and podis (priced at half of the 500 g MRP).
+INSERT INTO variant (product_id, sku, label, price_paise, in_stock)
+SELECT
+  p.id,
+  CONCAT(p.slug, '-250g'),
+  '250 g jar',
+  CAST(ROUND(p.price_paise / 2) AS SIGNED),
+  TRUE
+FROM product p
+WHERE p.category_slug IN ('veg-pickles', 'non-veg-pickles', 'podi')
+ON DUPLICATE KEY UPDATE
+  label = VALUES(label),
+  price_paise = VALUES(price_paise),
+  in_stock = VALUES(in_stock);
+
+-- Standard 500 g jars for all seeded catalog items.
 INSERT INTO variant (product_id, sku, label, price_paise, in_stock)
 SELECT p.id, CONCAT(p.slug, '-500g'), '500 g jar', p.price_paise, TRUE
 FROM product p
@@ -186,10 +214,26 @@ WHERE p.slug IN (
   'karivepaku-podi',
   'sambar-mix',
   'flax-seed-podi',
-  'bellam-gavvalu',
-  'ribbon-pakodi',
+  'raagi-murukulu',
+  'pudina-jonna-murukulu',
+  'aloo-cashew-mixture',
   'badam-halwa'
 )
+ON DUPLICATE KEY UPDATE
+  label = VALUES(label),
+  price_paise = VALUES(price_paise),
+  in_stock = VALUES(in_stock);
+
+-- 1 kg jars for pickles and podis (priced at double the 500 g MRP).
+INSERT INTO variant (product_id, sku, label, price_paise, in_stock)
+SELECT
+  p.id,
+  CONCAT(p.slug, '-1000g'),
+  '1 kg jar',
+  p.price_paise * 2,
+  TRUE
+FROM product p
+WHERE p.category_slug IN ('veg-pickles', 'non-veg-pickles', 'podi')
 ON DUPLICATE KEY UPDATE
   label = VALUES(label),
   price_paise = VALUES(price_paise),

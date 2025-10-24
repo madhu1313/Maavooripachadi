@@ -1,12 +1,33 @@
 package com.maavooripachadi.shipping;
+
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import java.util.Map;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.*;
 
 class ShippingControllerTest {
 
+    private PincodeService pincodeService;
+    private ShippingController controller;
+
+    @BeforeEach
+    void setUp() {
+        pincodeService = mock(PincodeService.class);
+        controller = new ShippingController(pincodeService);
+    }
+
     @Test
-    void classLoads() {
-        assertDoesNotThrow(() -> Class.forName("com.maavooripachadi.shipping.ShippingController"));
+    void checkReturnsServiceabilityFlag() {
+        when(pincodeService.serviceable("500032")).thenReturn(true);
+
+        Map<String, Object> response = controller.check("500032");
+
+        assertThat(response)
+            .containsEntry("pincode", "500032")
+            .containsEntry("serviceable", true);
+        verify(pincodeService).serviceable("500032");
     }
 }

@@ -11,7 +11,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.io.StringReader;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 
 @Service
@@ -27,11 +31,10 @@ public class I18nService {
    */
   @Transactional(readOnly = true)
   public Map<String, String> getBundle(String namespace, String locale){
-    List<String> chain = buildFallbackChain(locale);
+    List<String> chain = new ArrayList<>(buildFallbackChain(locale));
     List<I18nString> list = repo.findByNamespaceAndLocales(namespace, chain);
     Map<String, String> out = new LinkedHashMap<>();
 // Apply from least specific to most specific so later entries override earlier.
-    Collections.reverse(chain);
     for (String loc : chain){
       for (I18nString i : list){
         if (loc.equalsIgnoreCase(i.getLocale()) && (i.getApproved() == null || i.getApproved())){

@@ -1,0 +1,55 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    name: Build and analyze
+    runs-on: ubuntu-latest
+    env:
+      SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: 21
+          distribution: zulu
+
+      - name: Cache SonarQube packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.sonar/cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+
+      - name: Cache Maven packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+
+      - name: Build
+        working-directory: maavooripachadi-backend
+        run: >
+          mvn -B verify
+
+      - name: Sonar analysis
+        if: ${{ env.SONAR_HOST_URL != '' && env.SONAR_TOKEN != '' && !contains(env.SONAR_HOST_URL, 'localhost') && !contains(env.SONAR_HOST_URL, '127.0.0.1') && !contains(env.SONAR_HOST_URL, '0:0:0:0:0:0:0:1') }}
+        working-directory: maavooripachadi-backend
+        env:
+          SONAR_HOST_URL: ${{ env.SONAR_HOST_URL }}
+          SONAR_TOKEN: ${{ env.SONAR_TOKEN }}
+        run: >
+          mvn -B org.sonarsource.scanner.maven:sonar-maven-plugin:5.2.0.4988:sonar
+          -Dsonar.projectKey=Maavooripachadi
+          -Dsonar.projectName='Maavooripachadi'

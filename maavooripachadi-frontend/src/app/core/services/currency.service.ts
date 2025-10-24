@@ -38,6 +38,9 @@ export class CurrencyService {
     if (current.code !== 'INR' && current.paiseToMinorRate === 1) {
       this.refreshRate(current.code);
     }
+    if (current.code !== 'INR') {
+      this.updateState({ code: 'INR', paiseToMinorRate: 1 });
+    }
   }
 
   get current(): CurrencyState {

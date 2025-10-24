@@ -26,8 +26,10 @@
     <flyway.user>root</flyway.user>
     <flyway.password>Mad@1234</flyway.password>
     <tika.version>2.9.0</tika.version>
+    <jacoco.version>0.8.11</jacoco.version>
     <maven.compiler.release>${java.version}</maven.compiler.release>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <sonar.coverage.jacoco.xmlReportPaths>${project.reporting.outputDirectory}/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
   </properties>
 
   <!-- Import Spring Boot dependency management -->
@@ -225,6 +227,26 @@
         </configuration>
       </plugin>
 
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <version>${jacoco.version}</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>prepare-agent</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>report</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>report</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
       <!-- Unit & integration tests -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -286,6 +308,12 @@
           <doCheck>false</doCheck>
           <doUpdate>false</doUpdate>
         </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.sonarsource.scanner.maven</groupId>
+        <artifactId>sonar-maven-plugin</artifactId>
+        <version>3.10.0.2594</version>
       </plugin>
     </plugins>
   </build>

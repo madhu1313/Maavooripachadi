@@ -32,7 +32,7 @@ export const NAVIGATION_LINKS: NavigationLink[] = [
       { label: 'Gongura Mutton', path: '/product/gongura-mutton' },
       { label: 'Natu Kodi Pickle', path: '/product/natu-kodi' },
       { label: 'Prawns Pickle', path: '/product/prawns' },
-      { label: 'Crab Pickle', path: '/product/crab-pickle' }
+      { label: 'Chicken Boneless Pickle', path: '/product/crab-pickle' }
     ]
   },
   {
@@ -237,35 +237,48 @@ export const PRODUCTS: Product[] = [
     isNew: true
   },
   {
-    id: 'bellam-gavvalu',
-    title: 'Bellam Gavvalu',
-    description: 'Jaggery coated shell snacks fried in cold pressed ghee.',
-    image: PLACEHOLDER,
-    price: 260,
+    id: 'raagi-murukulu',
+    title: 'Raagi Murukulu',
+    description: 'Millet murukulu fried crisp with red chilli and curry leaf tempering.',
+    image: '/assets/images/raagi-murukulu.jpg',
+    price: 125,
     collectionIds: ['snacks-sweets'],
-    rating: 4.9,
-    reviewsCount: 67,
-    badge: 'New'
+    rating: 4.8,
+    reviewsCount: 58,
+    tags: ['millet', 'crunchy']
   },
   {
-    id: 'ribbon-pakodi',
-    title: 'Ribbon Pakodi',
-    description: 'Crispy besan strips seasoned with garlic and pepper.',
-    image: PLACEHOLDER,
-    price: 220,
+    id: 'pudina-jonna-murukulu',
+    title: 'Pudina Jonna Murukulu',
+    description: 'Corn flour murukulu tossed with fresh mint, green chilli and ajwain.',
+    image: '/assets/images/pudina-jonna-murukulu.jpg',
+    price: 125,
     collectionIds: ['snacks-sweets'],
-    rating: 4.5,
-    reviewsCount: 54
+    rating: 4.7,
+    reviewsCount: 41,
+    tags: ['mint', 'snack']
+  },
+  {
+    id: 'aloo-cashew-mixture',
+    title: 'Aloo Cashew Mixture',
+    description: 'Spiced potato sev blended with roasted cashews, peanuts and curry leaves.',
+    image: '/assets/images/raagi-murukulu.jpg',
+    price: 140,
+    collectionIds: ['snacks-sweets'],
+    rating: 4.6,
+    reviewsCount: 63,
+    tags: ['festival', 'mix']
   },
   {
     id: 'badam-halwa',
-    title: 'Badam Halwa',
-    description: 'Almond halwa slow cooked with A2 ghee and saffron.',
-    image: PLACEHOLDER,
-    price: 540,
+    title: 'The Original Badam Halwa',
+    description: 'Almond halwa slow cooked with A2 ghee, saffron and cardamom.',
+    image: '/assets/images/badam-halwa.jpg',
+    price: 500,
     collectionIds: ['snacks-sweets'],
     rating: 4.9,
     reviewsCount: 112,
+    badge: 'Sold Out',
     isBestSeller: true
   }
 ];
