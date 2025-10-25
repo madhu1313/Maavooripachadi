@@ -48,9 +48,7 @@ pipeline {
               'mvn',
               'sonar:sonar',
               "-Dsonar.projectKey=Maavooripachadi",
-              "-Dsonar.projectName=Maavooripachadi",
-              "-Dsonar.host.url=${SONAR_HOST_URL}",
-              "-Dsonar.token=${SONAR_AUTH_TOKEN}"
+              "-Dsonar.projectName=Maavooripachadi"
             ].join(' ')
 
             if (isUnix()) {
@@ -71,7 +69,12 @@ pipeline {
         }
       }
       steps {
-        waitForQualityGate abortPipeline: true
+        timeout(time: 5, unit: 'MINUTES') {
+          script {
+            def gate = waitForQualityGate abortPipeline: true, installationName: 'local-sonar'
+            echo "Quality gate status: ${gate.status}"
+          }
+        }
       }
     }
   }
