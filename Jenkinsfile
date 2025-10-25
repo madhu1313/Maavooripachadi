@@ -24,6 +24,24 @@ pipeline {
       }
     }
 
+    stage('Version Stamp') {
+      steps {
+        script {
+          def timestamp = new Date().format("yyyyMMddHHmmss")
+          env.APP_VERSION = "1.0.${env.BUILD_NUMBER}-${timestamp}"
+          def command = "mvn versions:set -DnewVersion=${env.APP_VERSION} -DgenerateBackupPoms=false"
+
+          if (isUnix()) {
+            sh "cd maavooripachadi-backend && ${command}"
+          } else {
+            bat "cd /d maavooripachadi-backend && ${command}"
+          }
+
+          echo "Backend version set to ${env.APP_VERSION}"
+        }
+      }
+    }
+
     stage('Backend Build & Test') {
       steps {
         script {
@@ -48,7 +66,8 @@ pipeline {
               'mvn',
               'sonar:sonar',
               "-Dsonar.projectKey=Maavooripachadi",
-              "-Dsonar.projectName=Maavooripachadi"
+              "-Dsonar.projectName=Maavooripachadi",
+              "-Dsonar.token=${SONAR_AUTH_TOKEN}"
             ].join(' ')
 
             if (isUnix()) {
