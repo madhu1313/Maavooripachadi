@@ -1,6 +1,6 @@
 export const environment = {
   production: false,
-  apiBase: 'http://localhost:8080/api/v1',
+  apiBase: 'http://localhost:8081/api/v1',
   assetsBaseUrl: 'http://localhost:4200/assets',
   site: {
     name: 'Maavoori Pachadi',

@@ -96,9 +96,25 @@ pipeline {
         }
       }
     }
+
+    stage('Backend Package') {
+      steps {
+        script {
+          def command = 'mvn -DskipTests package'
+          if (isUnix()) {
+            sh "cd maavooripachadi-backend && ${command}"
+          } else {
+            bat "cd /d maavooripachadi-backend && ${command}"
+          }
+        }
+      }
+    }
   }
 
   post {
+    success {
+      archiveArtifacts artifacts: 'maavooripachadi-backend/target/*.jar', fingerprint: true
+    }
     always {
       cleanWs()
     }
