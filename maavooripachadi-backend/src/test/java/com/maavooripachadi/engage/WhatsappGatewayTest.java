@@ -85,4 +85,20 @@ class WhatsappGatewayTest {
 
         assertThrows(IllegalStateException.class, () -> gateway.sendText("918555859667", "Hello"));
     }
+
+    @Test
+    void defaultConstructorUsesDefaultDependencies() {
+        WhatsappGateway gateway = new WhatsappGateway(properties);
+        assertTrue(gateway.canSend());
+    }
+
+    @Test
+    void constructorRequiresNonNullDependencies() {
+        assertThrows(NullPointerException.class,
+                () -> new WhatsappGateway(null, mock(HttpClient.class), new ObjectMapper()));
+        assertThrows(NullPointerException.class,
+                () -> new WhatsappGateway(properties, null, new ObjectMapper()));
+        assertThrows(NullPointerException.class,
+                () -> new WhatsappGateway(properties, mock(HttpClient.class), null));
+    }
 }
