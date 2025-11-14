@@ -46,10 +46,30 @@ pipeline {
       }
     }
 
+    stage('Flyway Repair & Migrate') {
+      steps {
+        script {
+          if (isUnix()) {
+            sh """
+              cd maavooripachadi-backend
+              mvn flyway:repair
+              mvn flyway:migrate
+            """
+          } else {
+            bat """
+              cd /d maavooripachadi-backend
+              mvn flyway:repair
+              mvn flyway:migrate
+            """
+          }
+        }
+      }
+    }
+
     stage('Backend Build & Test') {
       steps {
         script {
-          def command = 'mvn clean verify -Dflyway.skip=true'
+          def command = 'mvn clean install'
           if (isUnix()) {
             sh "cd maavooripachadi-backend && ${command}"
           } else {
