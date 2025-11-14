@@ -21,8 +21,17 @@ public class RazorpayGateway implements PaymentGateway {
 
     private static final Logger log = LoggerFactory.getLogger(RazorpayGateway.class);
 
-    private final HttpClient httpClient = HttpClient.newHttpClient();
-    private final ObjectMapper mapper = new ObjectMapper();
+    private final HttpClient httpClient;
+    private final ObjectMapper mapper;
+
+    public RazorpayGateway() {
+        this(HttpClient.newHttpClient(), new ObjectMapper());
+    }
+
+    RazorpayGateway(HttpClient httpClient, ObjectMapper mapper) {
+        this.httpClient = httpClient;
+        this.mapper = mapper;
+    }
 
 
     @Value("${payments.razorpay.key:rzp_test}")

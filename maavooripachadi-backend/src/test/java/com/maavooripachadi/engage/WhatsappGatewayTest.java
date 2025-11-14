@@ -87,6 +87,39 @@ class WhatsappGatewayTest {
     }
 
     @Test
+    void sendTextStripsInternationalPrefix() throws Exception {
+        HttpClient httpClient = mock(HttpClient.class);
+        @SuppressWarnings("unchecked")
+        HttpResponse<String> response = mock(HttpResponse.class);
+        when(response.statusCode()).thenReturn(200);
+        when(response.body()).thenReturn("{\"messages\":[{\"id\":\"wa-msg-2\"}]}");
+        when(httpClient.send(any(HttpRequest.class), any(HttpResponse.BodyHandler.class))).thenReturn(response);
+
+        WhatsappGateway gateway = new WhatsappGateway(properties, httpClient, new ObjectMapper());
+
+        String id = gateway.sendText("0091 85558 59667", "Hi");
+
+        assertEquals("wa-msg-2", id);
+    }
+
+    @Test
+    void sendTextLeavesDigitsWhenCountryCodeMissing() throws Exception {
+        properties.setDefaultCountryCode(null);
+        HttpClient httpClient = mock(HttpClient.class);
+        @SuppressWarnings("unchecked")
+        HttpResponse<String> response = mock(HttpResponse.class);
+        when(response.statusCode()).thenReturn(200);
+        when(response.body()).thenReturn("{\"messages\":[{\"id\":\"wa-msg-3\"}]}");
+        when(httpClient.send(any(HttpRequest.class), any(HttpResponse.BodyHandler.class))).thenReturn(response);
+
+        WhatsappGateway gateway = new WhatsappGateway(properties, httpClient, new ObjectMapper());
+
+        String id = gateway.sendText("+1 (650) 555-1212", "Hi");
+
+        assertEquals("wa-msg-3", id);
+    }
+
+    @Test
     void defaultConstructorUsesDefaultDependencies() {
         WhatsappGateway gateway = new WhatsappGateway(properties);
         assertTrue(gateway.canSend());
