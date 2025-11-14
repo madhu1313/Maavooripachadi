@@ -2,7 +2,7 @@ pipeline {
   agent any
 
   tools {
-    jdk 'jdk17'
+    jdk 'jdk21'
     maven 'maven3.9'
   }
 
@@ -15,6 +15,10 @@ pipeline {
     skipDefaultCheckout()
     buildDiscarder(logRotator(numToKeepStr: '20'))
     timestamps()
+  }
+
+  triggers {
+    githubPush()
   }
 
   stages {
