@@ -140,7 +140,9 @@ pipeline {
 
   post {
     success {
-      archiveArtifacts artifacts: 'maavooripachadi-backend/target/*.jar', fingerprint: true
+      dir('maavooripachadi-backend') {
+        archiveArtifacts artifacts: 'target/*.jar', fingerprint: true, onlyIfSuccessful: true
+      }
     }
     always {
       cleanWs()
