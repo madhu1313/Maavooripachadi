@@ -11,6 +11,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
+import java.util.Objects;
 
 @Component
 public class WhatsappGateway implements WhatsappClient {
@@ -18,11 +19,17 @@ public class WhatsappGateway implements WhatsappClient {
     private static final Logger log = LoggerFactory.getLogger(WhatsappGateway.class);
 
     private final WhatsappProperties properties;
-    private final HttpClient httpClient = HttpClient.newHttpClient();
-    private final ObjectMapper mapper = new ObjectMapper();
+    private final HttpClient httpClient;
+    private final ObjectMapper mapper;
 
     public WhatsappGateway(WhatsappProperties properties) {
-        this.properties = properties;
+        this(properties, HttpClient.newHttpClient(), new ObjectMapper());
+    }
+
+    WhatsappGateway(WhatsappProperties properties, HttpClient httpClient, ObjectMapper mapper) {
+        this.properties = Objects.requireNonNull(properties, "properties");
+        this.httpClient = Objects.requireNonNull(httpClient, "httpClient");
+        this.mapper = Objects.requireNonNull(mapper, "mapper");
     }
 
     @Override
