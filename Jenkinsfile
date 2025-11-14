@@ -140,8 +140,15 @@ pipeline {
 
   post {
     success {
-      dir('maavooripachadi-backend') {
-        archiveArtifacts artifacts: 'target/*.jar', fingerprint: true, onlyIfSuccessful: true
+      script {
+        def backendTarget = 'maavooripachadi-backend/target'
+        if (fileExists(backendTarget)) {
+          dir('maavooripachadi-backend') {
+            archiveArtifacts artifacts: 'target/*.jar', fingerprint: true, onlyIfSuccessful: true
+          }
+        } else {
+          echo "Skipping artifact archive because ${backendTarget} was not found."
+        }
       }
     }
     always {
