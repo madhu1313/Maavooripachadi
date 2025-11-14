@@ -92,9 +92,12 @@ pipeline {
         }
       }
       steps {
-        timeout(time: 5, unit: 'MINUTES') {
+        timeout(time: 10, unit: 'MINUTES') {
           script {
-            def gate = waitForQualityGate abortPipeline: true, installationName: 'local-sonar'
+            def gate = waitForQualityGate()
+            if (gate.status != 'OK') {
+              error "Quality gate failed with status: ${gate.status}"
+            }
             echo "Quality gate status: ${gate.status}"
           }
         }
