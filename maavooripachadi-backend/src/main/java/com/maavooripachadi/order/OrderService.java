@@ -2,6 +2,8 @@ package com.maavooripachadi.order;
 
 
 import com.maavooripachadi.order.dto.CheckoutRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,14 +12,25 @@ import org.springframework.web.server.ResponseStatusException;
 
 @Service
 public class OrderService {
+    private static final Logger log = LoggerFactory.getLogger(OrderService.class);
+
     private final OrderRepository orders;
 private final OrderItemRepository items;
 private final OrderNumberService orderNos;
 private final OrderPricingService pricing;
+private final OrderNotificationService notifications;
 
 
-public OrderService(OrderRepository orders, OrderItemRepository items, OrderNumberService orderNos, OrderPricingService pricing){
-    this.orders = orders; this.items = items; this.orderNos = orderNos; this.pricing = pricing;
+public OrderService(OrderRepository orders,
+                    OrderItemRepository items,
+                    OrderNumberService orderNos,
+                    OrderPricingService pricing,
+                    OrderNotificationService notifications){
+    this.orders = orders;
+    this.items = items;
+    this.orderNos = orderNos;
+    this.pricing = pricing;
+    this.notifications = notifications;
 }
 
 
@@ -62,6 +75,12 @@ public Order checkout(CheckoutRequest req){
 
 
     orders.saveAndFlush(o); // cascade saves items and flush to DB
+
+    try {
+        notifications.notifyOrderPlaced(o);
+    } catch (Exception ex) {
+        log.warn("Failed to send notifications for order {}: {}", o.getOrderNo(), ex.getMessage());
+    }
 
 
 // TODO: Reserve inventory via Logistics InventoryService

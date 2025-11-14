@@ -18,6 +18,7 @@ class OrderServiceTest {
     private OrderItemRepository orderItemRepository;
     private OrderNumberService orderNumberService;
     private OrderPricingService orderPricingService;
+    private OrderNotificationService orderNotificationService;
 
     private OrderService service;
 
@@ -27,8 +28,9 @@ class OrderServiceTest {
         orderItemRepository = mock(OrderItemRepository.class);
         orderNumberService = mock(OrderNumberService.class);
         orderPricingService = mock(OrderPricingService.class);
+        orderNotificationService = mock(OrderNotificationService.class);
 
-        service = new OrderService(orderRepository, orderItemRepository, orderNumberService, orderPricingService);
+        service = new OrderService(orderRepository, orderItemRepository, orderNumberService, orderPricingService, orderNotificationService);
 
         when(orderRepository.saveAndFlush(any(Order.class))).thenAnswer(invocation -> invocation.getArgument(0));
         when(orderRepository.save(any(Order.class))).thenAnswer(invocation -> invocation.getArgument(0));
@@ -72,6 +74,7 @@ class OrderServiceTest {
         assertThat(order.getItems()).hasSize(1);
 
         verify(orderRepository).saveAndFlush(order);
+        verify(orderNotificationService).notifyOrderPlaced(order);
     }
 
     @Test
