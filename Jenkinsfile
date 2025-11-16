@@ -169,10 +169,18 @@ pipeline {
     stage('Docker Deploy') {
       when {
         expression {
-          def rawBranch = env.BRANCH_NAME ?: env.GIT_BRANCH ?: env.GIT_LOCAL_BRANCH ?: ''
+          def rawBranch = env.BRANCH_NAME ?: env.GIT_BRANCH ?: env.GIT_LOCAL_BRANCH ?: env.CHANGE_BRANCH ?: env.CHANGE_TARGET ?: ''
           def normalized = rawBranch
             .replace('refs/heads/', '')
             .replace('origin/', '')
+            .trim()
+          def isChangeRequest = (env.CHANGE_ID ?: '').trim()
+
+          if (!normalized) {
+            // Single-branch pipeline jobs don't set branch variables; treat them as main unless building a PR
+            return !isChangeRequest
+          }
+
           return normalized == 'main'
         }
       }
