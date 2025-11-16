@@ -214,6 +214,13 @@
         <configuration>
           <mainClass>com.maavooripachadi.MaavooriPachadiApplication</mainClass>
         </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>repackage</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
 
       <!-- Java 21 -->

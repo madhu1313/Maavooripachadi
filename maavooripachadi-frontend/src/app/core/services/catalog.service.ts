@@ -119,9 +119,8 @@ export class CatalogService {
   }
 
   getById(slug: string): Observable<ProductDetailModel> {
-    return this.api
-      .get<ProductDetailResponse>(this.api.url('product', { productId: slug }))
-      .pipe(map((detail) => this.mapDetail(detail)));
+    const path = this.api.path('product', { productId: slug });
+    return this.api.get<ProductDetailResponse>(path).pipe(map((detail) => this.mapDetail(detail)));
   }
 
   private buildListQuery(params: CatalogListParams): QueryParams {

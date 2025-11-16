@@ -79,6 +79,30 @@ pipeline {
       }
     }
 
+    stage('Frontend Build & Test') {
+      steps {
+        script {
+          if (isUnix()) {
+            sh """
+              cd maavooripachadi-frontend
+              npm ci
+              npm run lint
+              npm run test -- --watch=false --browsers=ChromeHeadless
+              npm run build:prod
+            """
+          } else {
+            bat """
+              cd /d maavooripachadi-frontend
+              call npm ci
+              call npm run lint
+              call npm run test -- --watch=false --browsers=ChromeHeadless
+              call npm run build:prod
+            """
+          }
+        }
+      }
+    }
+
     stage('SonarQube Analysis') {
       when {
         expression { return env.SONARQUBE_ENABLED?.toBoolean() ?: true }
@@ -132,6 +156,40 @@ pipeline {
             sh "cd maavooripachadi-backend && ${command}"
           } else {
             bat "cd /d maavooripachadi-backend && ${command}"
+          }
+        }
+      }
+    }
+
+    stage('Docker Deploy') {
+      when {
+        branch 'main'
+      }
+      steps {
+        script {
+          def backendImage = 'maavooripachadi/backend:latest'
+          def frontendImage = 'maavooripachadi/frontend:latest'
+
+          if (isUnix()) {
+            sh """
+              cd maavooripachadi-backend
+              docker build -t ${backendImage} .
+            """
+            sh """
+              cd maavooripachadi-frontend
+              docker build -t ${frontendImage} .
+            """
+            sh "docker compose up -d mysql backend frontend"
+          } else {
+            bat """
+              cd /d maavooripachadi-backend
+              docker build -t ${backendImage} .
+            """
+            bat """
+              cd /d maavooripachadi-frontend
+              docker build -t ${frontendImage} .
+            """
+            bat "docker compose up -d mysql backend frontend"
           }
         }
       }

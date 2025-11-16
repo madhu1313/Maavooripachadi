@@ -1,0 +1,47 @@
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: maavooripachadi-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: mavooripachadi
+      MYSQL_ROOT_PASSWORD: Mad@1234
+      MYSQL_USER: backend
+      MYSQL_PASSWORD: backendpass
+    command:
+      - --default-authentication-plugin=mysql_native_password
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+    ports:
+      - "3307:3306"
+    volumes:
+      - db-data:/var/lib/mysql
+
+  backend:
+    image: maavooripachadi/backend
+    container_name: maavooripachadi-backend
+    depends_on:
+      - mysql
+    restart: unless-stopped
+    environment:
+      DB_URL: jdbc:mysql://mysql:3306/mavooripachadi
+      DB_USER: backend
+      DB_PASS: backendpass
+      # Uncomment and supply real secrets when needed:
+      # RAZORPAY_KEY_ID: ${RAZORPAY_KEY_ID}
+      # RAZORPAY_KEY_SECRET: ${RAZORPAY_KEY_SECRET}
+      # WHATSAPP_ACCESS_TOKEN: ${WHATSAPP_ACCESS_TOKEN}
+    ports:
+      - "8082:8081"
+
+  frontend:
+    image: maavooripachadi/frontend
+    container_name: maavooripachadi-frontend
+    depends_on:
+      - backend
+    restart: unless-stopped
+    ports:
+      - "8085:80"
+
+volumes:
+  db-data:

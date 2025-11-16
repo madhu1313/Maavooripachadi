@@ -33,6 +33,7 @@ app:
   security:
     allowed-origins:
       - http://localhost:4200
+      - http://localhost:8085
       - https://maavooripachadi.com
       - https://www.maavooripachadi.com
   orders:
