@@ -168,7 +168,13 @@ pipeline {
 
     stage('Docker Deploy') {
       when {
-        branch 'main'
+        expression {
+          def rawBranch = env.BRANCH_NAME ?: env.GIT_BRANCH ?: env.GIT_LOCAL_BRANCH ?: ''
+          def normalized = rawBranch
+            .replace('refs/heads/', '')
+            .replace('origin/', '')
+          return normalized == 'main'
+        }
       }
       steps {
         script {
