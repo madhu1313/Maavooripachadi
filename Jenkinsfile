@@ -188,6 +188,17 @@ pipeline {
         script {
           def backendImage = 'maavooripachadi/backend:latest'
           def frontendImage = 'maavooripachadi/frontend:latest'
+          def runDockerIgnoreFailure = { cmd ->
+            if (isUnix()) {
+              sh(returnStatus: true, script: cmd)
+            } else {
+              bat(returnStatus: true, script: cmd)
+            }
+          }
+
+          echo 'Cleaning up any existing containers before deployment...'
+          runDockerIgnoreFailure('docker compose down --remove-orphans')
+          runDockerIgnoreFailure('docker rm -f maavooripachadi-mysql maavooripachadi-backend maavooripachadi-frontend')
 
           if (isUnix()) {
             sh """
@@ -198,7 +209,7 @@ pipeline {
               cd maavooripachadi-frontend
               docker build -t ${frontendImage} .
             """
-            sh "docker compose up -d mysql backend frontend"
+            sh "docker compose up -d --remove-orphans mysql backend frontend"
           } else {
             bat """
               cd /d maavooripachadi-backend
@@ -208,7 +219,7 @@ pipeline {
               cd /d maavooripachadi-frontend
               docker build -t ${frontendImage} .
             """
-            bat "docker compose up -d mysql backend frontend"
+            bat "docker compose up -d --remove-orphans mysql backend frontend"
           }
         }
       }
